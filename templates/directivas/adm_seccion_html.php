@@ -69,7 +69,7 @@ class adm_seccion_html extends html_controler {
 
 
         $select = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(cols: 12,
-            con_registros:false, id_selected:-1,link: $link);
+            con_registros:true, id_selected:-1,link: $link);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar select',data:  $select);
 
