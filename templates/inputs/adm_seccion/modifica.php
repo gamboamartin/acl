@@ -1,10 +1,6 @@
 <?php /** @var controllers\controlador_org_empresa $controlador  controlador en ejecucion */ ?>
 <?php use config\views; ?>
-<?php echo $controlador->inputs->codigo; ?>
-<?php echo $controlador->inputs->codigo_bis; ?>
-<?php echo $controlador->inputs->descripcion; ?>
-<?php echo $controlador->inputs->descripcion_select; ?>
-<?php echo $controlador->inputs->alias; ?>
+<?php echo $controlador->forms_inputs_modifica; ?>
 
 
 <?php echo $controlador->inputs->select->adm_menu_id; ?>

@@ -54,9 +54,6 @@ class adm_seccion_html extends html_controler {
     }
 
 
-
-
-
     public function select_adm_seccion_id(int $cols, bool $con_registros, int $id_selected, PDO $link): array|string
     {
         $modelo = new adm_seccion($link);

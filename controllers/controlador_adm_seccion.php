@@ -67,6 +67,8 @@ class controlador_adm_seccion extends system {
             return $this->retorno_error(mensaje: 'Error al generar select',data:  $select, header: $header,ws:$ws);
         }
 
+
+
         $this->inputs->select = new stdClass();
         $this->inputs->select->adm_menu_id = $select;
 
