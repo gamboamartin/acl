@@ -14,7 +14,8 @@ class adm_menu_html extends html_controler {
     {
         $modelo = new adm_menu($link);
 
-        $select = $this->select_catalogo(cols:$cols,con_registros:$con_registros,id_selected:$id_selected, modelo: $modelo);
+        $select = $this->select_catalogo(cols: $cols, con_registros: $con_registros, id_selected: $id_selected,
+            modelo: $modelo, key_descripcion_select: 'adm_menu_descripcion');
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar select', data: $select);
         }
