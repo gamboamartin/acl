@@ -9,6 +9,7 @@
 namespace gamboamartin\acl\controllers;
 
 use gamboamartin\errores\errores;
+use gamboamartin\system\actions;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_seccion_html;
@@ -58,6 +59,31 @@ class controlador_adm_seccion extends system {
             return $this->retorno_error(mensaje: 'Error al dar de alta seccion', data: $r_alta_bd,
                 header: $header,ws:  $ws);
         }
+
+        if($header){
+
+            $siguiente_view = (new actions())->init_alta_bd();
+            if(errores::$error){
+
+                return $this->retorno_error(mensaje: 'Error al obtener siguiente view', data: $siguiente_view,
+                    header:  $header, ws: $ws);
+            }
+
+            $retorno = (new actions())->retorno_alta_bd(links:$this->obj_link, seccion: $this->tabla,
+                siguiente_view: $siguiente_view);
+            if(errores::$error){
+                return $this->retorno_error(mensaje: 'Error al dar de alta registro', data: $r_alta_bd, header:  true,
+                    ws: $ws);
+            }
+            header('Location:'.$retorno);
+            exit;
+        }
+        if($ws){
+            header('Content-Type: application/json');
+            echo json_encode($r_alta_bd, JSON_THROW_ON_ERROR);
+            exit;
+        }
+
         return $r_alta_bd;
     }
 
