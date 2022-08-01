@@ -38,6 +38,8 @@ class adm_seccion_html extends html_controler {
         return $inputs_asignados;
     }
 
+
+
     private function init_alta(PDO $link): array|stdClass
     {
         $selects = $this->selects_alta(link: $link);
@@ -50,6 +52,10 @@ class adm_seccion_html extends html_controler {
 
         return $alta_inputs;
     }
+
+
+
+
 
     public function select_adm_seccion_id(int $cols, bool $con_registros, int $id_selected, PDO $link): array|string
     {
