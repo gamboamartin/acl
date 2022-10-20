@@ -40,7 +40,7 @@ class adm_seccion_html extends html_controler {
 
 
 
-    private function init_alta(PDO $link): array|stdClass
+    protected function init_alta(array $keys_selects, PDO $link): array|stdClass
     {
         $selects = $this->selects_alta(link: $link);
         if(errores::$error){
@@ -65,7 +65,7 @@ class adm_seccion_html extends html_controler {
         return $select;
     }
 
-    private function selects_alta(PDO $link): array|stdClass
+    protected function selects_alta(array $keys_selects, PDO $link): array|stdClass
     {
         $selects = new stdClass();
 
