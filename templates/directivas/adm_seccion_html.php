@@ -65,11 +65,17 @@ class adm_seccion_html extends html_controler {
         return $select;
     }
 
+
+    /**
+     * Genera los selectores de una seccion
+     * @param array $keys_selects keys de select
+     * @param PDO $link Conexion a la base de datos
+     * @return array|stdClass
+     * @version 0.18.0
+     */
     protected function selects_alta(array $keys_selects, PDO $link): array|stdClass
     {
         $selects = new stdClass();
-
-
 
         $select = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(cols: 12,
             con_registros:true, id_selected:-1,link: $link);

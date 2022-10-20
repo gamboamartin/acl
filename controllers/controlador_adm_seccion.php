@@ -33,6 +33,7 @@ class controlador_adm_seccion extends system {
         $datatables->columns = array();
         $datatables->columns['adm_seccion_id']['titulo'] = 'Id';
         $datatables->columns['adm_seccion_codigo']['titulo'] = 'Cod';
+        $datatables->columns['adm_seccion_descripcion']['titulo'] = 'Seccion';
         $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
 
 
