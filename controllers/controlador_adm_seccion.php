@@ -9,7 +9,6 @@
 namespace gamboamartin\acl\controllers;
 
 use gamboamartin\errores\errores;
-use gamboamartin\system\actions;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
@@ -30,7 +29,15 @@ class controlador_adm_seccion extends system {
         $html_ = new adm_seccion_html(html: $html);
         $obj_link = new link_adm_seccion($this->registro_id);
 
-        parent::__construct(html:$html_, link: $link,modelo:  $modelo, obj_link: $obj_link, paths_conf: $paths_conf);
+        $datatables = new stdClass();
+        $datatables->columns = array();
+        $datatables->columns['adm_seccion_id']['titulo'] = 'Id';
+        $datatables->columns['adm_seccion_codigo']['titulo'] = 'Cod';
+        $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
+
+
+        parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link,
+            datatables: $datatables, paths_conf: $paths_conf);
 
         $this->titulo_lista = 'Secciones';
 
