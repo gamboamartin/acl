@@ -63,10 +63,10 @@ class controlador_adm_seccion extends system {
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al obtener acciones',data:  $acciones_permitidas, header: $header,ws:  $ws);
         }
-        $secciones = $this->genera_buttons_permiso(acciones_permitidas: $acciones_permitidas,
+        $acciones = $this->genera_buttons_permiso(acciones_permitidas: $acciones_permitidas,
             key_id:  'adm_accion_id',rows:  $acciones);
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al integrar link',data:  $secciones, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al integrar link',data:  $acciones, header: $header,ws:  $ws);
         }
 
         $this->acciones = $acciones;
