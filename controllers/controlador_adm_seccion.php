@@ -59,12 +59,8 @@ class controlador_adm_seccion extends system {
             return $this->retorno_error(mensaje: 'Error al obtener acciones',data:  $acciones, header: $header,ws:  $ws);
         }
 
-        $acciones_permitidas = (new datatables())->acciones_permitidas(link: $this->link, seccion: 'adm_accion');
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener acciones',data:  $acciones_permitidas, header: $header,ws:  $ws);
-        }
-        $acciones = $this->genera_buttons_permiso(acciones_permitidas: $acciones_permitidas,
-            key_id:  'adm_accion_id',rows:  $acciones);
+
+        $acciones = $this->rows_con_permisos(key_id:  'adm_accion_id',rows:  $acciones,seccion: 'adm_accion');
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al integrar link',data:  $acciones, header: $header,ws:  $ws);
         }
