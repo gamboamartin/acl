@@ -1,17 +1,17 @@
 <?php
 namespace html;
 
-use gamboamartin\acl\controllers\controlador_adm_seccion;
+use gamboamartin\controllers\controlador_adm_accion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
-use models\adm_seccion;
+use models\adm_accion;
 use PDO;
 use stdClass;
 
 
-class adm_seccion_html extends html_controler {
+class adm_accion_html extends html_controler {
 
-    private function asigna_inputs(controlador_adm_seccion $controler, stdClass $inputs): array|stdClass
+    private function asigna_inputs(controlador_adm_accion $controler, stdClass $inputs): array|stdClass
     {
         $controler->inputs->select = new stdClass();
 
@@ -23,9 +23,9 @@ class adm_seccion_html extends html_controler {
 
 
 
-    public function genera_inputs_alta(controlador_adm_seccion $controler,PDO $link): array|stdClass
+    public function genera_inputs_alta(controlador_adm_accion $controler, array $keys_selects,PDO $link): array|stdClass
     {
-        $inputs = $this->init_alta(link: $link);
+        $inputs = $this->init_alta(keys_selects: $keys_selects, link: $link);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar inputs',data:  $inputs);
 
@@ -42,7 +42,7 @@ class adm_seccion_html extends html_controler {
 
     protected function init_alta(array $keys_selects, PDO $link): array|stdClass
     {
-        $selects = $this->selects_alta(link: $link);
+        $selects = $this->selects_alta(keys_selects: $keys_selects, link:  $link);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar selects',data:  $selects);
         }
@@ -54,10 +54,10 @@ class adm_seccion_html extends html_controler {
     }
 
 
-    public function select_adm_seccion_id(int $cols, bool $con_registros, int $id_selected, PDO $link,
+    public function select_adm_accion_id(int $cols, bool $con_registros, int $id_selected, PDO $link,
                                           bool $disabled = false): array|string
     {
-        $modelo = new adm_seccion($link);
+        $modelo = new adm_accion($link);
 
         $select = $this->select_catalogo(cols:$cols,con_registros:$con_registros,id_selected:$id_selected,
             modelo: $modelo, disabled: $disabled);
@@ -80,6 +80,14 @@ class adm_seccion_html extends html_controler {
         $selects = new stdClass();
 
         $select = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(cols: 12,
+            con_registros:true, id_selected:-1,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+
+        }
+        $selects->adm_menu_id = $select;
+
+        $select = (new adm_seccion_html(html: $this->html_base))->select_adm_seccion_id(cols: 12,
             con_registros:true, id_selected:-1,link: $link);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar select',data:  $select);

@@ -79,13 +79,15 @@ class controlador_adm_menu extends system {
         foreach ($secciones as $indice=>$seccion){
 
             foreach ($acciones_permitidas as $accion_permitida){
-                $link = $this->html_base->button_href(accion: $accion_permitida['adm_accion_descripcion'], etiqueta: $accion_permitida['adm_accion_titulo'],
-                    registro_id:  $seccion['adm_seccion_id'], seccion: 'adm_seccion', style:  $accion_permitida['adm_accion_css']);
+
+
+                $secciones = (new adm_menu_html(html: $this->html_base))->boton_link_permitido(
+                    accion_permitida: $accion_permitida,indice:  $indice,registro_id:  $seccion['adm_seccion_id'],rows:  $secciones,seccion:  $this->tabla);
                 if(errores::$error){
                     return $this->retorno_error(
-                        mensaje: 'Error al generar link',data:  $link, header: $header,ws:  $ws);
+                        mensaje: 'Error al integrar link',data:  $secciones, header: $header,ws:  $ws);
                 }
-                $secciones[$indice]['acciones'][$accion_permitida['adm_accion_descripcion']] = $link;
+
             }
 
         }
