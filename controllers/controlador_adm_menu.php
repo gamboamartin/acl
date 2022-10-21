@@ -78,16 +78,11 @@ class controlador_adm_menu extends system {
         }
         foreach ($secciones as $indice=>$seccion){
 
-            foreach ($acciones_permitidas as $accion_permitida){
-
-
-                $secciones = (new adm_menu_html(html: $this->html_base))->boton_link_permitido(
-                    accion_permitida: $accion_permitida,indice:  $indice,registro_id:  $seccion['adm_seccion_id'],rows:  $secciones,seccion:  $this->tabla);
-                if(errores::$error){
-                    return $this->retorno_error(
-                        mensaje: 'Error al integrar link',data:  $secciones, header: $header,ws:  $ws);
-                }
-
+            $secciones = $this->integra_acciones_permitidas(acciones_permitidas: $acciones_permitidas,
+                indice:  $indice,key_id:  'adm_seccion_id', row: $seccion,rows:  $secciones);
+            if(errores::$error){
+                return $this->retorno_error(
+                    mensaje: 'Error al integrar link',data:  $secciones, header: $header,ws:  $ws);
             }
 
         }

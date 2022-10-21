@@ -64,14 +64,11 @@ class controlador_adm_seccion extends system {
             return $this->retorno_error(mensaje: 'Error al obtener acciones',data:  $acciones_permitidas, header: $header,ws:  $ws);
         }
         foreach ($acciones as $indice=>$accion){
-
-            foreach ($acciones_permitidas as $accion_permitida){
-                $acciones = (new adm_seccion_html(html: $this->html_base))->boton_link_permitido(
-                    accion_permitida: $accion_permitida,indice:  $indice,registro_id:  $accion['adm_accion_id'],rows:  $acciones,seccion:  $this->tabla);
-                if(errores::$error){
-                    return $this->retorno_error(
-                        mensaje: 'Error al integrar link',data:  $acciones, header: $header,ws:  $ws);
-                }
+            $acciones = $this->integra_acciones_permitidas(acciones_permitidas: $acciones_permitidas,
+                indice:  $indice,key_id:  'adm_accion_id', row: $accion,rows:  $acciones);
+            if(errores::$error){
+                return $this->retorno_error(
+                    mensaje: 'Error al integrar link',data:  $acciones, header: $header,ws:  $ws);
             }
 
         }
