@@ -32,19 +32,23 @@
                 <div class="widget widget-box box-container widget-mylistings">
 
                     <div class="">
-                        <table id="adm_seccion" class="table table-striped" >
+                        <table id="adm_accion" class="table table-striped" >
                             <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Descripcion</th>
+                                <th>Titulo</th>
+                                <th>CSS</th>
                                 <th>Acciones</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($controlador->acciones as $accion){ ?>
                             <tr>
-                                <td><?php echo $accion['adm_seccion_id']; ?></td>
-                                <td><?php echo $accion['adm_seccion_descripcion']; ?></td>
+                                <td><?php echo $accion['adm_accion_id']; ?></td>
+                                <td><?php echo $accion['adm_accion_descripcion']; ?></td>
+                                <td><?php echo $accion['adm_accion_titulo']; ?></td>
+                                <td><?php echo $accion['adm_accion_css']; ?></td>
                                 <td>
                                     <?php foreach ($accion['acciones'] as $link){ ?>
                                     <div class="col-md-3"><?php echo $link; ?></div>
