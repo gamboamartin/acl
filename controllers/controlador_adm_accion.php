@@ -8,9 +8,11 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use gamboamartin\errores\errores;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
+use JsonException;
 use links\secciones\link_adm_accion;
 use models\adm_accion;
 use PDO;
@@ -42,6 +44,36 @@ class controlador_adm_accion extends system {
 
 
         $this->titulo_lista = 'Acciones';
+
+
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public function es_view(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $registro = $this->modelo->registro(registro_id: $this->registro_id, columnas_en_bruto: true, retorno_obj: true);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener adm_accion',data:  $registro, header: $header,ws:  $ws);
+        }
+
+        $row_upd['es_view'] = 'inactivo';
+        if($registro->es_view === 'inactivo'){
+            $row_upd['es_view'] = 'activo';
+        }
+
+        $upd = $this->modelo->modifica_bd(registro: $row_upd, id: $this->registro_id);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al modificar adm_accion',data:  $upd, header: $header,ws:  $ws);
+        }
+
+
+        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
+        $this->header_out(result: $upd, header: $header,ws:  $ws);
+
+        return $upd;
 
 
     }
