@@ -12,9 +12,6 @@
 
                         <?php echo $controlador->inputs->select->adm_menu_id; ?>
                         <?php echo $controlador->inputs->select->adm_seccion_id; ?>
-                        <?php echo $controlador->inputs->hidden_adm_menu_id; ?>
-                        <?php echo $controlador->inputs->hidden_seccion_retorno; ?>
-                        <?php echo $controlador->inputs->hidden_id_retorno; ?>
                         <div class="controls">
                             <button type="submit" class="btn btn-success" value="secciones" name="btn_action_next">Alta</button><br>
                         </div>
@@ -39,12 +36,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($controlador->secciones as $seccion){ ?>
+                            <?php foreach ($controlador->acciones as $accion){ ?>
                             <tr>
-                                <td><?php echo $seccion['adm_seccion_id']; ?></td>
-                                <td><?php echo $seccion['adm_seccion_descripcion']; ?></td>
+                                <td><?php echo $accion['adm_seccion_id']; ?></td>
+                                <td><?php echo $accion['adm_seccion_descripcion']; ?></td>
                                 <td>
-                                    <?php foreach ($seccion['acciones'] as $link){ ?>
+                                    <?php foreach ($accion['acciones'] as $link){ ?>
                                     <div class="col-md-3"><?php echo $link; ?></div>
                                     <?php } ?>
                                 </td>

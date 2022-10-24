@@ -67,29 +67,20 @@ class controlador_adm_seccion extends system {
         $this->acciones = $acciones;
 
         $select_adm_menu_id = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(
-            cols:12,con_registros: true,id_selected:  $adm_seccion->adm_menu_id,link:  $this->link, disabled: true);
+            cols:6,con_registros: true,id_selected:  $adm_seccion->adm_menu_id,link:  $this->link, disabled: true);
 
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id, header: $header,ws:  $ws);
         }
 
-        $this->inputs = new stdClass();
-        $this->inputs->select = new stdClass();
 
         $select_adm_seccion_id = (new adm_seccion_html(html: $this->html_base))->select_adm_seccion_id(
-            cols:12,con_registros: true,id_selected:  $this->registro_id,link:  $this->link, disabled: true);
+            cols:6,con_registros: true,id_selected:  $this->registro_id,link:  $this->link, disabled: true);
 
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener select_adm_seccion_id',data:  $select_adm_seccion_id, header: $header,ws:  $ws);
-        }
-
-
-        $adm_accion_descripcion = (new adm_accion_html(html: $this->html_base))->input_descripcion(cols:12,row_upd:  new stdClass(), value_vacio: true);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener adm_seccion_menu_descripcion',data:  $adm_accion_descripcion, header: $header,ws:  $ws);
         }
 
 
