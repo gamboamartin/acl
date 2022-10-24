@@ -113,6 +113,17 @@ class controlador_adm_seccion extends system {
                 mensaje: 'Error al obtener hidden_adm_seccion_id',data:  $hidden_adm_seccion_id, header: $header,ws:  $ws);
         }
 
+        $hidden_seccion_retorno = (new adm_seccion_html(html: $this->html_base))->hidden(name: 'seccion_retorno', value: $this->tabla);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_seccion_retorno, header: $header,ws:  $ws);
+        }
+        $hidden_id_retorno = (new adm_menu_html(html: $this->html_base))->hidden(name: 'id_retorno', value: $this->registro_id);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener hidden_id_retorno',data:  $hidden_id_retorno, header: $header,ws:  $ws);
+        }
+
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
         $this->inputs->select->adm_menu_id = $select_adm_menu_id;
@@ -120,6 +131,8 @@ class controlador_adm_seccion extends system {
         $this->inputs->adm_accion_descripcion = $adm_accion_descripcion;
         $this->inputs->adm_accion_titulo = $adm_accion_titulo;
         $this->inputs->hidden_adm_seccion_id = $hidden_adm_seccion_id;
+        $this->inputs->hidden_seccion_retorno = $hidden_seccion_retorno;
+        $this->inputs->hidden_id_retorno = $hidden_id_retorno;
 
 
 

@@ -103,13 +103,13 @@ class controlador_adm_menu extends system {
         $hidden_seccion_retorno = (new adm_menu_html(html: $this->html_base))->hidden(name: 'seccion_retorno', value: $this->tabla);
         if(errores::$error){
             return $this->retorno_error(
-                mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_adm_menu_id, header: $header,ws:  $ws);
+                mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_seccion_retorno, header: $header,ws:  $ws);
         }
 
         $hidden_id_retorno = (new adm_menu_html(html: $this->html_base))->hidden(name: 'id_retorno', value: $this->registro_id);
         if(errores::$error){
             return $this->retorno_error(
-                mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_adm_menu_id, header: $header,ws:  $ws);
+                mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_id_retorno, header: $header,ws:  $ws);
         }
 
         $this->inputs = new stdClass();

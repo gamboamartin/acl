@@ -15,6 +15,8 @@
                         <?php echo $controlador->inputs->adm_accion_descripcion; ?>
                         <?php echo $controlador->inputs->adm_accion_titulo; ?>
                         <?php echo $controlador->inputs->hidden_adm_seccion_id; ?>
+                        <?php echo $controlador->inputs->hidden_seccion_retorno; ?>
+                        <?php echo $controlador->inputs->hidden_id_retorno; ?>
                         <div class="controls">
                             <button type="submit" class="btn btn-success" value="acciones" name="btn_action_next">Alta</button><br>
                         </div>
