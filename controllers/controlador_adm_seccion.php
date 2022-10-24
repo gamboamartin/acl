@@ -9,8 +9,6 @@
 namespace gamboamartin\acl\controllers;
 
 use gamboamartin\errores\errores;
-use gamboamartin\system\datatables;
-use gamboamartin\system\html_controler;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
@@ -24,6 +22,7 @@ use stdClass;
 
 class controlador_adm_seccion extends system {
 
+    public string $link_adm_accion_alta_bd = '';
 
     public function __construct(PDO $link, html $html = new html(),
                                 stdClass $paths_conf = new stdClass()){
@@ -75,6 +74,9 @@ class controlador_adm_seccion extends system {
                 mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id, header: $header,ws:  $ws);
         }
 
+        $this->inputs = new stdClass();
+        $this->inputs->select = new stdClass();
+
         $select_adm_seccion_id = (new adm_seccion_html(html: $this->html_base))->select_adm_seccion_id(
             cols:12,con_registros: true,id_selected:  $this->registro_id,link:  $this->link, disabled: true);
 
@@ -82,6 +84,7 @@ class controlador_adm_seccion extends system {
             return $this->retorno_error(
                 mensaje: 'Error al obtener select_adm_seccion_id',data:  $select_adm_seccion_id, header: $header,ws:  $ws);
         }
+
 
         $adm_accion_descripcion = (new adm_accion_html(html: $this->html_base))->input_descripcion(cols:12,row_upd:  new stdClass(), value_vacio: true);
         if(errores::$error){
@@ -93,6 +96,8 @@ class controlador_adm_seccion extends system {
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
         $this->inputs->select->adm_menu_id = $select_adm_menu_id;
+        $this->inputs->select->adm_seccion_id = $select_adm_seccion_id;
+
 
 
 
