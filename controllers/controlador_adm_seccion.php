@@ -42,7 +42,17 @@ class controlador_adm_seccion extends system {
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link,
             datatables: $datatables, paths_conf: $paths_conf);
 
+
+
         $this->titulo_lista = 'Secciones';
+
+        $link_adm_accion_alta_bd = $this->obj_link->link_alta_bd(seccion: 'adm_accion');
+        if(errores::$error){
+            $error = $this->errores->error(mensaje: 'Error al obtener link',data:  $link_adm_accion_alta_bd);
+            print_r($error);
+            exit;
+        }
+        $this->link_adm_accion_alta_bd = $link_adm_accion_alta_bd;
 
     }
 
@@ -83,11 +93,33 @@ class controlador_adm_seccion extends system {
                 mensaje: 'Error al obtener select_adm_seccion_id',data:  $select_adm_seccion_id, header: $header,ws:  $ws);
         }
 
+        $adm_accion_descripcion = (new adm_accion_html(html: $this->html_base))->input_descripcion(
+            cols:12,row_upd:  new stdClass(),value_vacio:  false);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener adm_accion_descripcion',data:  $adm_accion_descripcion, header: $header,ws:  $ws);
+        }
+
+        $adm_accion_titulo = (new adm_accion_html(html: $this->html_base))->input_titulo(
+            cols:12,row_upd:  new stdClass(),value_vacio:  false);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener adm_accion_descripcion',data:  $adm_accion_descripcion, header: $header,ws:  $ws);
+        }
+
+        $hidden_adm_seccion_id = (new adm_menu_html(html: $this->html_base))->hidden(name: 'adm_seccion_id', value: $this->registro_id);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener hidden_adm_seccion_id',data:  $hidden_adm_seccion_id, header: $header,ws:  $ws);
+        }
 
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
         $this->inputs->select->adm_menu_id = $select_adm_menu_id;
         $this->inputs->select->adm_seccion_id = $select_adm_seccion_id;
+        $this->inputs->adm_accion_descripcion = $adm_accion_descripcion;
+        $this->inputs->adm_accion_titulo = $adm_accion_titulo;
+        $this->inputs->hidden_adm_seccion_id = $hidden_adm_seccion_id;
 
 
 
