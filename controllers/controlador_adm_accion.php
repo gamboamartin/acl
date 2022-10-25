@@ -48,57 +48,13 @@ class controlador_adm_accion extends system {
 
     }
 
-    /**
-     * @throws JsonException
-     */
-    public function es_view(bool $header = true, bool $ws = false): array|stdClass
-    {
-
-        $registro = $this->modelo->registro(registro_id: $this->registro_id, columnas_en_bruto: true, retorno_obj: true);
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener adm_accion',data:  $registro, header: $header,ws:  $ws);
-        }
-
-        $row_upd['es_view'] = 'inactivo';
-        if($registro->es_view === 'inactivo'){
-            $row_upd['es_view'] = 'activo';
-        }
-
-        $upd = $this->modelo->modifica_bd(registro: $row_upd, id: $this->registro_id);
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al modificar adm_accion',data:  $upd, header: $header,ws:  $ws);
-        }
-
-
-        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
-        $this->header_out(result: $upd, header: $header,ws:  $ws);
-
-        return $upd;
-
-
-    }
-
-    /**
-     * @throws JsonException
-     */
     public function es_status(bool $header = true, bool $ws = false): array|stdClass
     {
 
-        $registro = $this->modelo->registro(registro_id: $this->registro_id, columnas_en_bruto: true, retorno_obj: true);
+        $upd = $this->row_upd(key: 'es_status');
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener adm_accion',data:  $registro, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
         }
-
-        $row_upd['es_status'] = 'inactivo';
-        if($registro->es_status === 'inactivo'){
-            $row_upd['es_status'] = 'activo';
-        }
-
-        $upd = $this->modelo->modifica_bd(registro: $row_upd, id: $this->registro_id);
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al modificar adm_accion',data:  $upd, header: $header,ws:  $ws);
-        }
-
 
         $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
         $this->header_out(result: $upd, header: $header,ws:  $ws);
@@ -108,6 +64,21 @@ class controlador_adm_accion extends system {
 
     }
 
+    public function es_view(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $upd = $this->row_upd(key: 'es_view');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+        }
+
+        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
+        $this->header_out(result: $upd, header: $header,ws:  $ws);
+
+        return $upd;
+
+
+    }
 
 
 
