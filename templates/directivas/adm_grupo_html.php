@@ -1,17 +1,20 @@
 <?php
 namespace html;
 
+use gamboamartin\acl\controllers\controlador_adm_grupo;
 use gamboamartin\acl\controllers\controlador_adm_seccion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
+use gamboamartin\template\directivas;
+use models\adm_grupo;
 use models\adm_seccion;
 use PDO;
 use stdClass;
 
 
-class adm_seccion_html extends html_controler {
+class adm_grupo_html extends html_controler {
 
-    private function asigna_inputs(controlador_adm_seccion $controler, stdClass $inputs): array|stdClass
+    private function asigna_inputs(controlador_adm_grupo $controler, stdClass $inputs): array|stdClass
     {
         $controler->inputs->select = new stdClass();
 
@@ -23,7 +26,7 @@ class adm_seccion_html extends html_controler {
 
 
 
-    public function genera_inputs_alta(controlador_adm_seccion $controler,PDO $link): array|stdClass
+    public function genera_inputs_alta(controlador_adm_grupo $controler,PDO $link): array|stdClass
     {
         $inputs = $this->init_alta(link: $link);
         if(errores::$error){
@@ -53,18 +56,35 @@ class adm_seccion_html extends html_controler {
         return $alta_inputs;
     }
 
-
-    public function select_adm_seccion_id(int $cols, bool $con_registros, int|null $id_selected, PDO $link,
-                                          bool $disabled = false): array|string
+    /**
+     * Obtiene un select de grupos por accion
+     * @param int $cols n columnas css
+     * @param bool $con_registros si con registros genera options
+     * @param int|null $id_selected Identificador seleccionado
+     * @param PDO $link conexion a la base de datos
+     * @param bool $disabled si disabled deja el elemento deshabilitado
+     * @param array $not_in Filtro para omision de not in
+     * @param bool $required Si required
+     * @return array|string
+     * @version 1.32.0
+     */
+    public function select_adm_grupo_id(int $cols, bool $con_registros, int|null $id_selected, PDO $link,
+                                        bool $disabled = false, array $not_in = array(),
+                                        bool $required = true): array|string
     {
-        $modelo = new adm_seccion($link);
+        $valida = (new directivas(html:$this->html_base))->valida_cols(cols:$cols);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
+        }
+
+        $modelo = new adm_grupo($link);
 
         if(is_null($id_selected)){
             $id_selected = -1;
         }
 
         $select = $this->select_catalogo(cols:$cols,con_registros:$con_registros,id_selected:$id_selected,
-            modelo: $modelo, disabled: $disabled,label: 'Seccion');
+            modelo: $modelo, disabled: $disabled,label: 'Grupo', not_in: $not_in, required: $required);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar select', data: $select);
         }
@@ -83,13 +103,6 @@ class adm_seccion_html extends html_controler {
     {
         $selects = new stdClass();
 
-        $select = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(cols: 12,
-            con_registros:true, id_selected:-1,link: $link);
-        if(errores::$error){
-            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
-
-        }
-        $selects->adm_menu_id = $select;
 
         return $selects;
     }

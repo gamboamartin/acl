@@ -85,7 +85,7 @@ class adm_accion_html extends html_controler {
         $modelo = new adm_accion($link);
 
         $select = $this->select_catalogo(cols:$cols,con_registros:$con_registros,id_selected:$id_selected,
-            modelo: $modelo, disabled: $disabled);
+            modelo: $modelo, disabled: $disabled,label: 'Accion');
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar select', data: $select);
         }
