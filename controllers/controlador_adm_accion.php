@@ -17,6 +17,7 @@ use html\adm_menu_html;
 use html\adm_seccion_html;
 use links\secciones\link_adm_accion;
 use models\adm_accion;
+use models\adm_accion_grupo;
 use PDO;
 use stdClass;
 
@@ -24,6 +25,7 @@ use stdClass;
 class controlador_adm_accion extends system {
 
     public string $link_adm_accion_grupo_alta_bd = '';
+    public array $adm_acciones_grupo = array();
 
     public function __construct(PDO $link, html $html = new html(),
                                 stdClass $paths_conf = new stdClass()){
@@ -126,6 +128,20 @@ class controlador_adm_accion extends system {
         $this->inputs->select->adm_accion_id = $select_adm_accion_id;
         $this->inputs->select->adm_grupo_id = $select_adm_grupo_id;
         $this->inputs->hidden_adm_accion_id = $hidden_adm_accion_id;
+
+
+        $adm_acciones_grupo = (new adm_accion_grupo($this->link))->grupos_por_accion(adm_accion_id: $this->registro_id);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener adm_acciones_grupo',data:  $adm_acciones_grupo, header: $header,ws:  $ws);
+        }
+
+        $adm_acciones_grupo = $this->rows_con_permisos(key_id:  'adm_accion_grupo_id',rows:  $adm_acciones_grupo,seccion: 'adm_accion_grupo');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al integrar links',data:  $adm_acciones_grupo, header: $header,ws:  $ws);
+        }
+
+        $this->adm_acciones_grupo = $adm_acciones_grupo;
+
 
         return $adm_accion;
     }

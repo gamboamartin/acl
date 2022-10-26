@@ -35,14 +35,28 @@
                             <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Descripcion</th>
-                                <th>Titulo</th>
-                                <th>CSS</th>
+                                <th>Seccion</th>
+                                <th>Accion</th>
+                                <th>Grupo</th>
                                 <th>Acciones</th>
                             </tr>
                             </thead>
                             <tbody>
+                            <?php foreach ($controlador->adm_acciones_grupo as $adm_accion_grupo){ ?>
+                                <tr>
+                                    <td><?php echo $adm_accion_grupo['adm_accion_grupo_id']; ?></td>
+                                    <td><?php echo $adm_accion_grupo['adm_seccion_descripcion']; ?></td>
+                                    <td><?php echo $adm_accion_grupo['adm_accion_descripcion']; ?></td>
+                                    <td><?php echo $adm_accion_grupo['adm_grupo_descripcion']; ?></td>
 
+                                    <td>
+                                        <?php foreach ($adm_accion_grupo['acciones'] as $link){ ?>
+                                            <div class="col-md-3"><?php echo $link; ?></div>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
                             </tbody>
 
                         </table>
