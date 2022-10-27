@@ -12,9 +12,13 @@ use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
+use html\adm_accion_html;
 use html\adm_grupo_html;
+use html\adm_menu_html;
+use html\adm_seccion_html;
 use html\adm_usuario_html;
 use links\secciones\link_adm_grupo;
+use models\adm_accion_grupo;
 use models\adm_grupo;
 use models\adm_usuario;
 use PDO;
@@ -25,7 +29,9 @@ class controlador_adm_grupo extends system {
 
     public array $secciones = array();
     public stdClass|array $adm_grupo = array();
+    public array $adm_acciones_grupo = array();
     public string $link_adm_usuario_alta_bd = '';
+    public string $link_adm_accion_grupo_alta_bd = '';
     public array $adm_usuarios = array();
 
 
@@ -65,7 +71,102 @@ class controlador_adm_grupo extends system {
         }
         $this->link_adm_usuario_alta_bd = $link_adm_usuario_alta_bd;
 
+        $link_adm_accion_grupo_alta_bd = $this->obj_link->link_alta_bd(seccion: 'adm_accion_grupo');
+        if(errores::$error){
+            $error = $this->errores->error(mensaje: 'Error al obtener link',data:  $link_adm_accion_grupo_alta_bd);
+            print_r($error);
+            exit;
+        }
+        $this->link_adm_accion_grupo_alta_bd = $link_adm_accion_grupo_alta_bd;
+
     }
+
+    public function asigna_permiso(bool $header = true, bool $ws = false): array|stdClass{
+
+        if($this->registro_id<=0){
+            return $this->errores->error(mensaje: 'Error this->registro_id debe ser mayor a 0',
+                data:  $this->registro_id);
+        }
+
+        $adm_grupo = $this->modelo->registro(registro_id: $this->registro_id, retorno_obj: true);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al obtener adm_grupo',data:  $adm_grupo);
+        }
+
+        $select_adm_grupo_id = (new adm_grupo_html(html: $this->html_base))->select_adm_grupo_id(
+            cols:12,con_registros: true,id_selected: $this->registro_id,link:  $this->link, disabled: true);
+
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener select_adm_accion_id',data:  $select_adm_grupo_id, header: $header,ws:  $ws);
+        }
+
+        $select_adm_menu_id = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(
+            cols:6,con_registros: true,id_selected: -1,link:  $this->link);
+
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener select_adm_accion_id',data:  $select_adm_grupo_id, header: $header,ws:  $ws);
+        }
+
+        $select_adm_seccion_id = (new adm_seccion_html(html: $this->html_base))->select_adm_seccion_id(
+            cols:6,con_registros: false,id_selected: -1,link:  $this->link);
+
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener select_adm_accion_id',data:  $select_adm_grupo_id, header: $header,ws:  $ws);
+        }
+
+        $select_adm_accion_id = (new adm_accion_html(html: $this->html_base))->select_adm_accion_id(
+            cols:12,con_registros: false,id_selected: -1,link:  $this->link);
+
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener select_adm_accion_id',data:  $select_adm_grupo_id, header: $header,ws:  $ws);
+        }
+
+        $hidden_adm_grupo_id = (new adm_grupo_html(html: $this->html_base))->hidden(name: 'adm_grupo_id', value: $this->registro_id);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener hidden_adm_seccion_id',data:  $hidden_adm_grupo_id, header: $header,ws:  $ws);
+        }
+
+
+        $retornos = (new html_controler(html: $this->html_base))->retornos(registro_id: $this->registro_id,tabla:  $this->tabla);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener retornos',data:  $retornos, header: $header,ws:  $ws);
+        }
+
+        $this->inputs = new stdClass();
+        $this->inputs->select = new stdClass();
+
+        $this->inputs->select->adm_grupo_id = $select_adm_grupo_id;
+        $this->inputs->select->adm_menu_id = $select_adm_menu_id;
+        $this->inputs->select->adm_seccion_id = $select_adm_seccion_id;
+        $this->inputs->select->adm_accion_id = $select_adm_accion_id;
+        $this->inputs->hidden_adm_grupo_id = $hidden_adm_grupo_id;
+
+        $this->inputs->hidden_seccion_retorno = $retornos->hidden_seccion_retorno;
+        $this->inputs->hidden_id_retorno = $retornos->hidden_id_retorno;
+
+
+        $adm_acciones_grupo = (new adm_accion_grupo($this->link))->acciones_por_grupo(adm_grupo_id: $this->registro_id);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener adm_acciones_grupo',data:  $adm_acciones_grupo, header: $header,ws:  $ws);
+        }
+
+        $adm_acciones_grupo = $this->rows_con_permisos(key_id:  'adm_accion_grupo_id',rows:  $adm_acciones_grupo,seccion: 'adm_accion_grupo');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al integrar links',data:  $adm_acciones_grupo, header: $header,ws:  $ws);
+        }
+
+        $this->adm_acciones_grupo = $adm_acciones_grupo;
+
+
+        return $adm_grupo;
+    }
+
 
     public function usuarios(bool $header = true, bool $ws = false){
         if($this->registro_id<=0){

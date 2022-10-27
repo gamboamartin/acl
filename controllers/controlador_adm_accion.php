@@ -188,6 +188,26 @@ class controlador_adm_accion extends system {
 
     }
 
+    public function get_adm_accion(bool $header, bool $ws = true): array|stdClass
+    {
+
+        $keys['adm_menu'] = array('id','descripcion','codigo','codigo_bis');
+        $keys['adm_seccion'] = array('id','descripcion','codigo','codigo_bis');
+        $keys['adm_accion'] = array('id','descripcion','codigo','codigo_bis');
+
+
+        $salida = $this->get_out(header: $header,keys: $keys, ws: $ws);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al generar salida',data:  $salida,header: $header,ws: $ws);
+
+        }
+
+
+        return $salida;
+
+
+    }
+
 
 
 }
