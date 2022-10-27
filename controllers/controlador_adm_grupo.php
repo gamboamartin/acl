@@ -9,6 +9,7 @@
 namespace gamboamartin\acl\controllers;
 
 use gamboamartin\errores\errores;
+use gamboamartin\system\html_controler;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_grupo_html;
@@ -118,15 +119,11 @@ class controlador_adm_grupo extends system {
                 mensaje: 'Error al obtener hidden_adm_seccion_id',data:  $hidden_adm_grupo_id, header: $header,ws:  $ws);
         }
 
-        $hidden_seccion_retorno = (new adm_grupo_html(html: $this->html_base))->hidden(name: 'seccion_retorno', value: $this->tabla);
+
+        $retornos = (new html_controler(html: $this->html_base))->retornos(registro_id: $this->registro_id,tabla:  $this->tabla);
         if(errores::$error){
             return $this->retorno_error(
-                mensaje: 'Error al obtener hidden_seccion_retorno',data:  $hidden_seccion_retorno, header: $header,ws:  $ws);
-        }
-        $hidden_id_retorno = (new adm_grupo_html(html: $this->html_base))->hidden(name: 'id_retorno', value: $this->registro_id);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener hidden_id_retorno',data:  $hidden_id_retorno, header: $header,ws:  $ws);
+                mensaje: 'Error al obtener retornos',data:  $retornos, header: $header,ws:  $ws);
         }
 
         $adm_usuarios = (new adm_usuario($this->link))->usuarios_por_grupo(adm_grupo_id: $this->registro_id);
@@ -150,8 +147,8 @@ class controlador_adm_grupo extends system {
         $this->inputs->adm_usuario_email = $adm_usuario_email;
         $this->inputs->adm_usuario_telefono = $adm_usuario_telefono;
         $this->inputs->hidden_adm_grupo_id = $hidden_adm_grupo_id;
-        $this->inputs->hidden_seccion_retorno = $hidden_seccion_retorno;
-        $this->inputs->hidden_id_retorno = $hidden_id_retorno;
+        $this->inputs->hidden_seccion_retorno = $retornos->hidden_seccion_retorno;
+        $this->inputs->hidden_id_retorno = $retornos->hidden_id_retorno;
 
 
     }

@@ -9,6 +9,7 @@
 namespace gamboamartin\acl\controllers;
 
 use gamboamartin\errores\errores;
+use gamboamartin\system\html_controler;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
@@ -87,18 +88,11 @@ class controlador_adm_menu extends system {
                 mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_adm_menu_id);
         }
 
-        $hidden_seccion_retorno = (new adm_menu_html(html: $this->html_base))->hidden(
-            name: 'seccion_retorno', value: $this->tabla);
-        if(errores::$error){
-            return $this->errores->error(
-                mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_seccion_retorno);
-        }
 
-        $hidden_id_retorno = (new adm_menu_html(html: $this->html_base))->hidden(
-            name: 'id_retorno', value: $adm_menu_id);
+        $retornos = (new html_controler(html: $this->html_base))->retornos(registro_id: $this->registro_id,tabla:  $this->tabla);
         if(errores::$error){
             return $this->errores->error(
-                mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_id_retorno);
+                mensaje: 'Error al obtener retornos',data:  $retornos);
         }
 
         $inputs = new stdClass();
@@ -106,8 +100,8 @@ class controlador_adm_menu extends system {
         $inputs->select->adm_menu_id = $select_adm_menu_id;
         $inputs->adm_seccion_menu_descripcion = $adm_seccion_menu_descripcion;
         $inputs->hidden_adm_menu_id = $hidden_adm_menu_id;
-        $inputs->hidden_seccion_retorno = $hidden_seccion_retorno;
-        $inputs->hidden_id_retorno = $hidden_id_retorno;
+        $inputs->hidden_seccion_retorno = $retornos->hidden_seccion_retorno;
+        $inputs->hidden_id_retorno = $retornos->hidden_id_retorno;
         return $inputs;
     }
 
