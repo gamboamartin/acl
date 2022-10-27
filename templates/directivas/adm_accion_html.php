@@ -53,18 +53,26 @@ class adm_accion_html extends html_controler {
         return $alta_inputs;
     }
 
+    /**
+     * Genera un input de tipo titulo
+     * @param int $cols Columnas css
+     * @param stdClass $row_upd Registro en proceso
+     * @param bool $value_vacio Si vacio deja el input en vacio
+     * @param bool $disabled Si disabled integra attr disabled
+     * @param string $place_holder Muestra input
+     * @return array|string
+     * @version 0.36.0
+     */
     public function input_titulo(int $cols, stdClass $row_upd, bool $value_vacio, bool $disabled = false,
                                       string $place_holder = 'Titulo'): array|string
     {
 
-        if($cols<=0){
-            return $this->error->error(mensaje: 'Error cold debe ser mayor a 0', data: $cols);
-        }
-        if($cols>=13){
-            return $this->error->error(mensaje: 'Error cold debe ser menor o igual a  12', data: $cols);
+        $valida = $this->directivas->valida_cols(cols:$cols);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
         }
 
-        $html =$this->directivas->input_text_required(disable: $disabled,name: 'titulo',place_holder: $place_holder,
+        $html =$this->directivas->input_text_required(disabled: $disabled,name: 'titulo',place_holder: $place_holder,
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
