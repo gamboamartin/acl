@@ -63,7 +63,7 @@ class adm_usuario_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
         }
 
-        $html =$this->directivas->email_required(disable: $disabled,name: 'email',place_holder: $place_holder,
+        $html =$this->directivas->email_required(disabled: $disabled,name: 'email',place_holder: $place_holder,
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
@@ -86,7 +86,7 @@ class adm_usuario_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
         }
 
-        $html =$this->directivas->input_password(disable: $disabled,name: 'password',place_holder: $place_holder,
+        $html =$this->directivas->input_password(disabled: $disabled,name: 'password',place_holder: $place_holder,
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
@@ -109,7 +109,7 @@ class adm_usuario_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
         }
 
-        $html =$this->directivas->input_telefono(disable: $disabled,name: 'telefono',place_holder: $place_holder,
+        $html =$this->directivas->input_telefono(disabled: $disabled,name: 'telefono',place_holder: $place_holder,
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
@@ -142,7 +142,7 @@ class adm_usuario_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
         }
 
-        $html =$this->directivas->input_text_required(disable: $disabled,name: 'user',place_holder: $place_holder,
+        $html =$this->directivas->input_text_required(disabled: $disabled,name: 'user',place_holder: $place_holder,
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
