@@ -21,6 +21,7 @@ use models\adm_accion;
 use models\adm_accion_grupo;
 use PDO;
 use stdClass;
+use Throwable;
 
 
 class controlador_adm_accion extends system {
@@ -58,6 +59,33 @@ class controlador_adm_accion extends system {
         }
         $this->link_adm_accion_grupo_alta_bd = $link_adm_accion_grupo_alta_bd;
 
+
+    }
+
+    public function acciones_id_por_grupo(bool $header = true, bool $ws = false){
+
+        $adm_grupo_id = $_GET['adm_grupo_id'];
+        $adm_seccion_id = $_GET['adm_seccion_id'];
+
+        $adm_acciones = (new adm_accion($this->link))->acciones_id_por_grupo(
+            adm_grupo_id: $adm_grupo_id, adm_seccion_id: $adm_seccion_id);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener acciones', data: $adm_acciones, header: $header,ws:  $ws);
+        }
+
+
+        if($ws){
+            ob_clean();
+            header('Content-Type: application/json');
+            try {
+                echo json_encode($adm_acciones, JSON_THROW_ON_ERROR);
+            }
+            catch (Throwable $e){
+                print_r($e);
+            }
+            exit;
+        }
+        return $adm_acciones;
 
     }
 
