@@ -6,8 +6,4 @@ use stdClass;
 class link_adm_menu extends links_menu {
     public stdClass $links;
 
-
-
-
-
 }

@@ -34,7 +34,7 @@ class controlador_adm_accion extends system {
         $modelo = new adm_accion(link: $link);
 
         $html_ = new adm_accion_html(html: $html);
-        $obj_link = new link_adm_accion($this->registro_id);
+        $obj_link = new link_adm_accion(link: $link, registro_id: $this->registro_id);
 
         $datatables = new stdClass();
         $datatables->columns = array();
@@ -51,7 +51,7 @@ class controlador_adm_accion extends system {
 
         $this->titulo_lista = 'Acciones';
 
-        $link_adm_accion_grupo_alta_bd = $this->obj_link->link_alta_bd(seccion: 'adm_accion_grupo');
+        $link_adm_accion_grupo_alta_bd = $this->obj_link->link_alta_bd(link: $link, seccion: 'adm_accion_grupo');
         if(errores::$error){
             $error = $this->errores->error(mensaje: 'Error al obtener link',data:  $link_adm_accion_grupo_alta_bd);
             print_r($error);

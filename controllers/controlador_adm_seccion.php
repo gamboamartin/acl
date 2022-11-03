@@ -30,7 +30,7 @@ class controlador_adm_seccion extends system {
         $modelo = new adm_seccion(link: $link);
 
         $html_ = new adm_seccion_html(html: $html);
-        $obj_link = new link_adm_seccion($this->registro_id);
+        $obj_link = new link_adm_seccion(link: $link, registro_id: $this->registro_id);
 
         $datatables = new stdClass();
         $datatables->columns = array();
@@ -47,7 +47,7 @@ class controlador_adm_seccion extends system {
 
         $this->titulo_lista = 'Secciones';
 
-        $link_adm_accion_alta_bd = $this->obj_link->link_alta_bd(seccion: 'adm_accion');
+        $link_adm_accion_alta_bd = $this->obj_link->link_alta_bd(link: $link, seccion: 'adm_accion');
         if(errores::$error){
             $error = $this->errores->error(mensaje: 'Error al obtener link',data:  $link_adm_accion_alta_bd);
             print_r($error);

@@ -39,7 +39,7 @@ class controlador_adm_grupo extends system {
         $modelo = new adm_grupo(link: $link);
 
         $html_ = new adm_grupo_html(html: $html);
-        $obj_link = new link_adm_grupo($this->registro_id);
+        $obj_link = new link_adm_grupo(link: $link,registro_id:  $this->registro_id);
 
         $datatables = new stdClass();
         $datatables->columns = array();
@@ -63,7 +63,7 @@ class controlador_adm_grupo extends system {
             $this->adm_grupo = $adm_grupo;
         }
 
-        $link_adm_usuario_alta_bd = $this->obj_link->link_alta_bd(seccion: 'adm_usuario');
+        $link_adm_usuario_alta_bd = $this->obj_link->link_alta_bd(link: $link, seccion: 'adm_usuario');
         if(errores::$error){
             $error = $this->errores->error(mensaje: 'Error al obtener link',data:  $link_adm_usuario_alta_bd);
             print_r($error);
@@ -71,7 +71,7 @@ class controlador_adm_grupo extends system {
         }
         $this->link_adm_usuario_alta_bd = $link_adm_usuario_alta_bd;
 
-        $link_adm_accion_grupo_alta_bd = $this->obj_link->link_alta_bd(seccion: 'adm_accion_grupo');
+        $link_adm_accion_grupo_alta_bd = $this->obj_link->link_alta_bd(link: $link, seccion: 'adm_accion_grupo');
         if(errores::$error){
             $error = $this->errores->error(mensaje: 'Error al obtener link',data:  $link_adm_accion_grupo_alta_bd);
             print_r($error);

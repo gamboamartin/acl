@@ -30,7 +30,7 @@ class controlador_adm_menu extends system {
         $modelo = new adm_menu(link: $link);
 
         $html_ = new adm_menu_html(html: $html);
-        $obj_link = new link_adm_menu($this->registro_id);
+        $obj_link = new link_adm_menu(link: $link, registro_id: $this->registro_id);
 
         $datatables = new stdClass();
         $datatables->columns = array();
@@ -54,7 +54,7 @@ class controlador_adm_menu extends system {
             $this->adm_menu = $adm_menu;
         }
 
-        $link_adm_seccion_alta_bd = $this->obj_link->link_alta_bd(seccion: 'adm_seccion');
+        $link_adm_seccion_alta_bd = $this->obj_link->link_alta_bd(link: $link, seccion: 'adm_seccion');
         if(errores::$error){
             $error = $this->errores->error(mensaje: 'Error al obtener link',data:  $link_adm_seccion_alta_bd);
             print_r($error);

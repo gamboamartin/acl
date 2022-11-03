@@ -28,7 +28,7 @@ class controlador_adm_sistema extends system {
         $modelo = new adm_sistema(link: $link);
 
         $html_ = new adm_sistema_html(html: $html);
-        $obj_link = new link_adm_sistema($this->registro_id);
+        $obj_link = new link_adm_sistema(link: $link, registro_id: $this->registro_id);
 
         $datatables = new stdClass();
         $datatables->columns = array();
