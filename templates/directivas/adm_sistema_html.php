@@ -4,6 +4,8 @@ namespace html;
 use gamboamartin\acl\controllers\controlador_adm_sistema;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
+use gamboamartin\template\directivas;
+use models\adm_sistema;
 use PDO;
 use stdClass;
 
@@ -50,6 +52,29 @@ class adm_sistema_html extends html_controler {
         $alta_inputs->selects = $selects;
 
         return $alta_inputs;
+    }
+
+    public function select_adm_sistema_id(int $cols, bool $con_registros, int|null $id_selected, PDO $link,
+                                        bool $disabled = false, array $not_in = array(),
+                                        bool $required = true): array|string
+    {
+        $valida = (new directivas(html:$this->html_base))->valida_cols(cols:$cols);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
+        }
+
+        $modelo = new adm_sistema($link);
+
+        if(is_null($id_selected)){
+            $id_selected = -1;
+        }
+
+        $select = $this->select_catalogo(cols:$cols,con_registros:$con_registros,id_selected:$id_selected,
+            modelo: $modelo, disabled: $disabled,label: 'Sistema', not_in: $not_in, required: $required);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select', data: $select);
+        }
+        return $select;
     }
 
 
