@@ -40,7 +40,7 @@ class controlador_adm_sistema extends system {
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
             paths_conf: $paths_conf);
 
-        $this->titulo_lista = 'Grupos';
+        $this->titulo_lista = 'Sistemas';
 
         if(isset($this->registro_id) && $this->registro_id > 0){
             $adm_sistema = (new adm_sistema($this->link))->registro(registro_id: $this->registro_id);
@@ -51,8 +51,6 @@ class controlador_adm_sistema extends system {
             }
             $this->adm_sistema = $adm_sistema;
         }
-
-
 
     }
 
