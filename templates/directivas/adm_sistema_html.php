@@ -54,6 +54,16 @@ class adm_sistema_html extends html_controler {
         return $alta_inputs;
     }
 
+    /**
+     * @param int $cols
+     * @param bool $con_registros
+     * @param int|null $id_selected
+     * @param PDO $link
+     * @param bool $disabled
+     * @param array $not_in
+     * @param bool $required
+     * @return array|string
+     */
     public function select_adm_sistema_id(int $cols, bool $con_registros, int|null $id_selected, PDO $link,
                                         bool $disabled = false, array $not_in = array(),
                                         bool $required = true): array|string

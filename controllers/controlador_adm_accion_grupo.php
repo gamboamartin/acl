@@ -8,12 +8,13 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use gamboamartin\administrador\models\adm_accion_grupo;
 use gamboamartin\errores\errores;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_accion_grupo_html;
 use links\secciones\link_adm_accion_grupo;
-use models\adm_accion_grupo;
+
 use PDO;
 use stdClass;
 

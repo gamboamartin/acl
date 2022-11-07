@@ -8,11 +8,11 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use gamboamartin\administrador\models\adm_usuario;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_usuario_html;
 use links\secciones\link_adm_usuario;
-use models\adm_usuario;
 use PDO;
 use stdClass;
 

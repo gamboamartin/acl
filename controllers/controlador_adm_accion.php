@@ -8,6 +8,7 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use gamboamartin\administrador\models\adm_accion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use gamboamartin\system\system;
@@ -17,8 +18,6 @@ use html\adm_grupo_html;
 use html\adm_menu_html;
 use html\adm_seccion_html;
 use links\secciones\link_adm_accion;
-use models\adm_accion;
-use models\adm_accion_grupo;
 use PDO;
 use stdClass;
 use Throwable;

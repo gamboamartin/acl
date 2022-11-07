@@ -8,13 +8,13 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use gamboamartin\administrador\models\adm_menu;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
 use links\secciones\link_adm_menu;
-use models\adm_menu;
 use PDO;
 use stdClass;
 

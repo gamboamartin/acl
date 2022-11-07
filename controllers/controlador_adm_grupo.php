@@ -8,6 +8,9 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use gamboamartin\administrador\models\adm_accion_grupo;
+use gamboamartin\administrador\models\adm_grupo;
+use gamboamartin\administrador\models\adm_usuario;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use gamboamartin\system\system;
@@ -18,9 +21,6 @@ use html\adm_menu_html;
 use html\adm_seccion_html;
 use html\adm_usuario_html;
 use links\secciones\link_adm_grupo;
-use models\adm_accion_grupo;
-use models\adm_grupo;
-use models\adm_usuario;
 use PDO;
 use stdClass;
 
