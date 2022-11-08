@@ -142,8 +142,10 @@ class controlador_adm_seccion extends system {
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al generar template',data:  $r_alta, header: $header,ws:$ws);
         }
+        $keys_selects = array();
 
-        $inputs = (new adm_seccion_html(html: $this->html_base))->genera_inputs_alta(controler: $this, link: $this->link);
+        $inputs = (new adm_seccion_html(html: $this->html_base))->genera_inputs_alta(
+            controler: $this, keys_selects: $keys_selects, link: $this->link);
         if(errores::$error){
             $error = $this->errores->error(mensaje: 'Error al generar inputs',data:  $inputs);
             print_r($error);

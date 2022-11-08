@@ -33,6 +33,29 @@ class adm_seccion_htmlTest extends test {
         $this->paths_conf->views = '/var/www/html/cat_sat/config/views.php';
     }
 
+    public function test_init_alta(): void
+    {
+        errores::$error = false;
+
+        $_GET['seccion'] = 'cat_sat_tipo_persona';
+        $_GET['accion'] = 'lista';
+        $_SESSION['grupo_id'] = 1;
+        $_SESSION['usuario_id'] = 2;
+        $_GET['session_id'] = '1';
+
+        $html = new html();
+        $html = new adm_seccion_html($html);
+        $html = new liberator($html);
+
+        $keys_selects = array();
+        $link = $this->link;
+        $resultado = $html->init_alta($keys_selects, $link);
+        $this->assertIsObject($resultado);
+        $this->assertNotTrue(errores::$error);
+        $this->assertStringContainsStringIgnoringCase("ontrol-group col-sm-12'><label class='control-label' for='adm_menu_id'>M",$resultado->selects->adm_menu_id);
+        errores::$error = false;
+    }
+
     public function test_select_adm_seccion_id(): void
     {
         errores::$error = false;

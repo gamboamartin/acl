@@ -23,9 +23,9 @@ class adm_seccion_html extends html_controler {
 
 
 
-    public function genera_inputs_alta(controlador_adm_seccion $controler,PDO $link): array|stdClass
+    public function genera_inputs_alta(controlador_adm_seccion $controler, array $keys_selects,PDO $link): array|stdClass
     {
-        $inputs = $this->init_alta(link: $link);
+        $inputs = $this->init_alta(keys_selects: $keys_selects,link: $link);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar inputs',data:  $inputs);
 
@@ -38,11 +38,16 @@ class adm_seccion_html extends html_controler {
         return $inputs_asignados;
     }
 
-
-
+    /**
+     * Inicializa un elemento para alta
+     * @param array $keys_selects  Conjunto de elementos para selects
+     * @param PDO $link Conexion a la base de datos
+     * @return array|stdClass
+     * @version 0.45.1
+     */
     protected function init_alta(array $keys_selects, PDO $link): array|stdClass
     {
-        $selects = $this->selects_alta(link: $link);
+        $selects = $this->selects_alta(keys_selects: $keys_selects, link: $link);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar selects',data:  $selects);
         }
