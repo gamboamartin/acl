@@ -2,9 +2,9 @@
 namespace html;
 
 use gamboamartin\acl\controllers\controlador_adm_seccion;
+use gamboamartin\administrador\models\adm_seccion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
-use models\adm_seccion;
 use PDO;
 use stdClass;
 
@@ -53,7 +53,16 @@ class adm_seccion_html extends html_controler {
         return $alta_inputs;
     }
 
-
+    /**
+     * Genera un in put de tipo select
+     * @param int $cols N cols css
+     * @param bool $con_registros Si con registros integra los  options validos
+     * @param int|null $id_selected Identificador
+     * @param PDO $link Conexion a la base de datos
+     * @param bool $disabled add atributo disabled
+     * @return array|string
+     * @version 0.44.0
+     */
     public function select_adm_seccion_id(int $cols, bool $con_registros, int|null $id_selected, PDO $link,
                                           bool $disabled = false): array|string
     {

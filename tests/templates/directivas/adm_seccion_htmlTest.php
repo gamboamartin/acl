@@ -33,6 +33,29 @@ class adm_seccion_htmlTest extends test {
         $this->paths_conf->views = '/var/www/html/cat_sat/config/views.php';
     }
 
+    public function test_select_adm_seccion_id(): void
+    {
+        errores::$error = false;
+
+        $_GET['seccion'] = 'cat_sat_tipo_persona';
+        $_GET['accion'] = 'lista';
+        $_SESSION['grupo_id'] = 1;
+        $_SESSION['usuario_id'] = 2;
+        $_GET['session_id'] = '1';
+
+        $html = new html();
+        $html = new adm_seccion_html($html);
+        $cols = 1;
+        $con_registros = true;
+        $id_selected = null;
+        $link = $this->link;
+        $resultado = $html->select_adm_seccion_id($cols, $con_registros, $id_selected, $link);
+        $this->assertIsString($resultado);
+        $this->assertNotTrue(errores::$error);
+        $this->assertStringContainsStringIgnoringCase("ion_id'>Seccion</label><div class='controls'><select class='form-contr", $resultado);
+        errores::$error = false;
+    }
+
 
     public function test_selects_alta(): void
     {

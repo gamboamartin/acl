@@ -2,10 +2,10 @@
 namespace html;
 
 use gamboamartin\acl\controllers\controlador_adm_sistema;
+use gamboamartin\administrador\models\adm_sistema;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use gamboamartin\template\directivas;
-use models\adm_sistema;
 use PDO;
 use stdClass;
 

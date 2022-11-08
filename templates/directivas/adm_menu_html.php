@@ -1,9 +1,9 @@
 <?php
 namespace html;
 
+use gamboamartin\administrador\models\adm_menu;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
-use models\adm_menu;
 use PDO;
 
 
