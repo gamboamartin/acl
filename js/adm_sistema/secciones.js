@@ -22,6 +22,7 @@ function adm_asigna_secciones(adm_menu_id = ''){
         type: 'GET',
         url: url,
     }).done(function( data ) {  // Función que se ejecuta si todo ha ido bien
+        console.log(data);
         sl_adm_seccion_id.empty();
 
         integra_new_option("#adm_seccion_id",'Seleccione una seccion','-1');

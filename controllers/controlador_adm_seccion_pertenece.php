@@ -97,7 +97,7 @@ class controlador_adm_seccion_pertenece extends system {
             return $this->retorno_error(mensaje: 'Error al insertar seccion pertenece',data:  $r_alta_bd, header: $header,ws: $ws);
         }
         if(!$transaccion_previa) {
-          //  $this->link->commit();
+           $this->link->commit();
         }
 
 
