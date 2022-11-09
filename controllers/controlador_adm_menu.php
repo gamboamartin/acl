@@ -35,9 +35,8 @@ class controlador_adm_menu extends system {
         $datatables = new stdClass();
         $datatables->columns = array();
         $datatables->columns['adm_menu_id']['titulo'] = 'Id';
-        $datatables->columns['adm_menu_descripcion']['titulo'] = 'Id';
-        $datatables->columns['adm_menu_codigo']['titulo'] = 'Codigo';
-        $datatables->columns['adm_menu_codigo_bis']['titulo'] = 'Codigo BIS';
+        $datatables->columns['adm_menu_codigo']['titulo'] = 'Cod';
+        $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
 
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
             paths_conf: $paths_conf);
