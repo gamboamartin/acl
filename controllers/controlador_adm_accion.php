@@ -9,6 +9,7 @@
 namespace gamboamartin\acl\controllers;
 
 use gamboamartin\administrador\models\adm_accion;
+use gamboamartin\administrador\models\adm_accion_grupo;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use gamboamartin\system\system;
@@ -189,6 +190,22 @@ class controlador_adm_accion extends system {
 
 
         return $adm_accion;
+    }
+
+    public function es_lista(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $upd = $this->row_upd(key: 'es_lista');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+        }
+
+        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
+        $this->header_out(result: $upd, header: $header,ws:  $ws);
+
+        return $upd;
+
+
     }
 
     public function es_status(bool $header = true, bool $ws = false): array|stdClass
