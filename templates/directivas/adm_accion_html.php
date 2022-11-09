@@ -1,10 +1,10 @@
 <?php
 namespace html;
 
+use gamboamartin\administrador\models\adm_accion;
 use gamboamartin\controllers\controlador_adm_accion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
-use models\adm_accion;
 use PDO;
 use stdClass;
 
