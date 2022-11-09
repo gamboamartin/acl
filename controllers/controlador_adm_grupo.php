@@ -44,9 +44,14 @@ class controlador_adm_grupo extends system {
         $datatables = new stdClass();
         $datatables->columns = array();
         $datatables->columns['adm_grupo_id']['titulo'] = 'Id';
-        $datatables->columns['adm_grupo_descripcion']['titulo'] = 'Descripcion';
-        $datatables->columns['adm_grupo_codigo']['titulo'] = 'Codigo';
-        $datatables->columns['adm_grupo_codigo_bis']['titulo'] = 'Codigo BIS';
+        $datatables->columns['adm_grupo_codigo']['titulo'] = 'Cod';
+        $datatables->columns['adm_grupo_descripcion']['titulo'] = 'Grupo';
+
+        $datatables->filtro = array();
+        $datatables->filtro[] = 'adm_grupo.id';
+        $datatables->filtro[] = 'adm_grupo.codigo';
+        $datatables->filtro[] = 'adm_grupo.descripcion';
+
 
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
             paths_conf: $paths_conf);
