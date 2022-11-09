@@ -52,6 +52,30 @@ class adm_accion_htmlTest extends test {
         errores::$error = false;
     }
 
+    public function test_select_adm_accion_id(): void
+    {
+        errores::$error = false;
+
+        $_GET['seccion'] = 'cat_sat_tipo_persona';
+        $_GET['accion'] = 'lista';
+        $_SESSION['grupo_id'] = 1;
+        $_SESSION['usuario_id'] = 2;
+        $_GET['session_id'] = '1';
+
+        $html = new html();
+        $html = new adm_accion_html($html);
+        //$html = new liberator($html);
+
+        $cols = 1;
+        $con_registros = false;
+        $id_selected = 1;
+        $link = $this->link;
+        $resultado = $html->select_adm_accion_id($cols, $con_registros, $id_selected, $link);
+        $this->assertIsString($resultado);
+        $this->assertNotTrue(errores::$error);
+        errores::$error = false;
+    }
+
 
 
 

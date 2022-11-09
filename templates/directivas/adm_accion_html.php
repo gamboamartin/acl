@@ -5,6 +5,7 @@ use gamboamartin\administrador\models\adm_accion;
 use gamboamartin\controllers\controlador_adm_accion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
+use gamboamartin\template\directivas;
 use PDO;
 use stdClass;
 
@@ -87,10 +88,29 @@ class adm_accion_html extends html_controler {
     }
 
 
-    public function select_adm_accion_id(int $cols, bool $con_registros, int $id_selected, PDO $link,
+    /**
+     * Genera un select de tipo adm accion
+     * @param int $cols Columnas css
+     * @param bool $con_registros Con options si es true
+     * @param int|null $id_selected identificador selected
+     * @param PDO $link Conexion a la base de datos
+     * @param bool $disabled add ttr disabled to html
+     * @return array|string
+     * @version 0.53.1
+     */
+    public function select_adm_accion_id(int $cols, bool $con_registros, int|null $id_selected, PDO $link,
                                           bool $disabled = false): array|string
     {
+
+        $valida = (new directivas(html:$this->html_base))->valida_cols(cols:$cols);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
+        }
         $modelo = new adm_accion($link);
+
+        if(is_null($id_selected)){
+            $id_selected = -1;
+        }
 
         $select = $this->select_catalogo(cols:$cols,con_registros:$con_registros,id_selected:$id_selected,
             modelo: $modelo, disabled: $disabled,label: 'Accion');
