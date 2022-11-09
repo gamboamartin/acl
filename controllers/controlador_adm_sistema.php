@@ -36,10 +36,13 @@ class controlador_adm_sistema extends system {
         $datatables = new stdClass();
         $datatables->columns = array();
         $datatables->columns['adm_sistema_id']['titulo'] = 'Id';
-        $datatables->columns['adm_sistema_descripcion']['titulo'] = 'Descripcion';
         $datatables->columns['adm_sistema_codigo']['titulo'] = 'Codigo';
-        $datatables->columns['adm_sistema_codigo_bis']['titulo'] = 'Codigo BIS';
+        $datatables->columns['adm_sistema_descripcion']['titulo'] = 'Sistema';
 
+        $datatables->filtro = array();
+        $datatables->filtro[] = 'adm_sistema.id';
+        $datatables->filtro[] = 'adm_sistema.descripcion';
+        $datatables->filtro[] = 'adm_sistema.codigo';
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
             paths_conf: $paths_conf);
 
