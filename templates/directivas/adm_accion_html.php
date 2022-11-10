@@ -1,8 +1,9 @@
 <?php
 namespace html;
 
+use gamboamartin\acl\controllers\controlador_adm_accion;
 use gamboamartin\administrador\models\adm_accion;
-use gamboamartin\controllers\controlador_adm_accion;
+
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use gamboamartin\template\directivas;
@@ -38,8 +39,6 @@ class adm_accion_html extends html_controler {
 
         return $inputs_asignados;
     }
-
-
 
     protected function init_alta(array $keys_selects, PDO $link): array|stdClass
     {
@@ -146,7 +145,7 @@ class adm_accion_html extends html_controler {
             return $this->error->error(mensaje: 'Error al generar select',data:  $select);
 
         }
-        $selects->adm_menu_id = $select;
+        $selects->adm_seccion_id = $select;
 
         return $selects;
     }
