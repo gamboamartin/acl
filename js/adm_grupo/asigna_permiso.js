@@ -29,10 +29,12 @@ function adm_asigna_acciones(adm_seccion_id = ''){
 
     }).done(function( msg ) {  // Función que se ejecuta si todo ha ido bien
         console.log(msg)
+        console.log(url_acciones_id_por_grupo)
     }).fail(function (jqXHR, textStatus, errorThrown){ // Función que se ejecuta si algo ha ido mal
         // Mostramos en consola el mensaje con el error que se ha producido
         console.log("The following error occured: "+ textStatus +" "+ errorThrown);
         console.log(jqXHR);
+        console.log(url_acciones_id_por_grupo);
     });
 
 
@@ -73,10 +75,9 @@ function adm_asigna_secciones(adm_menu_id = ''){
         url: url,
     }).done(function( data ) {  // Función que se ejecuta si todo ha ido bien
         sl_adm_seccion_id.empty();
-
+        console.log(url);
         integra_new_option("#adm_seccion_id",'Seleccione una seccion','-1');
         $.each(data.registros, function( index, adm_seccion ) {
-
             integra_new_option("#adm_seccion_id",adm_seccion.adm_menu_descripcion+' '+adm_seccion.adm_seccion_descripcion,adm_seccion.adm_seccion_id);
         });
         sl_adm_seccion_id.val(adm_seccion_id);
