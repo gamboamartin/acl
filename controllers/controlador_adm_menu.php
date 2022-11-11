@@ -37,6 +37,7 @@ class controlador_adm_menu extends system {
         $datatables->columns['adm_menu_id']['titulo'] = 'Id';
         $datatables->columns['adm_menu_codigo']['titulo'] = 'Cod';
         $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
+        $datatables->columns['adm_menu_n_secciones']['titulo'] = 'Secciones';
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_menu.id';
