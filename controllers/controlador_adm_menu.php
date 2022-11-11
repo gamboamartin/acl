@@ -69,35 +69,43 @@ class controlador_adm_menu extends system {
 
     }
 
+    /**
+     * Genera los inputs para secciones de menu
+     * @param int $adm_menu_id Identificador del menu
+     * @return array|stdClass
+     * @version 0.70.1
+     */
     private function inputs_secciones(int $adm_menu_id): array|stdClass
     {
+        if($adm_menu_id <= 0){
+            return $this->errores->error(mensaje: 'Error adm_menu_id debe ser mayor a 0',data:  $adm_menu_id);
+        }
+
         $select_adm_menu_id = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(
             cols:12,con_registros: true,id_selected:  $adm_menu_id,link:  $this->link, disabled: true);
 
         if(errores::$error){
-            return $this->errores->error(
-                mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id);
+            return $this->errores->error(mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id);
         }
 
         $adm_seccion_menu_descripcion = (new adm_menu_html(html: $this->html_base))->input_descripcion(
             cols:12,row_upd:  new stdClass(), value_vacio: true, place_holder: 'Seccion');
         if(errores::$error){
-            return $this->errores->error(
-                mensaje: 'Error al obtener adm_seccion_menu_descripcion',data:  $adm_seccion_menu_descripcion);
+            return $this->errores->error(mensaje: 'Error al obtener adm_seccion_menu_descripcion',
+                data:  $adm_seccion_menu_descripcion);
         }
 
         $hidden_adm_menu_id = (new adm_menu_html(html: $this->html_base))->hidden(
             name: 'adm_menu_id', value: $adm_menu_id);
         if(errores::$error){
-            return $this->errores->error(
-                mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_adm_menu_id);
+            return $this->errores->error(mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_adm_menu_id);
         }
 
 
-        $retornos = (new html_controler(html: $this->html_base))->retornos(registro_id: $this->registro_id,tabla:  $this->tabla);
+        $retornos = (new html_controler(html: $this->html_base))->retornos(
+            registro_id: $this->registro_id,tabla:  $this->tabla);
         if(errores::$error){
-            return $this->errores->error(
-                mensaje: 'Error al obtener retornos',data:  $retornos);
+            return $this->errores->error(mensaje: 'Error al obtener retornos',data:  $retornos);
         }
 
         $inputs = new stdClass();
