@@ -31,8 +31,8 @@ class controlador_adm_accion extends system {
     public string $link_adm_accion_grupo_alta_bd = '';
     public array $adm_acciones_grupo = array();
 
-    public function __construct(PDO $link, html $html = new html(),
-                                stdClass $paths_conf = new stdClass()){
+    public function __construct(PDO $link, html $html = new html(), stdClass $paths_conf = new stdClass()){
+
         $modelo = new adm_accion(link: $link);
 
         $html_ = new adm_accion_html(html: $html);
@@ -146,6 +146,7 @@ class controlador_adm_accion extends system {
     }
 
     public function acciones_id_por_grupo(bool $header = true, bool $ws = false){
+
 
         $adm_grupo_id = $_GET['adm_grupo_id'];
         $adm_seccion_id = $_GET['adm_seccion_id'];

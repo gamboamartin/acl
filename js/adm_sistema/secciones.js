@@ -22,7 +22,14 @@ function adm_asigna_secciones(adm_menu_id = ''){
         type: 'GET',
         url: url,
     }).done(function( data ) {  // Función que se ejecuta si todo ha ido bien
-        console.log(data);
+        if(!isNaN(data.error)){
+            if(data.error === 1){
+                let msj = data.mensaje_limpio+' '+url;
+                alert(msj);
+                console.log(data);
+                return false;
+            }
+        }
         sl_adm_seccion_id.empty();
 
         integra_new_option("#adm_seccion_id",'Seleccione una seccion','-1');

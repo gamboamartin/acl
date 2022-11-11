@@ -45,7 +45,15 @@ function adm_asigna_acciones(adm_seccion_id = ''){
     let data_envio = { not_in: {llave:'adm_accion.id', values:adm_acciones_id_aut}}
     $.post( url, data_envio)
         .done(function( data ) {
-            console.log(data);
+            if(!isNaN(data.error)){
+                if(data.error === 1){
+                    let msj = data.mensaje_limpio+' '+url;
+                    alert(msj);
+                    console.log(data);
+                    return false;
+                }
+            }
+
             sl_adm_accion_id.empty();
 
             integra_new_option("#adm_accion_id",'Seleccione una accion','-1');
@@ -75,7 +83,14 @@ function adm_asigna_secciones(adm_menu_id = ''){
         url: url,
     }).done(function( data ) {  // Función que se ejecuta si todo ha ido bien
         sl_adm_seccion_id.empty();
-        console.log(url);
+        if(!isNaN(data.error)){
+            if(data.error === 1){
+                let msj = data.mensaje_limpio+' '+url;
+                alert(msj);
+                console.log(data);
+                return false;
+            }
+        }
         integra_new_option("#adm_seccion_id",'Seleccione una seccion','-1');
         $.each(data.registros, function( index, adm_seccion ) {
             integra_new_option("#adm_seccion_id",adm_seccion.adm_menu_descripcion+' '+adm_seccion.adm_seccion_descripcion,adm_seccion.adm_seccion_id);

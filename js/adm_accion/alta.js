@@ -25,7 +25,14 @@ function adm_asigna_secciones(adm_menu_id = ''){
         url: url,
     }).done(function( data ) {  // Función que se ejecuta si todo ha ido bien
         sl_adm_seccion_id.empty();
-
+        if(!isNaN(data.error)){
+            if(data.error === 1){
+                let msj = data.mensaje_limpio+' '+url;
+                alert(msj);
+                console.log(data);
+                return false;
+            }
+        }
         integra_new_option("#adm_seccion_id",'Seleccione una seccion','-1');
         $.each(data.registros, function( index, adm_seccion ) {
 
