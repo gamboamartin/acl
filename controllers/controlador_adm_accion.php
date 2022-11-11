@@ -346,18 +346,6 @@ class controlador_adm_accion extends system {
 
     }
 
-    private function inputs(array $keys_selects): array|stdClass
-    {
-        $keys_selects = $this->key_selects_txt(keys_selects: $keys_selects);
-        if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
-        }
-        $inputs = $this->genera_inputs(keys_selects: $keys_selects);
-        if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al obtener inputs',data:  $inputs);
-        }
-        return $inputs;
-    }
 
     private function key_select(
         int $cols, bool $con_registros, array $filtro,string $key, array $keys_selects, int|null $id_selected,
@@ -372,27 +360,20 @@ class controlador_adm_accion extends system {
         return $keys_selects;
     }
 
-    private function key_select_txt(int $cols, string $key, array $keys_selects, string $place_holder): array
-    {
-        $keys_selects[$key] = new stdClass();
-        $keys_selects[$key]->cols = $cols;
-        $keys_selects[$key]->place_holder = $place_holder;
-        return $keys_selects;
-    }
 
-    private function key_selects_txt(array $keys_selects): array
+    protected function key_selects_txt(array $keys_selects): array
     {
-        $keys_selects = $this->key_select_txt(cols: 6,key: 'codigo', keys_selects:$keys_selects, place_holder: 'Cod');
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'codigo', keys_selects:$keys_selects, place_holder: 'Cod');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
 
-        $keys_selects = $this->key_select_txt(cols: 6,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion');
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
 
-        $keys_selects = $this->key_select_txt(cols: 6,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
