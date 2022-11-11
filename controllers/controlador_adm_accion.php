@@ -90,40 +90,27 @@ class controlador_adm_accion extends system {
         $this->modelo->campos_view = $campos_view;
 
 
-
-
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
 
-        $keys_selects['adm_menu_id'] = new stdClass();
-        $keys_selects['adm_menu_id']->cols = 12;
-        $keys_selects['adm_menu_id']->label = 'Menu';
+        $keys_selects = $this->key_select(cols:12, con_registros: true,filtro:  array(), key: 'adm_menu_id',
+            keys_selects: array(), id_selected: -1, label: 'Menu');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
+        }
 
-        $keys_selects['adm_seccion_id'] = new stdClass();
-        $keys_selects['adm_seccion_id']->cols = 12;
-        $keys_selects['adm_seccion_id']->con_registros = false;
-        $keys_selects['adm_seccion_id']->label = 'Seccion';
-
-        $keys_selects['codigo'] = new stdClass();
-        $keys_selects['codigo']->cols = 6;
-        $keys_selects['codigo']->place_holder = 'Cod';
-
-
-        $keys_selects['descripcion'] = new stdClass();
-        $keys_selects['descripcion']->cols = 6;
-        $keys_selects['descripcion']->place_holder = 'Accion';
-
-        $keys_selects['titulo'] = new stdClass();
-        $keys_selects['titulo']->cols = 6;
-        $keys_selects['titulo']->place_holder = 'Titulo';
+        $keys_selects = $this->key_select(cols:12, con_registros: false,filtro: array(), key: 'adm_seccion_id',
+            keys_selects: $keys_selects, id_selected: -1, label: 'Seccion');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
+        }
 
 
-        $inputs = $this->genera_inputs(keys_selects: $keys_selects);
+        $inputs = $this->inputs(keys_selects: $keys_selects);
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener inputs',data:  $inputs, header: $header,ws:  $ws);
         }
-
 
         return $r_alta;
     }
@@ -359,6 +346,59 @@ class controlador_adm_accion extends system {
 
     }
 
+    private function inputs(array $keys_selects): array|stdClass
+    {
+        $keys_selects = $this->key_selects_txt(keys_selects: $keys_selects);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+        $inputs = $this->genera_inputs(keys_selects: $keys_selects);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al obtener inputs',data:  $inputs);
+        }
+        return $inputs;
+    }
+
+    private function key_select(
+        int $cols, bool $con_registros, array $filtro,string $key, array $keys_selects, int|null $id_selected,
+        string $label): array
+    {
+        $keys_selects[$key] = new stdClass();
+        $keys_selects[$key]->cols = $cols;
+        $keys_selects[$key]->con_registros = $con_registros;
+        $keys_selects[$key]->label = $label;
+        $keys_selects[$key]->id_selected = $id_selected;
+        $keys_selects[$key]->filtro = $filtro;
+        return $keys_selects;
+    }
+
+    private function key_select_txt(int $cols, string $key, array $keys_selects, string $place_holder): array
+    {
+        $keys_selects[$key] = new stdClass();
+        $keys_selects[$key]->cols = $cols;
+        $keys_selects[$key]->place_holder = $place_holder;
+        return $keys_selects;
+    }
+
+    private function key_selects_txt(array $keys_selects): array
+    {
+        $keys_selects = $this->key_select_txt(cols: 6,key: 'codigo', keys_selects:$keys_selects, place_holder: 'Cod');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = $this->key_select_txt(cols: 6,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = $this->key_select_txt(cols: 6,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+        return $keys_selects;
+    }
+
     public function modifica(
         bool $header, bool $ws = false): array|stdClass
     {
@@ -368,7 +408,6 @@ class controlador_adm_accion extends system {
             return $this->retorno_error(
                 mensaje: 'Error al generar salida de template',data:  $r_modifica,header: $header,ws: $ws);
         }
-
 
         $campos_view = $this->campos_view();
         if(errores::$error){
@@ -381,34 +420,19 @@ class controlador_adm_accion extends system {
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
 
+        $keys_selects = $this->key_select(cols:12, con_registros: true,filtro:  array(), key: 'adm_menu_id',
+            keys_selects: array(), id_selected: $this->registro['adm_menu_id'], label: 'Menu');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
+        }
 
-        $keys_selects['adm_menu_id'] = new stdClass();
-        $keys_selects['adm_menu_id']->cols = 12;
-        $keys_selects['adm_menu_id']->label = 'Menu';
-        $keys_selects['adm_menu_id']->id_selected = $this->registro['adm_menu_id'];
+        $keys_selects = $this->key_select(cols:12, con_registros: true,filtro: array('adm_menu.id'=>$this->registro['adm_menu_id']), key: 'adm_seccion_id',
+            keys_selects: $keys_selects, id_selected: $this->registro['adm_seccion_id'], label: 'Seccion');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
+        }
 
-        $keys_selects['adm_seccion_id'] = new stdClass();
-        $keys_selects['adm_seccion_id']->cols = 12;
-        $keys_selects['adm_seccion_id']->con_registros = true;
-        $keys_selects['adm_seccion_id']->label = 'Seccion';
-        $keys_selects['adm_seccion_id']->id_selected = $this->registro['adm_seccion_id'];
-        $keys_selects['adm_seccion_id']->filtro = array('adm_menu.id'=>$this->registro['adm_menu_id']);
-
-        $keys_selects['codigo'] = new stdClass();
-        $keys_selects['codigo']->cols = 6;
-        $keys_selects['codigo']->place_holder = 'Cod';
-
-
-        $keys_selects['descripcion'] = new stdClass();
-        $keys_selects['descripcion']->cols = 6;
-        $keys_selects['descripcion']->place_holder = 'Accion';
-
-        $keys_selects['titulo'] = new stdClass();
-        $keys_selects['titulo']->cols = 6;
-        $keys_selects['titulo']->place_holder = 'Titulo';
-
-
-        $inputs = $this->genera_inputs(keys_selects: $keys_selects);
+        $inputs = $this->inputs(keys_selects: $keys_selects);
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener inputs',data:  $inputs, header: $header,ws:  $ws);
