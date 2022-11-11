@@ -81,30 +81,15 @@ class controlador_adm_accion extends system {
                 mensaje: 'Error al obtener template',data:  $r_alta, header: $header,ws:  $ws);
         }
 
-        $this->modelo->campos_view = array();
 
-
-
-        $keys = new stdClass();
-        $keys->inputs = array('css','codigo','descripcion','titulo');
-        $keys->selects = array();
-
-        $keys->selects['adm_menu_id'] = new stdClass();
-        $keys->selects['adm_menu_id']->name_model = 'adm_menu';
-        $keys->selects['adm_menu_id']->namespace_model = 'gamboamartin\\administrador\\models';
-
-        $keys->selects['adm_seccion_id'] = new stdClass();
-        $keys->selects['adm_seccion_id']->name_model = 'adm_seccion';
-        $keys->selects['adm_seccion_id']->namespace_model = 'gamboamartin\\administrador\\models';
-
-        $campos_view = (new \base\controller\init())->model_init_campos_template(
-            campos_view: $this->modelo->campos_view,keys:  $keys, link: $this->link);
-
+        $campos_view = $this->campos_view();
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al maquetar campos_view',data:  $campos_view, header: $header,ws:  $ws);
         }
 
         $this->modelo->campos_view = $campos_view;
+
+
 
 
         $this->inputs = new stdClass();
@@ -280,6 +265,32 @@ class controlador_adm_accion extends system {
         return $adm_accion;
     }
 
+    private function campos_view(): array
+    {
+        $keys = new stdClass();
+        $keys->inputs = array('css','codigo','descripcion','titulo');
+        $keys->selects = array();
+
+        $init_data = array();
+        $init_data['adm_menu'] = "gamboamartin\\administrador";
+        $init_data['adm_seccion'] = "gamboamartin\\administrador";
+        $selects = (new \base\controller\init())->select_key_input($init_data, selects: $keys->selects);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar select',data:  $selects);
+        }
+
+        $keys->selects = $selects;
+
+        $campos_view = (new \base\controller\init())->model_init_campos_template(
+            campos_view: array(),keys:  $keys, link: $this->link);
+
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al inicializar campo view',data:  $campos_view);
+        }
+
+        return $campos_view;
+    }
+
     public function es_lista(bool $header = true, bool $ws = false): array|stdClass
     {
 
@@ -359,27 +370,9 @@ class controlador_adm_accion extends system {
         }
 
 
-        $this->modelo->campos_view = array();
-
-
-
-        $keys = new stdClass();
-        $keys->inputs = array('css','codigo','descripcion','titulo');
-        $keys->selects = array();
-
-        $keys->selects['adm_menu_id'] = new stdClass();
-        $keys->selects['adm_menu_id']->name_model = 'adm_menu';
-        $keys->selects['adm_menu_id']->namespace_model = 'gamboamartin\\administrador\\models';
-
-        $keys->selects['adm_seccion_id'] = new stdClass();
-        $keys->selects['adm_seccion_id']->name_model = 'adm_seccion';
-        $keys->selects['adm_seccion_id']->namespace_model = 'gamboamartin\\administrador\\models';
-
-        $campos_view = (new \base\controller\init())->model_init_campos_template(
-            campos_view: $this->modelo->campos_view,keys:  $keys, link: $this->link);
-
+        $campos_view = $this->campos_view();
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al maquetar campos_view',data:  $campos_view, header: $header,ws:  $ws);
         }
 
         $this->modelo->campos_view = $campos_view;
