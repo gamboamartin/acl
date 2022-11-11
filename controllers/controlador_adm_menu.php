@@ -80,7 +80,7 @@ class controlador_adm_menu extends system {
         }
 
         $adm_seccion_menu_descripcion = (new adm_menu_html(html: $this->html_base))->input_descripcion(
-            cols:12,row_upd:  new stdClass(), value_vacio: true);
+            cols:12,row_upd:  new stdClass(), value_vacio: true, place_holder: 'Seccion');
         if(errores::$error){
             return $this->errores->error(
                 mensaje: 'Error al obtener adm_seccion_menu_descripcion',data:  $adm_seccion_menu_descripcion);
