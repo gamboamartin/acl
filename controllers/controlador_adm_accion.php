@@ -14,6 +14,7 @@ use gamboamartin\administrador\models\adm_menu;
 use gamboamartin\administrador\models\adm_seccion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
+use gamboamartin\system\init;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
@@ -81,14 +82,17 @@ class controlador_adm_accion extends system {
         }
 
         $this->modelo->campos_view = array();
-        $this->modelo->campos_view['alias']['type'] = 'inputs';
-        $this->modelo->campos_view['css']['type'] = 'inputs';
-        $this->modelo->campos_view['codigo']['type'] = 'inputs';
 
-        $this->modelo->campos_view['descripcion']['type'] = 'inputs';
-        $this->modelo->campos_view['etiqueta_label']['type'] = 'inputs';
-        $this->modelo->campos_view['titulo']['type'] = 'inputs';
 
+        $keys =array('alias','css','codigo','descripcion','etiqueta_label','titulo');
+        $campos_view = (new \base\controller\init())->model_init_campos_inputs(campos_view: $this->modelo->campos_view, keys: $keys);
+
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
+        }
+
+        $this->modelo->campos_view = $campos_view;
+        
         $this->modelo->campos_view['adm_menu_id']['type'] = 'selects';
         $this->modelo->campos_view['adm_menu_id']['model'] = new adm_menu(link: $this->link);
 
@@ -346,14 +350,19 @@ class controlador_adm_accion extends system {
                 mensaje: 'Error al generar salida de template',data:  $r_modifica,header: $header,ws: $ws);
         }
 
-        $this->modelo->campos_view = array();
-        $this->modelo->campos_view['alias']['type'] = 'inputs';
-        $this->modelo->campos_view['css']['type'] = 'inputs';
-        $this->modelo->campos_view['codigo']['type'] = 'inputs';
 
-        $this->modelo->campos_view['descripcion']['type'] = 'inputs';
-        $this->modelo->campos_view['etiqueta_label']['type'] = 'inputs';
-        $this->modelo->campos_view['titulo']['type'] = 'inputs';
+        $this->modelo->campos_view = array();
+
+        $keys =array('alias','css','codigo','descripcion','etiqueta_label','titulo');
+        $campos_view = (new \base\controller\init())->model_init_campos_inputs(campos_view: $this->modelo->campos_view, keys: $keys);
+
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
+        }
+
+        $this->modelo->campos_view = $campos_view;
+
+
 
         $this->modelo->campos_view['adm_menu_id']['type'] = 'selects';
         $this->modelo->campos_view['adm_menu_id']['model'] = new adm_menu(link: $this->link);
