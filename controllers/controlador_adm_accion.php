@@ -84,25 +84,28 @@ class controlador_adm_accion extends system {
         $this->modelo->campos_view = array();
 
 
-        $keys =array('alias','css','codigo','descripcion','etiqueta_label','titulo');
-        $campos_view = (new \base\controller\init())->model_init_campos_inputs(campos_view: $this->modelo->campos_view, keys: $keys);
+
+        $keys = new stdClass();
+        $keys->inputs = array('css','codigo','descripcion','titulo');
+        $keys->selects = array();
+
+        $keys->selects['adm_menu_id'] = new stdClass();
+        $keys->selects['adm_menu_id']->name_model = 'adm_menu';
+        $keys->selects['adm_menu_id']->namespace_model = 'gamboamartin\\administrador\\models';
+
+        $keys->selects['adm_seccion_id'] = new stdClass();
+        $keys->selects['adm_seccion_id']->name_model = 'adm_seccion';
+        $keys->selects['adm_seccion_id']->namespace_model = 'gamboamartin\\administrador\\models';
+
+        $campos_view = (new \base\controller\init())->model_init_campos_template(
+            campos_view: $this->modelo->campos_view,keys:  $keys, link: $this->link);
 
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
         }
-        $this->modelo->campos_view = $campos_view;
-
-        $keys =array('adm_menu_id','adm_seccion_id');
-        $campos_view = (new \base\controller\init())->model_init_campos_selects(
-            campos_view: $this->modelo->campos_view, keys: $keys, link: $this->link, name_model: 'adm_menu',
-            namespace_model: 'gamboamartin\\administrador\\models');
-
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
-        }
 
         $this->modelo->campos_view = $campos_view;
-        
+
 
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
@@ -358,18 +361,22 @@ class controlador_adm_accion extends system {
 
         $this->modelo->campos_view = array();
 
-        $keys =array('alias','css','codigo','descripcion','etiqueta_label','titulo');
-        $campos_view = (new \base\controller\init())->model_init_campos_inputs(campos_view: $this->modelo->campos_view, keys: $keys);
 
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
-        }
-        $this->modelo->campos_view = $campos_view;
 
-        $keys =array('adm_menu_id','adm_seccion_id');
-        $campos_view = (new \base\controller\init())->model_init_campos_selects(
-            campos_view: $this->modelo->campos_view, keys: $keys, link: $this->link, name_model: 'adm_menu',
-            namespace_model: 'gamboamartin\\administrador\\models');
+        $keys = new stdClass();
+        $keys->inputs = array('css','codigo','descripcion','titulo');
+        $keys->selects = array();
+
+        $keys->selects['adm_menu_id'] = new stdClass();
+        $keys->selects['adm_menu_id']->name_model = 'adm_menu';
+        $keys->selects['adm_menu_id']->namespace_model = 'gamboamartin\\administrador\\models';
+
+        $keys->selects['adm_seccion_id'] = new stdClass();
+        $keys->selects['adm_seccion_id']->name_model = 'adm_seccion';
+        $keys->selects['adm_seccion_id']->namespace_model = 'gamboamartin\\administrador\\models';
+
+        $campos_view = (new \base\controller\init())->model_init_campos_template(
+            campos_view: $this->modelo->campos_view,keys:  $keys, link: $this->link);
 
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
