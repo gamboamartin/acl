@@ -90,13 +90,19 @@ class controlador_adm_accion extends system {
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
         }
+        $this->modelo->campos_view = $campos_view;
+
+        $keys =array('adm_menu_id','adm_seccion_id');
+        $campos_view = (new \base\controller\init())->model_init_campos_selects(campos_view: $this->modelo->campos_view, keys: $keys);
+
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
+        }
 
         $this->modelo->campos_view = $campos_view;
-        
-        $this->modelo->campos_view['adm_menu_id']['type'] = 'selects';
+
         $this->modelo->campos_view['adm_menu_id']['model'] = new adm_menu(link: $this->link);
 
-        $this->modelo->campos_view['adm_seccion_id']['type'] = 'selects';
         $this->modelo->campos_view['adm_seccion_id']['model'] = new adm_seccion(link: $this->link);
 
         $this->inputs = new stdClass();
@@ -359,15 +365,20 @@ class controlador_adm_accion extends system {
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
         }
+        $this->modelo->campos_view = $campos_view;
+
+        $keys =array('adm_menu_id','adm_seccion_id');
+        $campos_view = (new \base\controller\init())->model_init_campos_selects(campos_view: $this->modelo->campos_view, keys: $keys);
+
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al inicializar campo view',data:  $campos_view, header: $header,ws:  $ws);
+        }
 
         $this->modelo->campos_view = $campos_view;
 
-
-
-        $this->modelo->campos_view['adm_menu_id']['type'] = 'selects';
+        
         $this->modelo->campos_view['adm_menu_id']['model'] = new adm_menu(link: $this->link);
 
-        $this->modelo->campos_view['adm_seccion_id']['type'] = 'selects';
         $this->modelo->campos_view['adm_seccion_id']['model'] = new adm_seccion(link: $this->link);
 
         $this->inputs = new stdClass();
