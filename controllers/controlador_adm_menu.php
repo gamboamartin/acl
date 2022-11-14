@@ -10,7 +10,9 @@ namespace gamboamartin\acl\controllers;
 
 use gamboamartin\administrador\models\adm_menu;
 use gamboamartin\errores\errores;
+use gamboamartin\system\datatables;
 use gamboamartin\system\html_controler;
+use gamboamartin\system\out_permisos;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
 use links\secciones\link_adm_menu;
@@ -23,6 +25,7 @@ class controlador_adm_menu extends _ctl_base {
     public array $secciones = array();
     public stdClass|array $adm_menu = array();
     public string $link_adm_seccion_alta_bd = '';
+    public array $buttons = array();
 
 
     public function __construct(PDO $link, html $html = new html(), stdClass $paths_conf = new stdClass()){
@@ -65,6 +68,10 @@ class controlador_adm_menu extends _ctl_base {
             exit;
         }
         $this->link_adm_seccion_alta_bd = $link_adm_seccion_alta_bd;
+
+    }
+
+    private function acciones_permitidas_por_registro(int $registro_id){
 
     }
 
@@ -184,6 +191,14 @@ class controlador_adm_menu extends _ctl_base {
             return $this->retorno_error(
                 mensaje: 'Error al obtener inputs',data:  $inputs, header: $header,ws:  $ws);
         }
+
+        $this->buttons = array();
+        $buttons = (new out_permisos())->buttons_view(controler:$this);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al generar botones',data:  $buttons);
+        }
+        $this->buttons = $buttons;
+
 
         return $r_modifica;
     }

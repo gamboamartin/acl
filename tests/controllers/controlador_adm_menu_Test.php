@@ -39,6 +39,7 @@ class controlador_adm_menu_Test extends test {
 
         $_GET['seccion'] = 'adm_menu';
         $_GET['accion'] = 'lista';
+        $_GET['registro_id'] = 1;
         $_SESSION['grupo_id'] = 2;
         $_SESSION['usuario_id'] = 2;
         $_GET['session_id'] = '1';
@@ -57,7 +58,7 @@ class controlador_adm_menu_Test extends test {
         $this->assertStringContainsStringIgnoringCase("div class='control-group col-sm-12'><label class='control-label' for='descripcion",$resultado->adm_seccion_menu_descripcion);
         $this->assertStringContainsStringIgnoringCase("<input type='hidden' name='adm_menu_id' value='1'>",$resultado->hidden_adm_menu_id);
         $this->assertStringContainsStringIgnoringCase("<input type='hidden' name='seccion_retorno' value='adm_menu'>",$resultado->hidden_seccion_retorno);
-        $this->assertStringContainsStringIgnoringCase("<input type='hidden' name='id_retorno' value='-1'>",$resultado->hidden_id_retorno);
+        $this->assertStringContainsStringIgnoringCase("<input type='hidden' name='id_retorno' value='1'>",$resultado->hidden_id_retorno);
         errores::$error = false;
     }
 
@@ -81,13 +82,10 @@ class controlador_adm_menu_Test extends test {
 
         $this->assertIsArray($resultado);
         $this->assertNotTrue(errores::$error);
-        $this->assertEquals("<a role='button' href='index.php?seccion=adm_seccion&accion=elimina_bd&registro_id=1&session_id=1' class='btn btn-info col-sm-12'>elimina_bd</a>", $resultado[0]['acciones']['elimina_bd']);
+        $this->assertEquals("<a role='button' href='index.php?seccion=adm_seccion&accion=elimina_bd&registro_id=1&session_id=1' class='btn btn-danger col-sm-12'>elimina_bd</a>", $resultado[0]['acciones']['elimina_bd']);
 
         errores::$error = false;
     }
-
-
-
 
 
 }
