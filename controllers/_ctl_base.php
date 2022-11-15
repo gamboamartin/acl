@@ -10,6 +10,7 @@ namespace gamboamartin\acl\controllers;
 
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
+use gamboamartin\system\out_permisos;
 use gamboamartin\system\system;
 use gamboamartin\template\directivas;
 use gamboamartin\validacion\validacion;
@@ -51,6 +52,26 @@ class _ctl_base extends system{
 
 
         return $this;
+    }
+
+    protected function base_upd(array $keys_selects, array $not_actions): array|stdClass
+    {
+        $inputs = $this->inputs(keys_selects: $keys_selects);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al obtener inputs',data:  $inputs);
+        }
+
+        $this->buttons = array();
+        $buttons = (new out_permisos())->buttons_view(controler:$this, not_actions: $not_actions);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al generar botones',data:  $buttons);
+        }
+
+        $data = new stdClass();
+        $data->buttons = $buttons;
+        $data->inputs = $inputs;
+        $this->buttons = $buttons;
+        return $data;
     }
 
     /**

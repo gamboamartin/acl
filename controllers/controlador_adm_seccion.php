@@ -242,19 +242,13 @@ class controlador_adm_seccion extends _ctl_base {
             return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
         }
 
-
-        $inputs = $this->inputs(keys_selects: $keys_selects);
+        $base = $this->base_upd(keys_selects: $keys_selects, not_actions: array(__FUNCTION__));
         if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener inputs',data:  $inputs, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al integrar base',data:  $base, header: $header,ws:  $ws);
         }
 
-        $this->buttons = array();
-        $buttons = (new out_permisos())->buttons_view(controler:$this, not_actions: array(__FUNCTION__));
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al generar botones',data:  $buttons,header: $header,ws: $ws);
-        }
-        $this->buttons = $buttons;
+
+
 
         return $r_modifica;
     }
