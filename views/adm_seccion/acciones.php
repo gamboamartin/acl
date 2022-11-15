@@ -35,11 +35,7 @@
                         <table id="adm_accion" class="table table-striped" >
                             <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Descripcion</th>
-                                <th>Titulo</th>
-                                <th>CSS</th>
-                                <th>Acciones</th>
+                                <?php echo $controlador->ths; ?>
                             </tr>
                             </thead>
                             <tbody>

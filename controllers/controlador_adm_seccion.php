@@ -132,6 +132,15 @@ class controlador_adm_seccion extends _ctl_base {
         $this->inputs->hidden_seccion_retorno = $retornos->hidden_seccion_retorno;
         $this->inputs->hidden_id_retorno = $retornos->hidden_id_retorno;
 
+        $names = array('Id','Accion', 'Titulo','CSS','Acciones');
+        $ths = (new html_controler(html: $this->html_base))->ths($names);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener ths',data:  $ths, header: $header,ws:  $ws);
+        }
+
+        $this->ths = $ths;
+
 
 
 
@@ -188,8 +197,6 @@ class controlador_adm_seccion extends _ctl_base {
         return $campos_view;
     }
 
-
-
     public function get_adm_seccion(bool $header, bool $ws = true): array|stdClass
     {
 
@@ -209,7 +216,6 @@ class controlador_adm_seccion extends _ctl_base {
 
     }
 
-
     protected function key_selects_txt(array $keys_selects): array
     {
         $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'codigo', keys_selects:$keys_selects, place_holder: 'Cod');
@@ -224,7 +230,6 @@ class controlador_adm_seccion extends _ctl_base {
 
         return $keys_selects;
     }
-
 
     public function modifica(
         bool $header, bool $ws = false): array|stdClass

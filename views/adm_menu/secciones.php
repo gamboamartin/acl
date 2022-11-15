@@ -23,6 +23,7 @@
             </div>
         </div>
     </div>
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -33,9 +34,7 @@
                         <table id="adm_seccion" class="table table-striped" >
                             <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Descripcion</th>
-                                <th>Acciones</th>
+                                <?php echo $controlador->ths; ?>
                             </tr>
                             </thead>
                             <tbody>

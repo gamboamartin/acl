@@ -213,7 +213,23 @@ class controlador_adm_menu extends _ctl_base {
 
         $this->inputs = $inputs;
 
-        return $this->inputs;
+        $names = array('Id','Seccion', 'Acciones');
+
+        $ths = (new html_controler(html: $this->html_base))->ths($names);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener ths',data:  $ths, header: $header,ws:  $ws);
+        }
+
+        $this->ths = $ths;
+
+        $data = new stdClass();
+        $data->secciones = $secciones;
+        $data->inputs = $inputs;
+        $data->ths = $ths;
+
+
+        return $data;
 
     }
 
