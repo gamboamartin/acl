@@ -193,9 +193,9 @@ class controlador_adm_menu extends _ctl_base {
         }
 
         $this->buttons = array();
-        $buttons = (new out_permisos())->buttons_view(controler:$this);
+        $buttons = (new out_permisos())->buttons_view(controler:$this, not_actions: array('modifica'));
         if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al generar botones',data:  $buttons);
+            return $this->retorno_error(mensaje: 'Error al generar botones',data:  $buttons,header: $header,ws: $ws);
         }
         $this->buttons = $buttons;
 

@@ -80,6 +80,7 @@ class controlador_adm_menu_Test extends test {
         $adm_menu_id = 1;
         $resultado = $controler->secciones_data($adm_menu_id);
 
+
         $this->assertIsArray($resultado);
         $this->assertNotTrue(errores::$error);
         $this->assertEquals("<a role='button' href='index.php?seccion=adm_seccion&accion=elimina_bd&registro_id=1&session_id=1' class='btn btn-danger col-sm-12'>elimina_bd</a>", $resultado[0]['acciones']['elimina_bd']);
