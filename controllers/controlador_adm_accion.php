@@ -71,6 +71,8 @@ class controlador_adm_accion extends _ctl_base {
 
     public function alta(bool $header, bool $ws = false): array|string
     {
+
+
         $r_alta = $this->init_alta();
         if(errores::$error){
             return $this->retorno_error(
