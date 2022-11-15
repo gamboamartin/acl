@@ -33,11 +33,7 @@
 
                     <div class="">
                         <table id="adm_accion" class="table table-striped" >
-                            <thead>
-                            <tr>
-                                <?php echo $controlador->ths; ?>
-                            </tr>
-                            </thead>
+                            <?php echo $controlador->thead; ?>
                             <tbody>
                             <?php foreach ($controlador->acciones as $accion){ ?>
                             <tr>

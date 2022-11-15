@@ -134,13 +134,13 @@ class controlador_adm_seccion extends _ctl_base {
         $this->inputs->hidden_id_retorno = $retornos->hidden_id_retorno;
 
         $names = array('Id','Accion', 'Titulo','CSS','Acciones');
-        $ths = (new html_controler(html: $this->html_base))->ths($names);
+        $thead = (new html_controler(html: $this->html_base))->thead(names: $names);
         if(errores::$error){
             return $this->retorno_error(
-                mensaje: 'Error al obtener ths',data:  $ths, header: $header,ws:  $ws);
+                mensaje: 'Error al obtener thead',data:  $thead, header: $header,ws:  $ws);
         }
 
-        $this->ths = $ths;
+        $this->thead = $thead;
 
 
 

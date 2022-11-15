@@ -215,18 +215,18 @@ class controlador_adm_menu extends _ctl_base {
 
         $names = array('Id','Seccion', 'N Acciones', 'Acciones');
 
-        $ths = (new html_controler(html: $this->html_base))->ths($names);
+        $thead = (new html_controler(html: $this->html_base))->thead(names: $names);
         if(errores::$error){
             return $this->retorno_error(
-                mensaje: 'Error al obtener ths',data:  $ths, header: $header,ws:  $ws);
+                mensaje: 'Error al obtener thead',data:  $thead, header: $header,ws:  $ws);
         }
 
-        $this->ths = $ths;
+        $this->thead = $thead;
 
         $data = new stdClass();
         $data->secciones = $secciones;
         $data->inputs = $inputs;
-        $data->ths = $ths;
+        $data->thead = $thead;
 
 
         return $data;

@@ -32,11 +32,7 @@
 
                     <div class="">
                         <table id="adm_seccion" class="table table-striped" >
-                            <thead>
-                            <tr>
-                                <?php echo $controlador->ths; ?>
-                            </tr>
-                            </thead>
+                            <?php echo $controlador->thead; ?>
                             <tbody>
                             <?php foreach ($controlador->secciones as $seccion){ ?>
                             <tr>
