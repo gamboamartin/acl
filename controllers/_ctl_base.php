@@ -9,7 +9,10 @@
 namespace gamboamartin\acl\controllers;
 
 use gamboamartin\errores\errores;
+use gamboamartin\system\html_controler;
 use gamboamartin\system\system;
+use gamboamartin\template\directivas;
+use gamboamartin\validacion\validacion;
 use stdClass;
 
 
@@ -92,6 +95,46 @@ class _ctl_base extends system{
             return $this->errores->error(mensaje: 'Error al genera base',data:  $base);
         }
         return $r_template;
+    }
+
+    /**
+     * Integra los parametros de un key para select
+     * @param int $cols N cols css
+     * @param bool $con_registros integra rows en opciones si es true
+     * @param array $filtro Filtro para result
+     * @param string $key Name input
+     * @param array $keys_selects keys precargados
+     * @param int|null $id_selected Identificador para selected
+     * @param string $label Etiqueta a mostrar
+     * @return array
+     * @version 0.78.1
+     */
+    protected function key_select(int $cols, bool $con_registros, array $filtro,string $key, array $keys_selects,
+                                  int|null $id_selected, string $label): array
+    {
+        $key = trim($key);
+        if($key === ''){
+            return $this->errores->error(mensaje: 'Error key esta vacio',data:  $key);
+        }
+        $valida = (new validacion())->valida_cols_css(cols: $cols);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al validar cols',data:  $valida);
+        }
+
+        $label = trim($label);
+        if($label === ''){
+            $label = trim($key);
+            $label = str_replace('_', ' ', $label);
+            $label = ucwords($label);
+        }
+
+        $keys_selects[$key] = new stdClass();
+        $keys_selects[$key]->cols = $cols;
+        $keys_selects[$key]->con_registros = $con_registros;
+        $keys_selects[$key]->label = $label;
+        $keys_selects[$key]->id_selected = $id_selected;
+        $keys_selects[$key]->filtro = $filtro;
+        return $keys_selects;
     }
 
 }

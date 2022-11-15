@@ -139,13 +139,11 @@ class controlador_adm_seccion extends _ctl_base {
     public function alta(bool $header, bool $ws = false): array|string
     {
 
-
         $r_alta = $this->init_alta();
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al inicializar alta',data:  $r_alta, header: $header,ws:  $ws);
         }
-
 
         $keys_selects = $this->key_select(cols:12, con_registros: true,filtro:  array(), key: 'adm_menu_id',
             keys_selects: array(), id_selected: -1, label: 'Menu');
@@ -228,18 +226,6 @@ class controlador_adm_seccion extends _ctl_base {
 
     }
 
-    private function key_select(
-        int $cols, bool $con_registros, array $filtro,string $key, array $keys_selects, int|null $id_selected,
-        string $label): array
-    {
-        $keys_selects[$key] = new stdClass();
-        $keys_selects[$key]->cols = $cols;
-        $keys_selects[$key]->con_registros = $con_registros;
-        $keys_selects[$key]->label = $label;
-        $keys_selects[$key]->id_selected = $id_selected;
-        $keys_selects[$key]->filtro = $filtro;
-        return $keys_selects;
-    }
 
     protected function key_selects_txt(array $keys_selects): array
     {

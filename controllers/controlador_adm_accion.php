@@ -331,21 +331,6 @@ class controlador_adm_accion extends _ctl_base {
 
     }
 
-
-    private function key_select(
-        int $cols, bool $con_registros, array $filtro,string $key, array $keys_selects, int|null $id_selected,
-        string $label): array
-    {
-        $keys_selects[$key] = new stdClass();
-        $keys_selects[$key]->cols = $cols;
-        $keys_selects[$key]->con_registros = $con_registros;
-        $keys_selects[$key]->label = $label;
-        $keys_selects[$key]->id_selected = $id_selected;
-        $keys_selects[$key]->filtro = $filtro;
-        return $keys_selects;
-    }
-
-
     protected function key_selects_txt(array $keys_selects): array
     {
         $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'codigo', keys_selects:$keys_selects, place_holder: 'Cod');

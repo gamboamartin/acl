@@ -116,6 +116,36 @@ class _ctl_baseTest extends test {
         errores::$error = false;
     }
 
+    public function test_key_select(): void
+    {
+        errores::$error = false;
+
+        $_GET['seccion'] = 'adm_menu';
+        $_GET['accion'] = 'lista';
+        $_GET['registro_id'] = 1;
+        $_SESSION['grupo_id'] = 2;
+        $_SESSION['usuario_id'] = 2;
+        $_GET['session_id'] = '1';
+
+
+        $controler = new controlador_adm_menu(link: $this->link, paths_conf: $this->paths_conf);
+        $controler = new liberator($controler);
+
+        $cols = 1;
+        $con_registros = false;
+        $filtro = array();
+        $key = 'a';
+        $keys_selects = array();
+        $id_selected = null;
+        $label = '';
+        $resultado = $controler->key_select($cols, $con_registros, $filtro, $key, $keys_selects, $id_selected, $label);
+        //print_r($resultado);exit;
+        $this->assertNotTrue(errores::$error);
+        $this->assertIsArray($resultado);
+        $this->assertIsObject($resultado['a']);
+        errores::$error = false;
+    }
+
 
 
 }
