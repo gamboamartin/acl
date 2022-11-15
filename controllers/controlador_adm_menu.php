@@ -10,7 +10,6 @@ namespace gamboamartin\acl\controllers;
 
 use gamboamartin\administrador\models\adm_menu;
 use gamboamartin\errores\errores;
-use gamboamartin\system\datatables;
 use gamboamartin\system\html_controler;
 use gamboamartin\system\out_permisos;
 use gamboamartin\template_1\html;

@@ -72,6 +72,7 @@ class controlador_adm_menu_Test extends test {
         $_SESSION['grupo_id'] = 2;
         $_SESSION['usuario_id'] = 2;
         $_GET['session_id'] = '1';
+        $_GET['registro_id'] = '1';
 
 
         $controler = new controlador_adm_menu(link: $this->link, paths_conf: $this->paths_conf);
@@ -83,7 +84,7 @@ class controlador_adm_menu_Test extends test {
 
         $this->assertIsArray($resultado);
         $this->assertNotTrue(errores::$error);
-        $this->assertEquals("<a role='button' href='index.php?seccion=adm_seccion&accion=elimina_bd&registro_id=1&session_id=1' class='btn btn-danger col-sm-12'>elimina_bd</a>", $resultado[0]['acciones']['elimina_bd']);
+        $this->assertStringContainsStringIgnoringCase("<a role='button' href='index.php?seccion=adm_seccion&accion=elimina_bd&registro_id=", $resultado[0]['acciones']['elimina_bd']);
 
         errores::$error = false;
     }
