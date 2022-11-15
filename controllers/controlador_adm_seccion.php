@@ -11,6 +11,7 @@ namespace gamboamartin\acl\controllers;
 use gamboamartin\administrador\models\adm_seccion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
+use gamboamartin\system\out_permisos;
 use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
@@ -241,17 +242,19 @@ class controlador_adm_seccion extends _ctl_base {
             return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
         }
 
-        $keys_selects = $this->key_select(cols:12, con_registros: true,filtro: array('adm_menu.id'=>$this->registro['adm_menu_id']), key: 'adm_seccion_id',
-            keys_selects: $keys_selects, id_selected: $this->registro['adm_seccion_id'], label: 'Seccion');
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
-        }
 
         $inputs = $this->inputs(keys_selects: $keys_selects);
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener inputs',data:  $inputs, header: $header,ws:  $ws);
         }
+
+        $this->buttons = array();
+        $buttons = (new out_permisos())->buttons_view(controler:$this, not_actions: array(__FUNCTION__));
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al generar botones',data:  $buttons,header: $header,ws: $ws);
+        }
+        $this->buttons = $buttons;
 
         return $r_modifica;
     }

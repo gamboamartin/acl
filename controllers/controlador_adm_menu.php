@@ -24,7 +24,6 @@ class controlador_adm_menu extends _ctl_base {
     public array $secciones = array();
     public stdClass|array $adm_menu = array();
     public string $link_adm_seccion_alta_bd = '';
-    public array $buttons = array();
 
 
     public function __construct(PDO $link, html $html = new html(), stdClass $paths_conf = new stdClass()){
