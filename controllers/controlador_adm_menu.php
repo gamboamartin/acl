@@ -193,7 +193,7 @@ class controlador_adm_menu extends _ctl_base {
         }
 
         $this->buttons = array();
-        $buttons = (new out_permisos())->buttons_view(controler:$this, not_actions: array('modifica'));
+        $buttons = (new out_permisos())->buttons_view(controler:$this, not_actions: array(__FUNCTION__));
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al generar botones',data:  $buttons,header: $header,ws: $ws);
         }
