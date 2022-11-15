@@ -39,6 +39,7 @@ class controlador_adm_seccion extends _ctl_base {
         $datatables->columns['adm_seccion_codigo']['titulo'] = 'Cod';
         $datatables->columns['adm_seccion_descripcion']['titulo'] = 'Seccion';
         $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
+        $datatables->columns['adm_seccion_n_acciones']['titulo'] = 'N Acciones';
 
 
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link,

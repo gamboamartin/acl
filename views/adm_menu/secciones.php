@@ -42,6 +42,7 @@
                             <tr>
                                 <td><?php echo $seccion['adm_seccion_id']; ?></td>
                                 <td><?php echo $seccion['adm_seccion_descripcion']; ?></td>
+                                <td><?php echo $seccion['adm_seccion_n_acciones']; ?></td>
                                 <td>
                                     <?php foreach ($seccion['acciones'] as $link){ ?>
                                     <div class="col-md-3"><?php echo $link; ?></div>

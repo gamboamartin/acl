@@ -213,7 +213,7 @@ class controlador_adm_menu extends _ctl_base {
 
         $this->inputs = $inputs;
 
-        $names = array('Id','Seccion', 'Acciones');
+        $names = array('Id','Seccion', 'N Acciones', 'Acciones');
 
         $ths = (new html_controler(html: $this->html_base))->ths($names);
         if(errores::$error){
