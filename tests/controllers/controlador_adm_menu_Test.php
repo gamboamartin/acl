@@ -79,7 +79,7 @@ class controlador_adm_menu_Test extends test {
         $controler = new liberator($controler);
 
         $adm_menu_id = 1;
-        $resultado = $controler->secciones_data($adm_menu_id);
+        $resultado = $controler->secciones_data($adm_menu_id, array());
 
 
         $this->assertIsArray($resultado);

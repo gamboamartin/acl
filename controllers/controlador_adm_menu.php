@@ -196,7 +196,7 @@ class controlador_adm_menu extends _ctl_base {
     public function secciones(bool $header = true, bool $ws = false): array|stdClass
     {
 
-        $secciones = $this->secciones_data(adm_menu_id: $this->registro_id);
+        $secciones = $this->secciones_data(adm_menu_id: $this->registro_id, params: array());
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al integrar secciones',data:  $secciones, header: $header,ws:  $ws);
@@ -236,11 +236,11 @@ class controlador_adm_menu extends _ctl_base {
     /**
      * Obtiene los registros con botones de permiso
      * @param int $adm_menu_id Identificador
+     * @param array $params Var GET
      * @return array
      * @version 0.35.0
-     *
      */
-    private function secciones_data(int $adm_menu_id): array
+    private function secciones_data(int $adm_menu_id, array $params): array
     {
         if($adm_menu_id <= 0){
             return $this->errores->error(mensaje: 'Error adm_menu_id debe ser mayor a 0',data:  $adm_menu_id);
@@ -250,7 +250,8 @@ class controlador_adm_menu extends _ctl_base {
             return $this->errores->error(mensaje: 'Error al obtener secciones',data:  $secciones);
         }
 
-        $secciones = $this->rows_con_permisos(key_id:  'adm_seccion_id',rows:  $secciones,seccion: 'adm_seccion');
+        $secciones = $this->rows_con_permisos(
+            key_id:  'adm_seccion_id',rows:  $secciones,seccion: 'adm_seccion', params: $params);
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al integrar link',data:  $secciones);
         }
