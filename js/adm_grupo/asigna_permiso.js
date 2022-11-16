@@ -28,13 +28,23 @@ function adm_asigna_acciones(adm_seccion_id = ''){
         url: url_acciones_id_por_grupo,  // Fichero destino (el PHP que trata los datos)
 
     }).done(function( msg ) {  // Función que se ejecuta si todo ha ido bien
+        if(!isNaN(msg.error)){
+            if(msg.error === 1){
+                let msj = msg.mensaje_limpio+' '+url_acciones_id_por_grupo;
+                alert(msj);
+                console.log(msg);
+                return false;
+            }
+        }
         console.log(msg)
         console.log(url_acciones_id_por_grupo)
     }).fail(function (jqXHR, textStatus, errorThrown){ // Función que se ejecuta si algo ha ido mal
         // Mostramos en consola el mensaje con el error que se ha producido
+        console.log(url);
         console.log("The following error occured: "+ textStatus +" "+ errorThrown);
         console.log(jqXHR);
         console.log(url_acciones_id_por_grupo);
+        return false;
     });
 
 
