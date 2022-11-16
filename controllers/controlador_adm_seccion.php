@@ -11,8 +11,6 @@ namespace gamboamartin\acl\controllers;
 use gamboamartin\administrador\models\adm_seccion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
-use gamboamartin\system\out_permisos;
-use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
 use html\adm_menu_html;
@@ -20,7 +18,6 @@ use html\adm_seccion_html;
 use links\secciones\link_adm_seccion;
 use PDO;
 use stdClass;
-use Throwable;
 
 
 class controlador_adm_seccion extends _ctl_base {
@@ -198,7 +195,7 @@ class controlador_adm_seccion extends _ctl_base {
 
         return $campos_view;
     }
-    
+
 
     public function get_adm_seccion(bool $header, bool $ws = true): array|stdClass
     {
