@@ -42,6 +42,7 @@ class controlador_adm_accion extends _ctl_base {
         $datatables->columns['adm_accion_descripcion']['titulo'] = 'Accion';
         $datatables->columns['adm_seccion_descripcion']['titulo'] = 'Seccion';
         $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
+        $datatables->columns['adm_accion_n_permisos']['titulo'] = 'N Permisos';
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_accion.id';
