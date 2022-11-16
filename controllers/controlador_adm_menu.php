@@ -196,7 +196,11 @@ class controlador_adm_menu extends _ctl_base {
     public function secciones(bool $header = true, bool $ws = false): array|stdClass
     {
 
-        $secciones = $this->secciones_data(adm_menu_id: $this->registro_id, params: array());
+        $params = array();
+        $params['next_seccion'] = 'adm_menu';
+        $params['next_accion'] = 'secciones';
+        $params['id_retorno'] = $this->registro_id;
+        $secciones = $this->secciones_data(adm_menu_id: $this->registro_id, params: $params);
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al integrar secciones',data:  $secciones, header: $header,ws:  $ws);
