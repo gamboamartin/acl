@@ -184,7 +184,8 @@ class controlador_adm_menu extends _ctl_base {
 
         $keys_selects = array();
 
-        $base = $this->base_upd(keys_selects: $keys_selects, not_actions: array(__FUNCTION__));
+
+        $base = $this->base_upd(keys_selects: $keys_selects, not_actions: array(__FUNCTION__), params: array());
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al integrar base',data:  $base, header: $header,ws:  $ws);
         }

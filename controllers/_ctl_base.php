@@ -52,15 +52,22 @@ class _ctl_base extends system{
         return $this;
     }
 
-    protected function base_upd(array $keys_selects, array $not_actions): array|stdClass
+    protected function base_upd(array $keys_selects, array $not_actions, array $params): array|stdClass
     {
+
+        if(count($params) === 0){
+            $params = array();
+            $params['next_seccion'] = $this->tabla;
+            $params['next_accion'] = $this->accion;
+        }
+
         $inputs = $this->inputs(keys_selects: $keys_selects);
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al obtener inputs',data:  $inputs);
         }
 
         $this->buttons = array();
-        $buttons = (new out_permisos())->buttons_view(controler:$this, not_actions: $not_actions);
+        $buttons = (new out_permisos())->buttons_view(controler:$this, not_actions: $not_actions, params: $params);
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al generar botones',data:  $buttons);
         }

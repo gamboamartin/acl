@@ -247,7 +247,9 @@ class controlador_adm_seccion extends _ctl_base {
             return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
         }
 
-        $base = $this->base_upd(keys_selects: $keys_selects, not_actions: array(__FUNCTION__));
+
+
+        $base = $this->base_upd(keys_selects: $keys_selects, not_actions: array(__FUNCTION__), params: array());
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al integrar base',data:  $base, header: $header,ws:  $ws);
         }
