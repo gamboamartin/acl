@@ -2,6 +2,7 @@ let url = getAbsolutePath();
 let registro_id = getParameterByName('registro_id');
 let session_id = getParameterByName('session_id');
 
+
 let sl_adm_menu_id = $("#adm_menu_id");
 let sl_adm_seccion_id = $("#adm_seccion_id");
 let adm_menu_id = sl_adm_menu_id.val();
@@ -27,22 +28,23 @@ function adm_asigna_acciones(adm_seccion_id = ''){
         type: 'POST',  // Envío con método POST
         url: url_acciones_id_por_grupo,  // Fichero destino (el PHP que trata los datos)
 
-    }).done(function( msg ) {  // Función que se ejecuta si todo ha ido bien
-        if(!isNaN(msg.error)){
-            if(msg.error === 1){
-                let msj = msg.mensaje_limpio+' '+url_acciones_id_por_grupo;
+    }).done(function( data ) {  // Función que se ejecuta si todo ha ido bien
+        console.log(data);
+        console.log(url_acciones_id_por_grupo);
+        if(!isNaN(data.error)){
+            if(data.error === 1){
+                let msj = data.mensaje_limpio+' '+url_acciones_id_por_grupo;
                 alert(msj);
-                console.log(msg);
                 return false;
             }
         }
-        console.log(msg)
-        console.log(url_acciones_id_por_grupo)
+        adm_acciones_id_aut = data;
     }).fail(function (jqXHR, textStatus, errorThrown){ // Función que se ejecuta si algo ha ido mal
         // Mostramos en consola el mensaje con el error que se ha producido
-        console.log(url);
-        console.log("The following error occured: "+ textStatus +" "+ errorThrown);
+        alert('Error');
         console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
         console.log(url_acciones_id_por_grupo);
         return false;
     });
@@ -59,10 +61,10 @@ function adm_asigna_acciones(adm_seccion_id = ''){
                 if(data.error === 1){
                     let msj = data.mensaje_limpio+' '+url;
                     alert(msj);
-                    console.log(data);
                     return false;
                 }
             }
+            console.log(data);
 
             sl_adm_accion_id.empty();
 
@@ -75,10 +77,14 @@ function adm_asigna_acciones(adm_seccion_id = ''){
             sl_adm_accion_id.selectpicker('refresh');
         }).fail(function (jqXHR, textStatus, errorThrown){ // Función que se ejecuta si algo ha ido mal
         alert('Error al ejecutar');
-
-        console.log("The following error occured: "+ textStatus +" "+ errorThrown);
         console.log(jqXHR);
-    });;
+        console.log(textStatus);
+        console.log(errorThrown);
+        console.log(url);
+
+        return false;
+
+    });
 
 
 }
@@ -97,7 +103,7 @@ function adm_asigna_secciones(adm_menu_id = ''){
             if(data.error === 1){
                 let msj = data.mensaje_limpio+' '+url;
                 alert(msj);
-                console.log(data);
+
                 return false;
             }
         }
@@ -110,7 +116,7 @@ function adm_asigna_secciones(adm_menu_id = ''){
     }).fail(function (jqXHR, textStatus, errorThrown){ // Función que se ejecuta si algo ha ido mal
         alert('Error al ejecutar');
 
-        console.log("The following error occured: "+ textStatus +" "+ errorThrown);
+
     });
 
 }

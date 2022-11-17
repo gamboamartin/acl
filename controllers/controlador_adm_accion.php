@@ -312,6 +312,12 @@ class controlador_adm_accion extends _ctl_base {
 
     }
 
+    /**
+     *
+     * @param bool $header
+     * @param bool $ws
+     * @return array|stdClass
+     */
     public function get_adm_accion(bool $header, bool $ws = true): array|stdClass
     {
 
