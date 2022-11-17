@@ -10,7 +10,6 @@ namespace gamboamartin\acl\controllers;
 
 use gamboamartin\administrador\models\adm_accion_basica;
 use gamboamartin\errores\errores;
-use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_accion_basica_html;
 use links\secciones\link_adm_accion_basica;
@@ -18,7 +17,7 @@ use PDO;
 use stdClass;
 
 
-class controlador_adm_accion_basica extends system {
+class controlador_adm_accion_basica extends _ctl_parent {
 
 
     public stdClass|array $adm_accion_basica = array();

@@ -19,7 +19,7 @@ use stdClass;
 class _ctl_base extends system{
 
     /**
-     * Integra los campos view de una vista para alta y modifica
+     * Integra los campos view de una vista para alta y modifica Metodo para sobreescribir
      * @return array
      * @version 0.73.1
      */

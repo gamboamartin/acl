@@ -21,7 +21,7 @@ use PDO;
 use stdClass;
 
 
-class controlador_adm_sistema extends system {
+class controlador_adm_sistema extends _ctl_parent {
 
     public array $adm_secciones_pertenece = array();
     public stdClass|array $adm_sistema = array();
