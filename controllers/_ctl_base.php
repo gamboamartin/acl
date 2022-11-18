@@ -8,6 +8,7 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use gamboamartin\acl\controllers\_ctl_base\init;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use gamboamartin\system\out_permisos;
@@ -154,42 +155,16 @@ class _ctl_base extends system{
     {
 
         if(count($params) === 0){
-
-            $next_seccion = $this->tabla;
-            $next_accion = $this->accion;
-            $id_retorno = $this->registro_id;
-
-            if(isset($_GET['next_seccion'])){
-                $next_seccion_get = trim($_GET['next_seccion']);
-                if($next_seccion_get !== ''){
-                    $next_seccion = $_GET['next_seccion'];
-                }
+            $params = (new init())->params(controler: $this,params:  $params);
+            if(errores::$error){
+                return $this->errores->error(mensaje: 'Error al asignar params', data: $params);
             }
-            if(isset($_GET['next_accion'])){
-                $next_accion_get = trim($_GET['next_accion']);
-                if($next_accion_get !== ''){
-                    $next_accion = $_GET['next_accion'];
-                }
-            }
-            if(isset($_GET['id_retorno'])){
-                $id_retorno = trim($_GET['id_retorno']);
-                if($id_retorno !== ''){
-                    $id_retorno = $_GET['id_retorno'];
-                }
-            }
-
-            $params['next_seccion'] = $next_seccion;
-            $params['next_accion'] = $next_accion;
-            $params['id_retorno'] = $id_retorno;
         }
 
         if(count($params_ajustados) === 0) {
             $params_ajustados['elimina_bd']['next_seccion'] = $this->tabla;
             $params_ajustados['elimina_bd']['next_accion'] = 'lista';
         }
-
-
-
 
         $inputs = $this->inputs(keys_selects: $keys_selects);
         if(errores::$error){
