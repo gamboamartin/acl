@@ -139,11 +139,6 @@ class controlador_adm_menu extends _ctl_parent {
     public function secciones(bool $header = true, bool $ws = false): array|stdClass|string
     {
 
-        $params = array();
-        $params['next_seccion'] = 'adm_menu';
-        $params['next_accion'] = 'secciones';
-        $params['id_retorno'] = $this->registro_id;
-
         $data_view = new stdClass();
         $data_view->names = array('Id','Seccion', 'N Acciones','Acciones');
         $data_view->keys_data = array('adm_seccion_id','adm_seccion_descripcion','adm_seccion_n_acciones');
@@ -152,7 +147,7 @@ class controlador_adm_menu extends _ctl_parent {
         $data_view->name_model_children = 'adm_seccion';
 
 
-        $contenido_table = $this->contenido_children($data_view);
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);

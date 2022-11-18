@@ -127,15 +127,15 @@ class controlador_adm_grupo extends _ctl_parent {
     public function asigna_permiso(bool $header = true, bool $ws = false): array|string{
 
         $data_view = new stdClass();
-        $data_view->names = array('Id','Seccion', 'Accion','Grupo','Acciones');
-        $data_view->keys_data = array('adm_accion_grupo_id','adm_seccion_descripcion','adm_accion_descripcion','adm_grupo_descripcion');
+        $data_view->names = array('Id','Accion','Grupo','Seccion','Menu','Acciones');
+        $data_view->keys_data = array('adm_accion_id','adm_accion_descripcion','adm_grupo_descripcion','adm_seccion_descripcion','adm_menu_descripcion');
         $data_view->key_actions = 'acciones';
         $data_view->namespace_model = 'gamboamartin\\administrador\\models';
         $data_view->name_model_children = 'adm_accion_grupo';
 
 
 
-        $contenido_table = $this->contenido_children($data_view);
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);
@@ -179,6 +179,34 @@ class controlador_adm_grupo extends _ctl_parent {
                 mensaje: 'Error al obtener select_adm_accion_id',data:  $select_adm_grupo_id);
         }
 
+        $adm_usuario_user = (new adm_usuario_html(html: $this->html_base))->input_user(6, new stdClass(), false);
+
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener select_adm_accion_id',data:  $select_adm_grupo_id);
+        }
+
+        $adm_usuario_password = (new adm_usuario_html(html: $this->html_base))->input_password(6, new stdClass(), false);
+
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener select_adm_accion_id',data:  $select_adm_grupo_id);
+        }
+
+        $adm_usuario_email = (new adm_usuario_html(html: $this->html_base))->input_email(6, new stdClass(), false);
+
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener select_adm_accion_id',data:  $select_adm_grupo_id);
+        }
+
+        $adm_usuario_telefono = (new adm_usuario_html(html: $this->html_base))->input_telefono(6, new stdClass(), false);
+
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener select_adm_accion_id',data:  $select_adm_grupo_id);
+        }
+
 
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
@@ -187,89 +215,30 @@ class controlador_adm_grupo extends _ctl_parent {
         $this->inputs->select->adm_menu_id = $select_adm_menu_id;
         $this->inputs->select->adm_seccion_id = $select_adm_seccion_id;
         $this->inputs->select->adm_accion_id = $select_adm_accion_id;
-        return $this->inputs;
-    }
 
-    public function usuarios(bool $header = true, bool $ws = false){
-        if($this->registro_id<=0){
-            return $this->errores->error(mensaje: 'Error this->registro_id debe ser mayor a 0',
-                data:  $this->registro_id);
-        }
-        $registro = $this->modelo->registro(registro_id: $this->registro_id, retorno_obj: true);
-        if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al obtener registro',data:  $registro);
-        }
-
-        $select_adm_grupo_id = (new adm_grupo_html(html: $this->html_base))->select_adm_grupo_id(
-            cols:12,con_registros: true,id_selected:  $registro->adm_grupo_id,link:  $this->link, disabled: true);
-
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener select_adm_grupo_id',data:  $select_adm_grupo_id, header: $header,ws:  $ws);
-        }
-
-        $adm_usuario_user = (new adm_usuario_html(html: $this->html_base))->input_user(
-            cols:6,row_upd:  new stdClass(),value_vacio:  false);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener adm_usuario_user',data:  $adm_usuario_user, header: $header,ws:  $ws);
-        }
-
-        $adm_usuario_password = (new adm_usuario_html(html: $this->html_base))->input_password(
-            cols:6,row_upd:  new stdClass(),value_vacio:  false);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener adm_usuario_password',data:  $adm_usuario_password, header: $header,ws:  $ws);
-        }
-
-        $adm_usuario_email = (new adm_usuario_html(html: $this->html_base))->input_email(
-            cols:6,row_upd:  new stdClass(),value_vacio:  false);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener adm_usuario_email',data:  $adm_usuario_email, header: $header,ws:  $ws);
-        }
-
-        $adm_usuario_telefono = (new adm_usuario_html(html: $this->html_base))->input_telefono(
-            cols:6,row_upd:  new stdClass(),value_vacio:  false);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener adm_usuario_telefono',data:  $adm_usuario_telefono, header: $header,ws:  $ws);
-        }
-
-        $hidden_adm_grupo_id = (new adm_grupo_html(html: $this->html_base))->hidden(name: 'adm_grupo_id', value: $this->registro_id);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener hidden_adm_seccion_id',data:  $hidden_adm_grupo_id, header: $header,ws:  $ws);
-        }
-
-
-        $retornos = (new html_controler(html: $this->html_base))->retornos(registro_id: $this->registro_id,tabla:  $this->tabla);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener retornos',data:  $retornos, header: $header,ws:  $ws);
-        }
-
-
-        $this->inputs = new stdClass();
-        $this->inputs->select = new stdClass();
-        $this->inputs->select->adm_grupo_id = $select_adm_grupo_id;
         $this->inputs->adm_usuario_user = $adm_usuario_user;
         $this->inputs->adm_usuario_password = $adm_usuario_password;
         $this->inputs->adm_usuario_email = $adm_usuario_email;
         $this->inputs->adm_usuario_telefono = $adm_usuario_telefono;
-        $this->inputs->hidden_adm_grupo_id = $hidden_adm_grupo_id;
-        $this->inputs->hidden_seccion_retorno = $retornos->hidden_seccion_retorno;
-        $this->inputs->hidden_id_retorno = $retornos->hidden_id_retorno;
+        return $this->inputs;
+    }
 
-        $childrens = $this->childrens(namespace_model: 'adm_accion_grupo',
-            name_model_children: 'gamboamartin\\administrador\\models', registro_id: $this->registro_id);
+    public function usuarios(bool $header = true, bool $ws = false){
+        $data_view = new stdClass();
+        $data_view->names = array('Id','User','Email','Telefono','Grupo','Acciones');
+        $data_view->keys_data = array('adm_usuario_id','adm_usuario_user','adm_usuario_email','adm_usuario_telefono','adm_grupo_descripcion');
+        $data_view->key_actions = 'acciones';
+        $data_view->namespace_model = 'gamboamartin\\administrador\\models';
+        $data_view->name_model_children = 'adm_usuario';
+
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al integrar links',data:  $childrens, header: $header,ws:  $ws);
+            return $this->retorno_error(
+                mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);
         }
 
-        $this->childrens = $childrens;
 
-        return $registro;
+        return $contenido_table;
 
 
     }

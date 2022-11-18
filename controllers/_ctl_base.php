@@ -58,10 +58,16 @@ class _ctl_base extends system{
         return $this;
     }
 
-    protected function contenido_children(stdClass $data_view): array|string
+    protected function contenido_children(stdClass $data_view, string $next_accion): array|string
     {
+
+        $params = array();
+        $params['next_seccion'] = $this->tabla;
+        $params['next_accion'] = $next_accion;
+        $params['id_retorno'] = $this->registro_id;
+
         $childrens = $this->children_data(
-            namespace_model: $data_view->namespace_model, name_model_children: $data_view->name_model_children);
+            namespace_model: $data_view->namespace_model, name_model_children: $data_view->name_model_children, params: $params);
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al generar inputs',data:  $childrens);
         }
@@ -78,7 +84,7 @@ class _ctl_base extends system{
         return $contenido_table;
     }
 
-    protected function children_data(string $namespace_model, string $name_model_children): array
+    protected function children_data(string $namespace_model, string $name_model_children, array $params): array
     {
         $inputs = $this->children_base();
         if(errores::$error){
@@ -87,7 +93,7 @@ class _ctl_base extends system{
         }
 
         $childrens = $this->childrens(namespace_model: $namespace_model,
-            name_model_children: $name_model_children, registro_id: $this->registro_id);
+            name_model_children: $name_model_children, params: $params, registro_id: $this->registro_id);
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al integrar links',data:  $childrens);
         }
@@ -118,7 +124,7 @@ class _ctl_base extends system{
         return $inputs;
     }
 
-    protected function childrens(string $namespace_model, string $name_model_children, int $registro_id): array
+    protected function childrens(string $namespace_model, string $name_model_children, array $params, int $registro_id): array
     {
         $this->key_id_filter = $this->tabla.'.id';
         $filtro = array();
@@ -136,7 +142,7 @@ class _ctl_base extends system{
         $childrens = $r_children->registros;
 
         $key_id = $name_model_children.'_id';
-        $childrens = $this->rows_con_permisos(key_id:  $key_id, rows:  $childrens,seccion: $name_model_children);
+        $childrens = $this->rows_con_permisos(key_id:  $key_id, rows:  $childrens,seccion: $name_model_children, params: $params);
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al integrar link',data:  $childrens);
         }

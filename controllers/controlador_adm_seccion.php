@@ -70,7 +70,7 @@ class controlador_adm_seccion extends _ctl_base {
         $data_view->name_model_children = 'adm_accion';
 
 
-        $contenido_table = $this->contenido_children($data_view);
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);

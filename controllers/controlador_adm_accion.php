@@ -144,27 +144,25 @@ class controlador_adm_accion extends _ctl_base {
 
     }
 
-    public function asigna_permiso(bool $header = true, bool $ws = false): array|stdClass{
+    public function asigna_permiso(bool $header = true, bool $ws = false): array|stdClass|string{
 
 
-        $childrens = $this->children_data(
-            namespace_model: 'gamboamartin\\administrador\\models', name_model_children: 'adm_accion_grupo');
+        $data_view = new stdClass();
+        $data_view->names = array('Id','Accion','Grupo','Seccion','Menu','Acciones');
+        $data_view->keys_data = array('adm_accion_id','adm_accion_descripcion','adm_grupo_descripcion','adm_seccion_descripcion','adm_menu_descripcion');
+        $data_view->key_actions = 'acciones';
+        $data_view->namespace_model = 'gamboamartin\\administrador\\models';
+        $data_view->name_model_children = 'adm_accion_grupo';
+
+
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
         if(errores::$error){
             return $this->retorno_error(
-                mensaje: 'Error al generar inputs',data:  $childrens, header: $header,ws:  $ws);
+                mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);
         }
 
-        $names = array('Id','Seccion', 'Accion','Grupo','Acciones');
-        $thead = (new html_controler(html: $this->html_base))->thead(names: $names);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener thead',data:  $thead, header: $header,ws:  $ws);
-        }
 
-        $this->thead = $thead;
-
-
-        return $childrens;
+        return $contenido_table;
     }
 
     protected function campos_view(): array
