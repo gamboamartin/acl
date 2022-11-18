@@ -14,7 +14,8 @@
                         <?php echo $controlador->inputs->select->adm_menu_id; ?>
                         <?php echo $controlador->inputs->select->adm_seccion_id; ?>
                         <?php echo $controlador->inputs->select->adm_accion_id; ?>
-                        <?php echo $controlador->inputs->hidden_adm_grupo_id; ?>
+
+                        <?php echo $controlador->inputs->hidden_row_id; ?>
                         <?php echo $controlador->inputs->hidden_seccion_retorno; ?>
                         <?php echo $controlador->inputs->hidden_id_retorno; ?>
 
@@ -26,46 +27,17 @@
             </div>
         </div>
     </div>
+
+
+</main>
+<main class="main section-color-primary">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-
                 <div class="widget widget-box box-container widget-mylistings">
-
-                    <div class="">
-                        <table id="adm_accion" class="table table-striped" >
-                            <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Seccion</th>
-                                <th>Accion</th>
-                                <th>Grupo</th>
-                                <th>Acciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($controlador->adm_acciones_grupo as $adm_accion_grupo){ ?>
-                                <tr>
-                                    <td><?php echo $adm_accion_grupo['adm_accion_grupo_id']; ?></td>
-                                    <td><?php echo $adm_accion_grupo['adm_seccion_descripcion']; ?></td>
-                                    <td><?php echo $adm_accion_grupo['adm_accion_descripcion']; ?></td>
-                                    <td><?php echo $adm_accion_grupo['adm_grupo_descripcion']; ?></td>
-
-                                    <td>
-                                        <?php foreach ($adm_accion_grupo['acciones'] as $link){ ?>
-                                            <div class="col-md-3"><?php echo $link; ?></div>
-                                        <?php } ?>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                            </tbody>
-                            </tbody>
-
-                        </table>
-                    </div>
+                    <?php echo $controlador->contenido_table; ?>
                 </div> <!-- /. widget-table-->
             </div><!-- /.center-content -->
         </div>
     </div>
-
 </main>

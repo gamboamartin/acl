@@ -9,11 +9,13 @@
 namespace gamboamartin\acl\controllers;
 
 use gamboamartin\administrador\models\adm_menu;
+use gamboamartin\administrador\models\adm_seccion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use gamboamartin\system\out_permisos;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
+use html\adm_seccion_html;
 use links\secciones\link_adm_menu;
 use PDO;
 use stdClass;
@@ -93,55 +95,30 @@ class controlador_adm_menu extends _ctl_parent {
         return $r_alta;
     }
 
-
-    /**
-     * Genera los inputs para secciones de menu
-     * @param int $adm_menu_id Identificador del menu
-     * @return array|stdClass
-     * @version 0.70.1
-     */
-    private function inputs_secciones(int $adm_menu_id): array|stdClass
-    {
-        if($adm_menu_id <= 0){
-            return $this->errores->error(mensaje: 'Error adm_menu_id debe ser mayor a 0',data:  $adm_menu_id);
-        }
-
+    protected function inputs_children(stdClass $registro): array|stdClass{
         $select_adm_menu_id = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(
-            cols:12,con_registros: true,id_selected:  $adm_menu_id,link:  $this->link, disabled: true);
+            cols:12,con_registros: true,id_selected:  $registro->adm_menu_id,link:  $this->link, disabled: true);
 
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id);
         }
 
-        $adm_seccion_menu_descripcion = (new adm_menu_html(html: $this->html_base))->input_descripcion(
+        $adm_seccion_descripcion = (new adm_seccion_html(html: $this->html_base))->input_descripcion(
             cols:12,row_upd:  new stdClass(), value_vacio: true, place_holder: 'Seccion');
         if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al obtener adm_seccion_menu_descripcion',
-                data:  $adm_seccion_menu_descripcion);
-        }
-
-        $hidden_adm_menu_id = (new adm_menu_html(html: $this->html_base))->hidden(
-            name: 'adm_menu_id', value: $adm_menu_id);
-        if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al obtener hidden_adm_menu_id',data:  $hidden_adm_menu_id);
+            return $this->errores->error(mensaje: 'Error al obtener adm_seccion_descripcion',
+                data:  $adm_seccion_descripcion);
         }
 
 
-        $retornos = (new html_controler(html: $this->html_base))->retornos(
-            registro_id: $this->registro_id,tabla:  $this->tabla);
-        if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al obtener retornos',data:  $retornos);
-        }
+        $this->inputs = new stdClass();
+        $this->inputs->select = new stdClass();
+        $this->inputs->select->adm_menu_id = $select_adm_menu_id;
+        $this->inputs->adm_seccion_descripcion = $adm_seccion_descripcion;
 
-        $inputs = new stdClass();
-        $inputs->select = new stdClass();
-        $inputs->select->adm_menu_id = $select_adm_menu_id;
-        $inputs->adm_seccion_menu_descripcion = $adm_seccion_menu_descripcion;
-        $inputs->hidden_adm_menu_id = $hidden_adm_menu_id;
-        $inputs->hidden_seccion_retorno = $retornos->hidden_seccion_retorno;
-        $inputs->hidden_id_retorno = $retornos->hidden_id_retorno;
-        return $inputs;
+        return $this->inputs;
     }
+
 
     protected function key_selects_txt(array $keys_selects): array
     {
@@ -159,76 +136,35 @@ class controlador_adm_menu extends _ctl_parent {
     }
 
 
-
-
-    public function secciones(bool $header = true, bool $ws = false): array|stdClass
+    public function secciones(bool $header = true, bool $ws = false): array|stdClass|string
     {
 
         $params = array();
         $params['next_seccion'] = 'adm_menu';
         $params['next_accion'] = 'secciones';
         $params['id_retorno'] = $this->registro_id;
-        $secciones = $this->secciones_data(adm_menu_id: $this->registro_id, params: $params);
+
+        $data_view = new stdClass();
+        $data_view->names = array('Id','Seccion', 'N Acciones','Acciones');
+        $data_view->keys_data = array('adm_seccion_id','adm_seccion_descripcion','adm_seccion_n_acciones');
+        $data_view->key_actions = 'acciones';
+        $data_view->namespace_model = 'gamboamartin\\administrador\\models';
+        $data_view->name_model_children = 'adm_seccion';
+
+
+        $contenido_table = $this->contenido_children($data_view);
         if(errores::$error){
             return $this->retorno_error(
-                mensaje: 'Error al integrar secciones',data:  $secciones, header: $header,ws:  $ws);
+                mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);
         }
 
-        $this->secciones = $secciones;
+
+        return $contenido_table;
 
 
-        $inputs = $this->inputs_secciones(adm_menu_id: $this->registro_id);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener inputs',data:  $inputs, header: $header,ws:  $ws);
-        }
-
-        $this->inputs = $inputs;
-
-        $names = array('Id','Seccion', 'N Acciones', 'Acciones');
-
-        $thead = (new html_controler(html: $this->html_base))->thead(names: $names);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener thead',data:  $thead, header: $header,ws:  $ws);
-        }
-
-        $this->thead = $thead;
-
-        $data = new stdClass();
-        $data->secciones = $secciones;
-        $data->inputs = $inputs;
-        $data->thead = $thead;
-
-
-        return $data;
 
     }
 
-    /**
-     * Obtiene los registros con botones de permiso
-     * @param int $adm_menu_id Identificador
-     * @param array $params Var GET
-     * @return array
-     * @version 0.35.0
-     */
-    private function secciones_data(int $adm_menu_id, array $params): array
-    {
-        if($adm_menu_id <= 0){
-            return $this->errores->error(mensaje: 'Error adm_menu_id debe ser mayor a 0',data:  $adm_menu_id);
-        }
-        $secciones = (new adm_menu($this->link))->secciones(adm_menu_id: $adm_menu_id);
-        if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al obtener secciones',data:  $secciones);
-        }
-
-        $secciones = $this->rows_con_permisos(
-            key_id:  'adm_seccion_id',rows:  $secciones,seccion: 'adm_seccion', params: $params);
-        if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al integrar link',data:  $secciones);
-        }
-        return $secciones;
-    }
 
 
 }

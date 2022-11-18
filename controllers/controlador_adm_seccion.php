@@ -8,6 +8,7 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use gamboamartin\administrador\models\adm_accion;
 use gamboamartin\administrador\models\adm_seccion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
@@ -57,90 +58,26 @@ class controlador_adm_seccion extends _ctl_base {
 
     }
 
-    public function acciones(bool $header = true, bool $ws = false){
-
-        $adm_seccion = $this->modelo->registro(registro_id: $this->registro_id, retorno_obj: true);
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener seccion',data:  $adm_seccion, header: $header,ws:  $ws);
-        }
-
-        $acciones = (new adm_seccion($this->link))->acciones(adm_seccion_id: $this->registro_id);
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener acciones',data:  $acciones, header: $header,ws:  $ws);
-        }
+    public function acciones(bool $header = true, bool $ws = false): array|string
+    {
 
 
-        $acciones = $this->rows_con_permisos(key_id:  'adm_accion_id',rows:  $acciones,seccion: 'adm_accion');
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al integrar link',data:  $acciones, header: $header,ws:  $ws);
-        }
+        $data_view = new stdClass();
+        $data_view->names = array('Id','Accion', 'Titulo','CSS','Acciones');
+        $data_view->keys_data = array('adm_accion_id','adm_accion_descripcion','adm_accion_titulo','adm_accion_css');
+        $data_view->key_actions = 'acciones';
+        $data_view->namespace_model = 'gamboamartin\\administrador\\models';
+        $data_view->name_model_children = 'adm_accion';
 
-        $this->acciones = $acciones;
 
-        $select_adm_menu_id = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(
-            cols:6,con_registros: true,id_selected:  $adm_seccion->adm_menu_id,link:  $this->link, disabled: true);
-
+        $contenido_table = $this->contenido_children($data_view);
         if(errores::$error){
             return $this->retorno_error(
-                mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id, header: $header,ws:  $ws);
+                mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);
         }
 
 
-        $select_adm_seccion_id = (new adm_seccion_html(html: $this->html_base))->select_adm_seccion_id(
-            cols:6,con_registros: true,id_selected:  $this->registro_id,link:  $this->link, disabled: true);
-
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener select_adm_seccion_id',data:  $select_adm_seccion_id, header: $header,ws:  $ws);
-        }
-
-        $adm_accion_descripcion = (new adm_accion_html(html: $this->html_base))->input_descripcion(
-            cols:12,row_upd:  new stdClass(),value_vacio:  false);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener adm_accion_descripcion',data:  $adm_accion_descripcion, header: $header,ws:  $ws);
-        }
-
-        $adm_accion_titulo = (new adm_accion_html(html: $this->html_base))->input_titulo(
-            cols:12,row_upd:  new stdClass(),value_vacio:  false);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener adm_accion_descripcion',data:  $adm_accion_descripcion, header: $header,ws:  $ws);
-        }
-
-        $hidden_adm_seccion_id = (new adm_menu_html(html: $this->html_base))->hidden(name: 'adm_seccion_id', value: $this->registro_id);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener hidden_adm_seccion_id',data:  $hidden_adm_seccion_id, header: $header,ws:  $ws);
-        }
-
-
-        $retornos = (new html_controler(html: $this->html_base))->retornos(registro_id: $this->registro_id,tabla:  $this->tabla);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener retornos',data:  $retornos, header: $header,ws:  $ws);
-        }
-
-        $this->inputs = new stdClass();
-        $this->inputs->select = new stdClass();
-        $this->inputs->select->adm_menu_id = $select_adm_menu_id;
-        $this->inputs->select->adm_seccion_id = $select_adm_seccion_id;
-        $this->inputs->adm_accion_descripcion = $adm_accion_descripcion;
-        $this->inputs->adm_accion_titulo = $adm_accion_titulo;
-        $this->inputs->hidden_adm_seccion_id = $hidden_adm_seccion_id;
-        $this->inputs->hidden_seccion_retorno = $retornos->hidden_seccion_retorno;
-        $this->inputs->hidden_id_retorno = $retornos->hidden_id_retorno;
-
-        $names = array('Id','Accion', 'Titulo','CSS','Acciones');
-        $thead = (new html_controler(html: $this->html_base))->thead(names: $names);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener thead',data:  $thead, header: $header,ws:  $ws);
-        }
-
-        $this->thead = $thead;
-
-
+        return $contenido_table;
 
 
     }
@@ -196,7 +133,6 @@ class controlador_adm_seccion extends _ctl_base {
         return $campos_view;
     }
 
-
     public function get_adm_seccion(bool $header, bool $ws = true): array|stdClass
     {
 
@@ -214,6 +150,51 @@ class controlador_adm_seccion extends _ctl_base {
         return $salida;
 
 
+    }
+
+    protected function inputs_children(stdClass $registro): stdClass|array
+    {
+        $select_adm_menu_id = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(
+            cols:6,con_registros: true,id_selected:  $registro->adm_menu_id,link:  $this->link, disabled: true);
+
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id);
+        }
+
+
+        $select_adm_seccion_id = (new adm_seccion_html(html: $this->html_base))->select_adm_seccion_id(
+            cols:6,con_registros: true,id_selected:  $this->registro_id,link:  $this->link, disabled: true);
+
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener select_adm_seccion_id',data:  $select_adm_seccion_id);
+        }
+
+        $adm_accion_descripcion = (new adm_accion_html(html: $this->html_base))->input_descripcion(
+            cols:12,row_upd:  new stdClass(),value_vacio:  false);
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener adm_accion_descripcion',data:  $adm_accion_descripcion);
+        }
+
+        $adm_accion_titulo = (new adm_accion_html(html: $this->html_base))->input_titulo(
+            cols:12,row_upd:  new stdClass(),value_vacio:  false);
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener adm_accion_descripcion',data:  $adm_accion_descripcion);
+        }
+
+
+
+        $this->inputs = new stdClass();
+        $this->inputs->select = new stdClass();
+        $this->inputs->select->adm_menu_id = $select_adm_menu_id;
+        $this->inputs->select->adm_seccion_id = $select_adm_seccion_id;
+        $this->inputs->adm_accion_descripcion = $adm_accion_descripcion;
+        $this->inputs->adm_accion_titulo = $adm_accion_titulo;
+
+        return $this->inputs;
     }
 
     protected function key_selects_txt(array $keys_selects): array

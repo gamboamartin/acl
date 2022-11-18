@@ -9,14 +9,20 @@
 namespace gamboamartin\acl\controllers;
 
 use gamboamartin\errores\errores;
+use gamboamartin\system\html_controler;
 use gamboamartin\system\out_permisos;
 use gamboamartin\system\system;
+use gamboamartin\system\table;
 use gamboamartin\validacion\validacion;
 use stdClass;
 
 
 
 class _ctl_base extends system{
+
+    protected string $key_id_filter = '';
+    protected string $key_id_row = '';
+    public array $childrens;
 
     /**
      * Integra los campos view de una vista para alta y modifica Metodo para sobreescribir
@@ -50,6 +56,92 @@ class _ctl_base extends system{
 
 
         return $this;
+    }
+
+    protected function contenido_children(stdClass $data_view): array|string
+    {
+        $childrens = $this->children_data(
+            namespace_model: $data_view->namespace_model, name_model_children: $data_view->name_model_children);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al generar inputs',data:  $childrens);
+        }
+
+        $class_css_table = array('table','table-striped');
+        $id_css_table = array($data_view->name_model_children);
+
+        $contenido_table = (new table())->table(childrens: $childrens, cols_actions: 3, data_view: $data_view,
+            class_css_table: $class_css_table, id_css_table:$id_css_table );
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al obtener tbody',data:  $contenido_table);
+        }
+        $this->contenido_table = $contenido_table;
+        return $contenido_table;
+    }
+
+    protected function children_data(string $namespace_model, string $name_model_children): array
+    {
+        $inputs = $this->children_base();
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al generar inputs',data:  $inputs);
+        }
+
+        $childrens = $this->childrens(namespace_model: $namespace_model,
+            name_model_children: $name_model_children, registro_id: $this->registro_id);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al integrar links',data:  $childrens);
+        }
+
+        $this->childrens = $childrens;
+        return $this->childrens;
+    }
+
+    protected function children_base(): array|stdClass
+    {
+        $registro = $this->init_data_children();
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al inicializar registro',data:  $registro);
+        }
+
+        $inputs = $this->inputs_children(registro: $registro);
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al generar inputs',data:  $inputs);
+        }
+
+        $retornos = $this->input_retornos();
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener retornos',data:  $retornos);
+        }
+
+        return $inputs;
+    }
+
+    protected function childrens(string $namespace_model, string $name_model_children, int $registro_id): array
+    {
+        $this->key_id_filter = $this->tabla.'.id';
+        $filtro = array();
+        $filtro[$this->key_id_filter] = $registro_id;
+
+        $model_children = $this->modelo->genera_modelo(modelo: $name_model_children,namespace_model: $namespace_model);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al generar modelo',data:  $model_children);
+        }
+
+        $r_children = $model_children->filtro_and(filtro:$filtro);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al obtener r_children',data:  $r_children);
+        }
+        $childrens = $r_children->registros;
+
+        $key_id = $name_model_children.'_id';
+        $childrens = $this->rows_con_permisos(key_id:  $key_id, rows:  $childrens,seccion: $name_model_children);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al integrar link',data:  $childrens);
+        }
+
+        return $childrens;
     }
 
     protected function base_upd(array $keys_selects, array $not_actions, array $params): array|stdClass
@@ -100,6 +192,23 @@ class _ctl_base extends system{
         return $r_template;
     }
 
+    protected function init_data_children(): array|stdClass
+    {
+        if($this->registro_id<=0){
+            return $this->errores->error(mensaje: 'Error this->registro_id debe ser mayor a 0',
+                data:  $this->registro_id);
+        }
+
+        $registro = $this->modelo->registro(registro_id: $this->registro_id, retorno_obj: true);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al obtener registro',data:  $registro);
+        }
+
+        $this->key_id_row = $this->tabla.'_id';
+
+        return $registro;
+    }
+
     /**
      * Inicializa upd base view
      * @return array|stdClass|string
@@ -121,6 +230,36 @@ class _ctl_base extends system{
             return $this->errores->error(mensaje: 'Error al genera base',data:  $base);
         }
         return $r_template;
+    }
+
+    /**
+     * Debee star sobreescrito en el controlador integrando todos los selects necesarios
+     * @param stdClass $registro
+     * @return stdClass|array
+     */
+    protected function inputs_children(stdClass $registro): stdClass|array
+    {
+
+        return new stdClass();
+    }
+
+    protected function input_retornos(): array|stdClass
+    {
+        $retornos = (new html_controler(html: $this->html_base))->retornos(registro_id: $this->registro_id,tabla:  $this->tabla);
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener retornos',data:  $retornos);
+        }
+
+        $hidden_input_id = (new html_controler(html: $this->html_base))->hidden(name: $this->key_id_row, value: $this->registro_id);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al obtener hidden_input_id',data:  $hidden_input_id);
+        }
+
+        $this->inputs->hidden_row_id = $hidden_input_id;
+        $this->inputs->hidden_seccion_retorno = $retornos->hidden_seccion_retorno;
+        $this->inputs->hidden_id_retorno = $retornos->hidden_id_retorno;
+        return $this->inputs;
     }
 
     /**

@@ -11,8 +11,9 @@
                         <?php include (new views())->ruta_templates."mensajes.php"; ?>
 
                         <?php echo $controlador->inputs->select->adm_menu_id; ?>
-                        <?php echo $controlador->inputs->adm_seccion_menu_descripcion; ?>
-                        <?php echo $controlador->inputs->hidden_adm_menu_id; ?>
+                        <?php echo $controlador->inputs->adm_seccion_descripcion; ?>
+
+                        <?php echo $controlador->inputs->hidden_row_id; ?>
                         <?php echo $controlador->inputs->hidden_seccion_retorno; ?>
                         <?php echo $controlador->inputs->hidden_id_retorno; ?>
                         <div class="controls">
@@ -23,37 +24,17 @@
             </div>
         </div>
     </div>
+</main>
 
+<main class="main section-color-primary">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-
                 <div class="widget widget-box box-container widget-mylistings">
-
-                    <div class="">
-                        <table id="adm_seccion" class="table table-striped" >
-                            <?php echo $controlador->thead; ?>
-                            <tbody>
-                            <?php foreach ($controlador->secciones as $seccion){ ?>
-                            <tr>
-                                <td><?php echo $seccion['adm_seccion_id']; ?></td>
-                                <td><?php echo $seccion['adm_seccion_descripcion']; ?></td>
-                                <td><?php echo $seccion['adm_seccion_n_acciones']; ?></td>
-                                <td>
-                                    <?php foreach ($seccion['acciones'] as $link){ ?>
-                                    <div class="col-md-3"><?php echo $link; ?></div>
-                                    <?php } ?>
-                                </td>
-                            </tr>
-                            <?php } ?>
-                            </tbody>
-
-                        </table>
-                    </div>
+                    <?php echo $controlador->contenido_table; ?>
                 </div> <!-- /. widget-table-->
             </div><!-- /.center-content -->
         </div>
     </div>
-
 </main>
 

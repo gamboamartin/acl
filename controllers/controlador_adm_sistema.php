@@ -8,6 +8,7 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use gamboamartin\administrador\models\adm_seccion_pertenece;
 use gamboamartin\administrador\models\adm_sistema;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
@@ -68,64 +69,30 @@ class controlador_adm_sistema extends _ctl_parent {
 
     }
 
-    public function secciones(bool $header = true, bool $ws = false): array|stdClass{
-
-        if($this->registro_id<=0){
-            return $this->errores->error(mensaje: 'Error this->registro_id debe ser mayor a 0',
-                data:  $this->registro_id);
-        }
-
-        $adm_sistema = $this->modelo->registro(registro_id: $this->registro_id, retorno_obj: true);
-        if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al obtener adm_sistema',data:  $adm_sistema);
-        }
-
+    protected function inputs_children(stdClass $registro): stdClass|array
+    {
         $select_adm_sistema_id = (new adm_sistema_html(html: $this->html_base))->select_adm_sistema_id(
-            cols:12,con_registros: true,id_selected:  $adm_sistema->adm_sistema_id,link:  $this->link, disabled: true);
+            cols:12,con_registros: true,id_selected:  $registro->adm_sistema_id,link:  $this->link, disabled: true);
 
         if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener select_adm_sistema_id',data:  $select_adm_sistema_id, header: $header,ws:  $ws);
+            return $this->errores->error(
+                mensaje: 'Error al obtener select_adm_sistema_id',data:  $select_adm_sistema_id);
         }
 
         $select_adm_menu_id = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(
             cols:6,con_registros: true,id_selected:  -1,link:  $this->link);
 
         if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id, header: $header,ws:  $ws);
+            return $this->errores->error(
+                mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id);
         }
 
         $select_adm_seccion_id = (new adm_seccion_html(html: $this->html_base))->select_adm_seccion_id(
             cols:6,con_registros: false,id_selected:  -1,link:  $this->link);
 
         if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener select_adm_seccion_id',data:  $select_adm_seccion_id, header: $header,ws:  $ws);
-        }
-
-        $secciones_pertenece = (new adm_sistema($this->link))->secciones_pertenece(adm_sistema_id: $this->registro_id);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener secciones_pertenece',data:  $secciones_pertenece, header: $header,ws:  $ws);
-        }
-
-        $secciones_pertenece = $this->rows_con_permisos(key_id:  'adm_seccion_pertenece_id',
-            rows:  $secciones_pertenece,seccion: 'adm_seccion_pertenece');
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al integrar link',data:  $secciones_pertenece, header: $header,ws:  $ws);
-        }
-
-        $hidden_adm_sistema_id = (new adm_sistema_html(html: $this->html_base))->hidden(name: 'adm_sistema_id', value: $this->registro_id);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener hidden_adm_sistema_id',data:  $hidden_adm_sistema_id, header: $header,ws:  $ws);
-        }
-
-        $retornos = (new html_controler(html: $this->html_base))->retornos(registro_id: $this->registro_id,tabla:  $this->tabla);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener retornos',data:  $retornos, header: $header,ws:  $ws);
+            return $this->errores->error(
+                mensaje: 'Error al obtener select_adm_seccion_id',data:  $select_adm_seccion_id);
         }
 
 
@@ -134,14 +101,30 @@ class controlador_adm_sistema extends _ctl_parent {
         $this->inputs->select->adm_menu_id = $select_adm_menu_id;
         $this->inputs->select->adm_seccion_id = $select_adm_seccion_id;
         $this->inputs->select->adm_sistema_id = $select_adm_sistema_id;
-        $this->inputs->hidden_adm_sistema_id = $hidden_adm_sistema_id;
-        $this->adm_secciones_pertenece = $secciones_pertenece;
-        $this->inputs->hidden_seccion_retorno = $retornos->hidden_seccion_retorno;
-        $this->inputs->hidden_id_retorno = $retornos->hidden_id_retorno;
+
+        return $this->inputs;
+    }
+
+    public function secciones(bool $header = true, bool $ws = false): array|stdClass{
 
 
+        $childrens = $this->children_data(
+            namespace_model: 'gamboamartin\\administrador\\models', name_model_children: 'adm_seccion_pertenece');
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al generar inputs',data:  $childrens, header: $header,ws:  $ws);
+        }
 
-        return $adm_sistema;
+        $names = array('Id','Sistema', 'Seccion','Acciones');
+        $thead = (new html_controler(html: $this->html_base))->thead(names: $names);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener thead',data:  $thead, header: $header,ws:  $ws);
+        }
+
+        $this->thead = $thead;
+
+        return $childrens;
     }
 
 
