@@ -54,6 +54,12 @@ class init{
         return $data_init;
     }
 
+    /**
+     * Inicializa loe elementos para un retorno
+     * @param controler $controler Controlador en ejecucion
+     * @return stdClass
+     * @version 0.97.4
+     */
     private function init_data_retornos(controler $controler): stdClass
     {
         $next_seccion = $controler->tabla;
