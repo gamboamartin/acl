@@ -9,10 +9,7 @@
 namespace gamboamartin\acl\controllers;
 
 use gamboamartin\administrador\models\adm_menu;
-use gamboamartin\administrador\models\adm_seccion;
 use gamboamartin\errores\errores;
-use gamboamartin\system\html_controler;
-use gamboamartin\system\out_permisos;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
 use html\adm_seccion_html;
