@@ -105,10 +105,10 @@ class controlador_adm_sistema extends _ctl_parent {
         return $this->inputs;
     }
 
-    public function secciones(bool $header = true, bool $ws = false): array|stdClass{
+    public function secciones(bool $header = true, bool $ws = false): array|stdClass|string{
 
 
-        $childrens = $this->children_data(
+        /*$childrens = $this->children_data(
             namespace_model: 'gamboamartin\\administrador\\models', name_model_children: 'adm_seccion_pertenece');
         if(errores::$error){
             return $this->retorno_error(
@@ -122,9 +122,26 @@ class controlador_adm_sistema extends _ctl_parent {
                 mensaje: 'Error al obtener thead',data:  $thead, header: $header,ws:  $ws);
         }
 
-        $this->thead = $thead;
+        $this->thead = $thead;*/
 
-        return $childrens;
+        $data_view = new stdClass();
+        $data_view->names = array('Id','Seccion','Sistema', 'Menu','Acciones');
+        $data_view->keys_data = array('adm_seccion_pertenece_id','adm_seccion_descripcion', 'adm_sistema_descripcion','adm_menu_descripcion');
+        $data_view->key_actions = 'acciones';
+        $data_view->namespace_model = 'gamboamartin\\administrador\\models';
+        $data_view->name_model_children = 'adm_seccion_pertenece';
+
+
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);
+        }
+
+
+        return $contenido_table;
+
+       // return $childrens;
     }
 
 
