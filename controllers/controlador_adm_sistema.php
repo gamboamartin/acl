@@ -71,6 +71,13 @@ class controlador_adm_sistema extends _ctl_parent {
 
     protected function inputs_children(stdClass $registro): stdClass|array
     {
+        $keys = array('adm_sistema_id');
+        $valida = $this->validacion->valida_ids(keys: $keys,registro:  $registro);
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al validar registro',data:  $valida);
+        }
+
         $select_adm_sistema_id = (new adm_sistema_html(html: $this->html_base))->select_adm_sistema_id(
             cols:12,con_registros: true,id_selected:  $registro->adm_sistema_id,link:  $this->link, disabled: true);
 
@@ -108,22 +115,6 @@ class controlador_adm_sistema extends _ctl_parent {
     public function secciones(bool $header = true, bool $ws = false): array|stdClass|string{
 
 
-        /*$childrens = $this->children_data(
-            namespace_model: 'gamboamartin\\administrador\\models', name_model_children: 'adm_seccion_pertenece');
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al generar inputs',data:  $childrens, header: $header,ws:  $ws);
-        }
-
-        $names = array('Id','Sistema', 'Seccion','Acciones');
-        $thead = (new html_controler(html: $this->html_base))->thead(names: $names);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener thead',data:  $thead, header: $header,ws:  $ws);
-        }
-
-        $this->thead = $thead;*/
-
         $data_view = new stdClass();
         $data_view->names = array('Id','Seccion','Sistema', 'Menu','Acciones');
         $data_view->keys_data = array('adm_seccion_pertenece_id','adm_seccion_descripcion', 'adm_sistema_descripcion','adm_menu_descripcion');
@@ -137,11 +128,8 @@ class controlador_adm_sistema extends _ctl_parent {
             return $this->retorno_error(
                 mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);
         }
-
-
         return $contenido_table;
 
-       // return $childrens;
     }
 
 

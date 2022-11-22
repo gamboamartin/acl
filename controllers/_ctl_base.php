@@ -251,9 +251,10 @@ class _ctl_base extends system{
     }
 
     /**
-     * Debee star sobreescrito en el controlador integrando todos los selects necesarios
+     * Debe star sobreescrito en el controlador integrando todos los selects necesarios
      * @param stdClass $registro
      * @return stdClass|array
+     * @version 0.103.5
      */
     protected function inputs_children(stdClass $registro): stdClass|array
     {

@@ -3,6 +3,7 @@ namespace tests\controllers;
 
 use controllers\controlador_cat_sat_tipo_persona;
 use gamboamartin\acl\controllers\controlador_adm_menu;
+use gamboamartin\acl\controllers\controlador_adm_sistema;
 use gamboamartin\errores\errores;
 use gamboamartin\template_1\html;
 use gamboamartin\test\liberator;
@@ -136,6 +137,33 @@ class _ctl_baseTest extends test {
         $resultado = $controler->init_modifica();
         $this->assertNotTrue(errores::$error);
         $this->assertIsObject($resultado);
+        errores::$error = false;
+    }
+
+    public function test_inputs_children(): void
+    {
+        errores::$error = false;
+
+        $_GET['seccion'] = 'adm_menu';
+        $_GET['accion'] = 'lista';
+        $_GET['registro_id'] = 1;
+        $_SESSION['grupo_id'] = 2;
+        $_SESSION['usuario_id'] = 2;
+        $_GET['session_id'] = '1';
+
+
+        $controler = new controlador_adm_sistema(link: $this->link, paths_conf: $this->paths_conf);
+        $controler = new liberator($controler);
+
+        $registro = new stdClass();
+        $registro->adm_sistema_id = 1;
+        $resultado = $controler->inputs_children($registro);
+
+        $this->assertNotTrue(errores::$error);
+        $this->assertIsObject($resultado);
+        $this->assertStringContainsStringIgnoringCase("ol-label' for='adm_menu_id'>Me",$resultado->select->adm_menu_id);
+        $this->assertStringContainsStringIgnoringCase("ass='control-label' for='adm_seccion_id'>Seccio",$resultado->select->adm_seccion_id);
+        $this->assertStringContainsStringIgnoringCase("l' for='adm_sistema_id'>Sistema</label><div class='control",$resultado->select->adm_sistema_id);
         errores::$error = false;
     }
 
