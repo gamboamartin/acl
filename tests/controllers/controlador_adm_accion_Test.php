@@ -4,6 +4,8 @@ namespace tests\controllers;
 use controllers\controlador_cat_sat_tipo_persona;
 use gamboamartin\acl\controllers\controlador_adm_accion;
 use gamboamartin\acl\controllers\controlador_adm_menu;
+use gamboamartin\administrador\models\adm_accion;
+use gamboamartin\administrador\models\adm_accion_grupo;
 use gamboamartin\errores\errores;
 use gamboamartin\template_1\html;
 use gamboamartin\test\liberator;
@@ -34,6 +36,48 @@ class controlador_adm_accion_Test extends test {
         $this->paths_conf->views = '/var/www/html/acl/config/views.php';
     }
 
+    public function test_alta_bd(): void
+    {
+        errores::$error = false;
+
+        $_GET['seccion'] = 'adm_menu';
+        $_GET['accion'] = 'lista';
+        $_GET['registro_id'] = 1;
+        $_SESSION['grupo_id'] = 2;
+        $_SESSION['usuario_id'] = 2;
+        $_GET['session_id'] = '1';
+
+
+        $del = (new adm_accion_grupo($this->link))->elimina_todo();
+        if(errores::$error){
+            $error = (new errores())->error('Error al eliminar', $del);
+            print_r($error);
+            exit;
+        }
+
+        $del = (new adm_accion($this->link))->elimina_todo();
+        if(errores::$error){
+            $error = (new errores())->error('Error al eliminar', $del);
+            print_r($error);
+            exit;
+        }
+
+        $controler = new controlador_adm_accion(link: $this->link, paths_conf: $this->paths_conf);
+        //$controler = new liberator($controler);
+
+        $_POST = array();
+        $_POST['descripcion'] = 'a';
+        $_POST['adm_seccion_id'] = 1;
+        $resultado = $controler->alta_bd(header: false);
+        $this->assertIsObject($resultado);
+        $this->assertNotTrue(errores::$error);
+        $this->assertEquals('info',$resultado->registro['adm_accion_css']);
+        $this->assertEquals('A 1',$resultado->registro['adm_accion_descripcion_select']);
+
+
+        errores::$error = false;
+    }
+
     public function test_get_adm_accion(): void
     {
         errores::$error = false;
@@ -44,6 +88,7 @@ class controlador_adm_accion_Test extends test {
         $_SESSION['grupo_id'] = 2;
         $_SESSION['usuario_id'] = 2;
         $_GET['session_id'] = '1';
+
 
 
         $controler = new controlador_adm_accion(link: $this->link, paths_conf: $this->paths_conf);

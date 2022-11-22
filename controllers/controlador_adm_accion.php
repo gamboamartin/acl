@@ -102,6 +102,13 @@ class controlador_adm_accion extends _ctl_base {
         return $r_alta;
     }
 
+    /**
+     * Da de alta una accion
+     * @param bool $header
+     * @param bool $ws
+     * @return array|stdClass
+     * @version 0.99.4
+     */
     public function alta_bd(bool $header, bool $ws = false): array|stdClass
     {
         $this->link->beginTransaction();
