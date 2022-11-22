@@ -95,6 +95,29 @@ class _ctl_baseTest extends test {
         errores::$error = false;
     }
 
+    public function test_init_data_children(): void
+    {
+        errores::$error = false;
+
+        $_GET['seccion'] = 'adm_menu';
+        $_GET['accion'] = 'lista';
+        $_GET['registro_id'] = 1;
+        $_SESSION['grupo_id'] = 2;
+        $_SESSION['usuario_id'] = 2;
+        $_GET['session_id'] = '1';
+
+
+        $controler = new controlador_adm_menu(link: $this->link, paths_conf: $this->paths_conf);
+        $controler = new liberator($controler);
+
+
+        $resultado = $controler->init_data_children();
+        $this->assertNotTrue(errores::$error);
+        $this->assertIsObject($resultado);
+        errores::$error = false;
+
+    }
+
     public function test_init_modifica(): void
     {
         errores::$error = false;

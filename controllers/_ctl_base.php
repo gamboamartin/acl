@@ -205,6 +205,11 @@ class _ctl_base extends system{
         return $r_template;
     }
 
+    /**
+     * Inicializa los elementos de datos de un children para una view
+     * @return array|stdClass
+     * @version 0.101.4
+     */
     protected function init_data_children(): array|stdClass
     {
         if($this->registro_id<=0){
