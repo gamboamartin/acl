@@ -11,6 +11,7 @@ class init{
         $this->error = new errores();
     }
 
+
     private function asigna_data_param(stdClass $data_init, string $key, array $params): array
     {
         $params[$key] = $data_init->$key;

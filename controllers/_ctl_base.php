@@ -76,7 +76,7 @@ class _ctl_base extends system{
         $class_css_table = array('table','table-striped');
         $id_css_table = array($data_view->name_model_children);
 
-        $contenido_table = (new table())->table(childrens: $childrens, cols_actions: 3, data_view: $data_view,
+        $contenido_table = (new table())->table(childrens: $childrens, cols_actions: 4, data_view: $data_view,
             class_css_table: $class_css_table, id_css_table:$id_css_table );
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al obtener tbody',data:  $contenido_table);
