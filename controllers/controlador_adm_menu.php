@@ -10,6 +10,7 @@ namespace gamboamartin\acl\controllers;
 
 use gamboamartin\administrador\models\adm_menu;
 use gamboamartin\errores\errores;
+use gamboamartin\system\_ctl_parent;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
 use html\adm_seccion_html;
@@ -116,7 +117,6 @@ class controlador_adm_menu extends _ctl_parent {
         return $this->inputs;
     }
 
-
     protected function key_selects_txt(array $keys_selects): array
     {
         $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'codigo', keys_selects:$keys_selects, place_holder: 'Cod');
@@ -131,7 +131,6 @@ class controlador_adm_menu extends _ctl_parent {
 
         return $keys_selects;
     }
-
 
     public function secciones(bool $header = true, bool $ws = false): array|stdClass|string
     {
@@ -156,7 +155,5 @@ class controlador_adm_menu extends _ctl_parent {
 
 
     }
-
-
 
 }

@@ -1,4 +1,4 @@
-<?php /** @var gamboamartin\acl\controllers\_ctl_parent $controlador  controlador en ejecucion */ ?>
+<?php /** @var gamboamartin\system\_ctl_parent $controlador  controlador en ejecucion */ ?>
 <?php use config\views; ?>
 <?php echo $controlador->inputs->codigo; ?>
 <?php echo $controlador->inputs->descripcion; ?>
