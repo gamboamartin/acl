@@ -68,6 +68,26 @@ class controlador_adm_sistema extends _ctl_parent {
 
     }
 
+    public function alta(bool $header, bool $ws = false): array|string
+    {
+
+        $r_alta = $this->init_alta();
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al inicializar alta',data:  $r_alta, header: $header,ws:  $ws);
+        }
+
+
+        $keys_selects = array();
+        $inputs = $this->inputs(keys_selects: $keys_selects);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener inputs',data:  $inputs, header: $header,ws:  $ws);
+        }
+
+        return $r_alta;
+    }
+
     protected function inputs_children(stdClass $registro): stdClass|array
     {
         $keys = array('adm_sistema_id');
@@ -109,6 +129,21 @@ class controlador_adm_sistema extends _ctl_parent {
         $this->inputs->select->adm_sistema_id = $select_adm_sistema_id;
 
         return $this->inputs;
+    }
+
+    protected function key_selects_txt(array $keys_selects): array
+    {
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'codigo', keys_selects:$keys_selects, place_holder: 'Cod');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Sistema');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        return $keys_selects;
     }
 
     public function secciones(bool $header = true, bool $ws = false): array|stdClass|string{

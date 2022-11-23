@@ -10,7 +10,7 @@ namespace gamboamartin\acl\controllers;
 
 use gamboamartin\administrador\models\adm_grupo;
 use gamboamartin\errores\errores;
-use gamboamartin\system\html_controler;
+use gamboamartin\system\_ctl_parent;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
 use html\adm_grupo_html;
