@@ -8,10 +8,9 @@
  */
 namespace gamboamartin\acl\controllers;
 
-use gamboamartin\administrador\models\adm_accion;
 use gamboamartin\administrador\models\adm_seccion;
 use gamboamartin\errores\errores;
-use gamboamartin\system\html_controler;
+use gamboamartin\system\_ctl_base;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
 use html\adm_menu_html;

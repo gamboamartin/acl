@@ -5,19 +5,10 @@ use controllers\controlador_cat_sat_tipo_persona;
 use gamboamartin\acl\controllers\_ctl_base\init;
 use gamboamartin\acl\controllers\controlador_adm_menu;
 use gamboamartin\errores\errores;
-use gamboamartin\template_1\html;
+
 use gamboamartin\test\liberator;
 use gamboamartin\test\test;
-use html\adm_menu_html;
-use html\nom_conf_factura_html;
-use JsonException;
-use models\em_cuenta_bancaria;
-use models\fc_cfd_partida;
-use models\fc_factura;
-use models\fc_partida;
-use models\nom_nomina;
-use models\nom_par_deduccion;
-use models\nom_par_percepcion;
+
 use stdClass;
 
 
@@ -47,7 +38,7 @@ class initTest extends test {
 
 
         $controler = new controlador_adm_menu(link: $this->link, paths_conf: $this->paths_conf);
-        $init = (new init());
+        $init = (new \gamboamartin\system\_ctl_base\init());
         $init = (new liberator($init));
 
         $resultado = $init->init_data_retornos($controler);
