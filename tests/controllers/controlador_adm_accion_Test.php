@@ -6,6 +6,7 @@ use gamboamartin\acl\controllers\controlador_adm_accion;
 use gamboamartin\acl\controllers\controlador_adm_menu;
 use gamboamartin\administrador\models\adm_accion;
 use gamboamartin\administrador\models\adm_accion_grupo;
+use gamboamartin\administrador\models\adm_seccion;
 use gamboamartin\errores\errores;
 use gamboamartin\template_1\html;
 use gamboamartin\test\liberator;
@@ -47,20 +48,25 @@ class controlador_adm_accion_Test extends test {
         $_SESSION['usuario_id'] = 2;
         $_GET['session_id'] = '1';
 
-
-        $del = (new adm_accion_grupo($this->link))->elimina_todo();
+        $del = (new adm_seccion($this->link))->elimina_todo();
         if(errores::$error){
             $error = (new errores())->error('Error al eliminar', $del);
             print_r($error);
             exit;
         }
 
-        $del = (new adm_accion($this->link))->elimina_todo();
+
+        $seccion_ins['id'] = 1;
+        $seccion_ins['descripcion'] = 1;
+        $seccion_ins['adm_menu_id'] = 1;
+
+        $alta = (new adm_seccion($this->link))->alta_registro($seccion_ins);
         if(errores::$error){
-            $error = (new errores())->error('Error al eliminar', $del);
+            $error = (new errores())->error('Error al insertar', $alta);
             print_r($error);
             exit;
         }
+
 
         $controler = new controlador_adm_accion(link: $this->link, paths_conf: $this->paths_conf);
         //$controler = new liberator($controler);
@@ -69,6 +75,7 @@ class controlador_adm_accion_Test extends test {
         $_POST['descripcion'] = 'a';
         $_POST['adm_seccion_id'] = 1;
         $resultado = $controler->alta_bd(header: false);
+
         $this->assertIsObject($resultado);
         $this->assertNotTrue(errores::$error);
         $this->assertEquals('info',$resultado->registro['adm_accion_css']);
