@@ -112,11 +112,13 @@ class controlador_adm_seccion_pertenece extends _ctl_base {
         }
 
 
-        $seccion_retorno = $this->tabla;
-        if(isset($_POST['seccion_retorno'])){
-            $seccion_retorno = $_POST['seccion_retorno'];
-            unset($_POST['seccion_retorno']);
+        $seccion_retorno = $this->seccion_retorno();
+        if(errores::$error){
+            $this->link->rollBack();
+            return $this->retorno_error(mensaje: 'Error al obtener seccion retorno', data: $seccion_retorno,
+                header:  $header, ws: $ws);
         }
+
         $id_retorno = -1;
         if(isset($_POST['id_retorno'])){
             $id_retorno = $_POST['id_retorno'];

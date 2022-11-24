@@ -26,7 +26,6 @@ use Throwable;
 class controlador_adm_accion extends _ctl_base {
 
     public string $link_adm_accion_grupo_alta_bd = '';
-    public array $adm_acciones_grupo = array();
     public array $childrens = array();
 
     public function __construct(PDO $link, html $html = new html(), stdClass $paths_conf = new stdClass()){
@@ -122,10 +121,12 @@ class controlador_adm_accion extends _ctl_base {
             return $this->retorno_error(mensaje: 'Error al obtener siguiente view', data: $siguiente_view,
                 header:  $header, ws: $ws);
         }
-        $seccion_retorno = $this->tabla;
-        if(isset($_POST['seccion_retorno'])){
-            $seccion_retorno = $_POST['seccion_retorno'];
-            unset($_POST['seccion_retorno']);
+
+        $seccion_retorno = $this->seccion_retorno();
+        if(errores::$error){
+            $this->link->rollBack();
+            return $this->retorno_error(mensaje: 'Error al obtener seccion retorno', data: $seccion_retorno,
+                header:  $header, ws: $ws);
         }
 
         $id_retorno = -1;
