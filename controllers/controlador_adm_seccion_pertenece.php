@@ -112,18 +112,15 @@ class controlador_adm_seccion_pertenece extends _ctl_base {
         }
 
 
-        $seccion_retorno = $this->seccion_retorno();
+        $data_retorno = $this->data_retorno();
         if(errores::$error){
-            $this->link->rollBack();
-            return $this->retorno_error(mensaje: 'Error al obtener seccion retorno', data: $seccion_retorno,
+            if(!$transaccion_previa) {
+                $this->link->rollBack();
+            }
+            return $this->retorno_error(mensaje: 'Error al obtener datos de retorno', data: $data_retorno,
                 header:  $header, ws: $ws);
         }
 
-        $id_retorno = -1;
-        if(isset($_POST['id_retorno'])){
-            $id_retorno = $_POST['id_retorno'];
-            unset($_POST['id_retorno']);
-        }
 
         if(isset($_POST['adm_menu_id'])){
             unset($_POST['adm_menu_id']);
@@ -142,12 +139,12 @@ class controlador_adm_seccion_pertenece extends _ctl_base {
 
 
         if($header){
-            if($id_retorno === -1) {
-                $id_retorno = $r_alta_bd->registro_id;
+            if($data_retorno->id_retorno === -1) {
+                $data_retorno->id_retorno = $r_alta_bd->registro_id;
             }
 
-            $this->retorno_base(registro_id:$id_retorno, result: $r_alta_bd, siguiente_view: $siguiente_view,
-                ws:  $ws,seccion_retorno: $seccion_retorno);
+            $this->retorno_base(registro_id:$data_retorno->id_retorno, result: $r_alta_bd, siguiente_view: $siguiente_view,
+                ws:  $ws,seccion_retorno: $data_retorno->seccion_retorno);
 
         }
         if($ws){
