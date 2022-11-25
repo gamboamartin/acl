@@ -124,8 +124,6 @@ class controlador_adm_sistema extends _ctl_parent_sin_codigo {
         return $keys_selects;
     }
 
-
-
     public function secciones(bool $header = true, bool $ws = false): array|stdClass|string{
 
 

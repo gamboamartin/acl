@@ -10,6 +10,7 @@ namespace gamboamartin\acl\controllers;
 
 use gamboamartin\administrador\models\adm_accion_basica;
 use gamboamartin\errores\errores;
+use gamboamartin\system\_ctl_parent_sin_codigo;
 use gamboamartin\template_1\html;
 use html\adm_accion_basica_html;
 use links\secciones\link_adm_accion_basica;
@@ -17,7 +18,7 @@ use PDO;
 use stdClass;
 
 
-class controlador_adm_accion_basica extends _ctl_parent {
+class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
 
 
     public stdClass|array $adm_accion_basica = array();
@@ -32,13 +33,11 @@ class controlador_adm_accion_basica extends _ctl_parent {
         $datatables = new stdClass();
         $datatables->columns = array();
         $datatables->columns['adm_accion_basica_id']['titulo'] = 'Id';
-        $datatables->columns['adm_accion_basica_codigo']['titulo'] = 'Cod';
         $datatables->columns['adm_accion_basica_descripcion']['titulo'] = 'Accion';
         $datatables->columns['adm_accion_basica_css']['titulo'] = 'CSS';
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_accion_basica.id';
-        $datatables->filtro[] = 'adm_accion_basica.codigo';
         $datatables->filtro[] = 'adm_accion_basica.descripcion';
         $datatables->filtro[] = 'adm_accion_basica.css';
 
@@ -58,5 +57,42 @@ class controlador_adm_accion_basica extends _ctl_parent {
         }
 
     }
+
+
+
+    protected function campos_view(array $inputs = array()): array
+    {
+        $keys = new stdClass();
+        $keys->inputs = array('css','descripcion');
+        $keys->selects = array();
+
+
+
+        $campos_view = (new \base\controller\init())->model_init_campos_template(
+            campos_view: array(),keys:  $keys, link: $this->link);
+
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al inicializar campo view',data:  $campos_view);
+        }
+
+        return $campos_view;
+    }
+
+    protected function key_selects_txt(array $keys_selects): array
+    {
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 12,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion Base');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 12,key: 'css', keys_selects:$keys_selects, place_holder: 'CSS');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+        return $keys_selects;
+    }
+
+
 
 }

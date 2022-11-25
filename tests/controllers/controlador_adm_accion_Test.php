@@ -67,6 +67,13 @@ class controlador_adm_accion_Test extends test {
             exit;
         }
 
+        $del = (new adm_accion($this->link))->elimina_todo();
+        if(errores::$error){
+            $error = (new errores())->error('Error al eliminar', $del);
+            print_r($error);
+            exit;
+        }
+
 
         $controler = new controlador_adm_accion(link: $this->link, paths_conf: $this->paths_conf);
         //$controler = new liberator($controler);

@@ -11,8 +11,6 @@ namespace gamboamartin\acl\controllers;
 use gamboamartin\administrador\models\adm_seccion_pertenece;
 use gamboamartin\errores\errores;
 use gamboamartin\system\_ctl_base;
-use gamboamartin\system\actions;
-use gamboamartin\system\system;
 use gamboamartin\template_1\html;
 use html\adm_seccion_pertenece_html;
 use links\secciones\link_adm_seccion_pertenece;
@@ -140,6 +138,7 @@ class controlador_adm_seccion_pertenece extends _ctl_base {
 
 
     }
+
     protected function campos_view(): array
     {
         $keys = new stdClass();
