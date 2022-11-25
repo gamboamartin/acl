@@ -58,8 +58,6 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
 
     }
 
-
-
     protected function campos_view(array $inputs = array()): array
     {
         $keys = new stdClass();
@@ -76,6 +74,54 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
         }
 
         return $campos_view;
+    }
+
+    public function es_lista(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $upd = $this->row_upd(key: 'es_lista');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+        }
+
+        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
+        $this->header_out(result: $upd, header: $header,ws:  $ws);
+
+        return $upd;
+
+
+    }
+
+    public function es_status(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $upd = $this->row_upd(key: 'es_status');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+        }
+
+        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
+        $this->header_out(result: $upd, header: $header,ws:  $ws);
+
+        return $upd;
+
+
+    }
+
+    public function es_view(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $upd = $this->row_upd(key: 'es_view');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+        }
+
+        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
+        $this->header_out(result: $upd, header: $header,ws:  $ws);
+
+        return $upd;
+
+
     }
 
     protected function key_selects_txt(array $keys_selects): array
