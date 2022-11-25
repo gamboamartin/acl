@@ -130,7 +130,7 @@ class controlador_adm_seccion_pertenece extends _ctl_base {
         }
 
         $return = $this->retorno(data_retorno: $data_retorno,header:  $header,
-            registro_id: $r_alta_bd->registro_id, result: $r_alta_bd,siguiente_view:  $data_retorno->siguiente_view,ws:  $ws);
+            registro_id: $r_alta_bd->registro_id, result: $r_alta_bd,ws:  $ws);
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al ejecutar retorno',data:  $return, header: $header,ws: $ws);
         }
