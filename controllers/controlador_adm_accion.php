@@ -115,14 +115,8 @@ class controlador_adm_accion extends _ctl_base {
             unset($_POST['adm_menu_id']);
         }
 
-        $siguiente_view = (new actions())->init_alta_bd();
-        if(errores::$error){
-            $this->link->rollBack();
-            return $this->retorno_error(mensaje: 'Error al obtener siguiente view', data: $siguiente_view,
-                header:  $header, ws: $ws);
-        }
 
-        $data_retorno = $this->data_retorno();
+        $data_retorno = $this->data_retorno_base();
         if(errores::$error){
             $this->link->rollBack();
             return $this->retorno_error(mensaje: 'Error al obtener datos de retorno', data: $data_retorno,
@@ -140,8 +134,9 @@ class controlador_adm_accion extends _ctl_base {
             if($data_retorno->id_retorno === -1) {
                 $data_retorno->id_retorno = $r_alta_bd->registro_id;
             }
-            $this->retorno_base(registro_id:$data_retorno->id_retorno, result: $r_alta_bd, siguiente_view: $siguiente_view,
-                ws:  $ws,seccion_retorno: $data_retorno->seccion_retorno);
+            $this->retorno_base(
+                registro_id:$data_retorno->id_retorno, result: $r_alta_bd,
+                siguiente_view: $data_retorno->siguiente_view, ws:  $ws,seccion_retorno: $data_retorno->seccion_retorno);
         }
         if($ws){
             header('Content-Type: application/json');
@@ -154,7 +149,7 @@ class controlador_adm_accion extends _ctl_base {
             }
             exit;
         }
-        $r_alta_bd->siguiente_view = $siguiente_view;
+        $r_alta_bd->siguiente_view = $data_retorno->siguiente_view;
 
         return $r_alta_bd;
 
