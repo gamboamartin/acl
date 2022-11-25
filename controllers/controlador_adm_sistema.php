@@ -12,6 +12,7 @@ use gamboamartin\administrador\models\adm_sistema;
 use gamboamartin\errores\errores;
 
 use gamboamartin\system\_ctl_parent;
+use gamboamartin\system\_ctl_parent_sin_codigo;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
 use html\adm_seccion_html;
@@ -21,9 +22,8 @@ use PDO;
 use stdClass;
 
 
-class controlador_adm_sistema extends _ctl_parent {
+class controlador_adm_sistema extends _ctl_parent_sin_codigo {
 
-    public array $adm_secciones_pertenece = array();
     public stdClass|array $adm_sistema = array();
     public string $link_adm_seccion_pertenece_alta_bd = '';
 
@@ -68,25 +68,8 @@ class controlador_adm_sistema extends _ctl_parent {
 
     }
 
-    public function alta(bool $header, bool $ws = false): array|string
-    {
-
-        $r_alta = $this->init_alta();
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al inicializar alta',data:  $r_alta, header: $header,ws:  $ws);
-        }
 
 
-        $keys_selects = array();
-        $inputs = $this->inputs(keys_selects: $keys_selects);
-        if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener inputs',data:  $inputs, header: $header,ws:  $ws);
-        }
-
-        return $r_alta;
-    }
 
     protected function inputs_children(stdClass $registro): stdClass|array
     {
@@ -145,6 +128,8 @@ class controlador_adm_sistema extends _ctl_parent {
 
         return $keys_selects;
     }
+
+
 
     public function secciones(bool $header = true, bool $ws = false): array|stdClass|string{
 
