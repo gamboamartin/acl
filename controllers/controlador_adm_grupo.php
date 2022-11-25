@@ -41,14 +41,12 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
         $datatables = new stdClass();
         $datatables->columns = array();
         $datatables->columns['adm_grupo_id']['titulo'] = 'Id';
-        $datatables->columns['adm_grupo_codigo']['titulo'] = 'Cod';
         $datatables->columns['adm_grupo_descripcion']['titulo'] = 'Grupo';
         $datatables->columns['adm_grupo_n_permisos']['titulo'] = 'N Permisos';
         $datatables->columns['adm_grupo_n_usuarios']['titulo'] = 'N Usuarios';
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_grupo.id';
-        $datatables->filtro[] = 'adm_grupo.codigo';
         $datatables->filtro[] = 'adm_grupo.descripcion';
 
 

@@ -36,13 +36,11 @@ class controlador_adm_menu extends _ctl_parent_sin_codigo {
         $datatables = new stdClass();
         $datatables->columns = array();
         $datatables->columns['adm_menu_id']['titulo'] = 'Id';
-        $datatables->columns['adm_menu_codigo']['titulo'] = 'Cod';
         $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
         $datatables->columns['adm_menu_n_secciones']['titulo'] = 'Secciones';
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_menu.id';
-        $datatables->filtro[] = 'adm_menu.codigo';
         $datatables->filtro[] = 'adm_menu.descripcion';
 
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,

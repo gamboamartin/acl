@@ -11,7 +11,6 @@ namespace gamboamartin\acl\controllers;
 use gamboamartin\administrador\models\adm_sistema;
 use gamboamartin\errores\errores;
 
-use gamboamartin\system\_ctl_parent;
 use gamboamartin\system\_ctl_parent_sin_codigo;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
@@ -36,13 +35,11 @@ class controlador_adm_sistema extends _ctl_parent_sin_codigo {
         $datatables = new stdClass();
         $datatables->columns = array();
         $datatables->columns['adm_sistema_id']['titulo'] = 'Id';
-        $datatables->columns['adm_sistema_codigo']['titulo'] = 'Codigo';
         $datatables->columns['adm_sistema_descripcion']['titulo'] = 'Sistema';
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_sistema.id';
         $datatables->filtro[] = 'adm_sistema.descripcion';
-        $datatables->filtro[] = 'adm_sistema.codigo';
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
             paths_conf: $paths_conf);
 

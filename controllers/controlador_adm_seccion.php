@@ -34,7 +34,6 @@ class controlador_adm_seccion extends _ctl_base {
         $datatables = new stdClass();
         $datatables->columns = array();
         $datatables->columns['adm_seccion_id']['titulo'] = 'Id';
-        $datatables->columns['adm_seccion_codigo']['titulo'] = 'Cod';
         $datatables->columns['adm_seccion_descripcion']['titulo'] = 'Seccion';
         $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
         $datatables->columns['adm_seccion_n_acciones']['titulo'] = 'N Acciones';

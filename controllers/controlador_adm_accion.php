@@ -38,7 +38,6 @@ class controlador_adm_accion extends _ctl_base {
         $datatables = new stdClass();
         $datatables->columns = array();
         $datatables->columns['adm_accion_id']['titulo'] = 'Id';
-        $datatables->columns['adm_accion_codigo']['titulo'] = 'Cod';
         $datatables->columns['adm_accion_descripcion']['titulo'] = 'Accion';
         $datatables->columns['adm_seccion_descripcion']['titulo'] = 'Seccion';
         $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
@@ -46,7 +45,6 @@ class controlador_adm_accion extends _ctl_base {
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_accion.id';
-        $datatables->filtro[] = 'adm_accion.codigo';
         $datatables->filtro[] = 'adm_accion.descripcion';
         $datatables->filtro[] = 'adm_seccion.descripcion';
         $datatables->filtro[] = 'adm_menu.descripcion';
