@@ -69,8 +69,6 @@ class controlador_adm_sistema extends _ctl_parent_sin_codigo {
     }
 
 
-
-
     protected function inputs_children(stdClass $registro): stdClass|array
     {
         $keys = array('adm_sistema_id');
