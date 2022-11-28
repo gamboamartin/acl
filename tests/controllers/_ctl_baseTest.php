@@ -182,8 +182,9 @@ class _ctl_baseTest extends test {
         $keys_selects = array();
         $id_selected = null;
         $label = '';
-        $resultado = $controler->key_select($cols, $con_registros, $filtro, $key, $keys_selects, $id_selected, $label);
-        //print_r($resultado);exit;
+        $resultado = $controler->key_select(cols:$cols, con_registros: $con_registros,filtro:  $filtro,key:  $key,
+            keys_selects:  $keys_selects,id_selected:  $id_selected,label:  $label);
+
         $this->assertNotTrue(errores::$error);
         $this->assertIsArray($resultado);
         $this->assertIsObject($resultado['a']);
