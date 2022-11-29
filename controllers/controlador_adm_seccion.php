@@ -54,6 +54,8 @@ class controlador_adm_seccion extends _ctl_base {
         }
         $this->link_adm_accion_alta_bd = $link_adm_accion_alta_bd;
 
+        $this->lista_get_data = true;
+
     }
 
     public function acciones(bool $header = true, bool $ws = false): array|string
