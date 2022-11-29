@@ -73,8 +73,10 @@ class controlador_adm_usuario extends _ctl_base {
     protected function campos_view(): array
     {
         $keys = new stdClass();
-        $keys->inputs = array('user','email','telefono');
+        $keys->inputs = array('user');
         $keys->passwords = array('password');
+        $keys->telefonos = array('telefono');
+        $keys->emails = array('email');
         $keys->selects = array();
 
         $init_data = array();
