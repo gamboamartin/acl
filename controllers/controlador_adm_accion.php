@@ -64,6 +64,7 @@ class controlador_adm_accion extends _ctl_base {
         }
         $this->link_adm_accion_grupo_alta_bd = $link_adm_accion_grupo_alta_bd;
 
+        $this->lista_get_data = true;
 
     }
 

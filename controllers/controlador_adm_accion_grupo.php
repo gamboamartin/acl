@@ -10,7 +10,7 @@ namespace gamboamartin\acl\controllers;
 
 use gamboamartin\administrador\models\adm_accion_grupo;
 use gamboamartin\errores\errores;
-use gamboamartin\system\system;
+use gamboamartin\system\_ctl_base;
 use gamboamartin\template_1\html;
 use html\adm_accion_grupo_html;
 use links\secciones\link_adm_accion_grupo;
@@ -19,7 +19,7 @@ use PDO;
 use stdClass;
 
 
-class controlador_adm_accion_grupo extends system {
+class controlador_adm_accion_grupo extends _ctl_base {
 
     public array $secciones = array();
     public stdClass|array $adm_accion_grupo = array();
@@ -34,15 +34,24 @@ class controlador_adm_accion_grupo extends system {
 
         $datatables = new stdClass();
         $datatables->columns = array();
-        $datatables->columns['adm_accion_id']['titulo'] = 'Id';
-        $datatables->columns['adm_accion_descripcion']['titulo'] = 'Id';
-        $datatables->columns['adm_accion_codigo']['titulo'] = 'Codigo';
-        $datatables->columns['adm_accion_codigo_bis']['titulo'] = 'Codigo BIS';
+        $datatables->columns['adm_accion_grupo_id']['titulo'] = 'Id';
+        $datatables->columns['adm_accion_descripcion']['titulo'] = 'Accion';
+        $datatables->columns['adm_seccion_descripcion']['titulo'] = 'Seccion';
+        $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
+        $datatables->columns['adm_grupo_descripcion']['titulo'] = 'Grupo';
+
+        $datatables->filtro = array();
+        $datatables->filtro[] = 'adm_accion_grupo.id';
+        $datatables->filtro[] = 'adm_accion.descripcion';
+        $datatables->filtro[] = 'adm_seccion.descripcion';
+        $datatables->filtro[] = 'adm_menu.descripcion';
+        $datatables->filtro[] = 'adm_grupo.descripcion';
+
 
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
             paths_conf: $paths_conf);
 
-        $this->titulo_lista = 'Acciones Grupos';
+        $this->titulo_lista = 'Permisos';
 
         if(isset($this->registro_id) && $this->registro_id > 0){
             $adm_accion_grupo = (new adm_accion_grupo($this->link))->registro(registro_id: $this->registro_id);
@@ -61,6 +70,8 @@ class controlador_adm_accion_grupo extends system {
             exit;
         }
         $this->link_adm_accion_grupo_alta_bd = $link_adm_accion_grupo_alta_bd;
+
+        $this->lista_get_data = true;
 
     }
 
