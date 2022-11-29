@@ -149,15 +149,7 @@ class controlador_adm_seccion_pertenece extends _ctl_base {
         $init_data['adm_menu'] = "gamboamartin\\administrador";
         $init_data['adm_seccion'] = "gamboamartin\\administrador";
         $init_data['adm_sistema'] = "gamboamartin\\administrador";
-        $selects = (new \base\controller\init())->select_key_input($init_data, selects: $keys->selects);
-        if(errores::$error){
-            return $this->errores->error(mensaje: 'Error al maquetar select',data:  $selects);
-        }
-
-        $keys->selects = $selects;
-
-        $campos_view = (new \base\controller\init())->model_init_campos_template(
-            campos_view: array(),keys:  $keys, link: $this->link);
+        $campos_view = $this->campos_view_base(init_data: $init_data,keys:  $keys);
 
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al inicializar campo view',data:  $campos_view);
