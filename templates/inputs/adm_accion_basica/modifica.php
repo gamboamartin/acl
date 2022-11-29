@@ -3,6 +3,7 @@
 
 <?php echo $controlador->inputs->descripcion; ?>
 <?php echo $controlador->inputs->css; ?>
+<?php echo $controlador->inputs->titulo; ?>
 
 
 <?php include (new views())->ruta_templates.'botons/submit/modifica_bd.php';?>

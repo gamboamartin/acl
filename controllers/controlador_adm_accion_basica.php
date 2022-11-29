@@ -35,11 +35,13 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
         $datatables->columns['adm_accion_basica_id']['titulo'] = 'Id';
         $datatables->columns['adm_accion_basica_descripcion']['titulo'] = 'Accion';
         $datatables->columns['adm_accion_basica_css']['titulo'] = 'CSS';
+        $datatables->columns['adm_accion_basica_titulo']['titulo'] = 'Titulo';
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_accion_basica.id';
         $datatables->filtro[] = 'adm_accion_basica.descripcion';
         $datatables->filtro[] = 'adm_accion_basica.css';
+        $datatables->filtro[] = 'adm_accion_basica.titulo';
 
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
             paths_conf: $paths_conf);
@@ -61,7 +63,7 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
     protected function campos_view(array $inputs = array()): array
     {
         $keys = new stdClass();
-        $keys->inputs = array('css','descripcion');
+        $keys->inputs = array('css','descripcion','titulo');
         $keys->selects = array();
 
 
@@ -110,7 +112,6 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
 
     public function es_view(bool $header = true, bool $ws = false): array|stdClass
     {
-
         $upd = $this->row_upd(key: 'es_view');
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
@@ -132,7 +133,11 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
 
-        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 12,key: 'css', keys_selects:$keys_selects, place_holder: 'CSS');
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'css', keys_selects:$keys_selects, place_holder: 'CSS');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
