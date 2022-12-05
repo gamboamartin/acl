@@ -85,23 +85,14 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
 
     public function asigna_permiso(bool $header = true, bool $ws = false): array|string{
 
-        $data_view = new stdClass();
-        $data_view->names = array('Id','Accion','Grupo','Seccion','Menu','Acciones');
-        $data_view->keys_data = array('adm_accion_id','adm_accion_descripcion','adm_grupo_descripcion','adm_seccion_descripcion','adm_menu_descripcion');
-        $data_view->key_actions = 'acciones';
-        $data_view->namespace_model = 'gamboamartin\\administrador\\models';
-        $data_view->name_model_children = 'adm_accion_grupo';
 
-
-
-        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
+        $contenido = (new _ctl_permiso())->asigna_permiso(controler: $this);
         if(errores::$error){
-            return $this->retorno_error(
-                mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al obtener contenido',data:  $contenido, header: $header,ws:  $ws);
         }
 
 
-        return $contenido_table;
+        return $contenido;
     }
 
     protected function inputs_children(stdClass $registro): stdClass|array
