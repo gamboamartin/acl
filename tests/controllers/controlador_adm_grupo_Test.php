@@ -65,6 +65,8 @@ class controlador_adm_grupo_Test extends test {
         $adm_usuario_ins['email'] = 'm@hh.com';
         $adm_usuario_ins['adm_grupo_id'] = 2;
         $adm_usuario_ins['telefono'] = 4444444444;
+        $adm_usuario_ins['nombre'] = 4444444444;
+        $adm_usuario_ins['ap'] = 4444444444;
 
         $alta = (new adm_usuario($this->link))->alta_registro($adm_usuario_ins);
         if(errores::$error){

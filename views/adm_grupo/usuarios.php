@@ -15,6 +15,9 @@
                         <?php echo $controlador->inputs->adm_usuario_password; ?>
                         <?php echo $controlador->inputs->adm_usuario_email; ?>
                         <?php echo $controlador->inputs->adm_usuario_telefono; ?>
+                        <?php echo $controlador->inputs->adm_usuario_nombre; ?>
+                        <?php echo $controlador->inputs->adm_usuario_ap; ?>
+                        <?php echo $controlador->inputs->adm_usuario_am; ?>
 
                         <?php echo $controlador->inputs->hidden_row_id; ?>
                         <?php echo $controlador->inputs->hidden_seccion_retorno; ?>
