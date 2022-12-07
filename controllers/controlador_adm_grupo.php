@@ -157,6 +157,27 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
                 mensaje: 'Error al obtener select_adm_accion_id',data:  $select_adm_grupo_id);
         }
 
+        $adm_usuario_nombre = (new adm_usuario_html(html: $this->html_base))->input_nombre(12, new stdClass(), false);
+
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener adm_usuario_nombre',data:  $adm_usuario_nombre);
+        }
+
+        $adm_usuario_ap = (new adm_usuario_html(html: $this->html_base))->input_ap(6, new stdClass(), false);
+
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener adm_usuario_ap',data:  $adm_usuario_ap);
+        }
+
+        $adm_usuario_am = (new adm_usuario_html(html: $this->html_base))->input_am(6, new stdClass(), false);
+
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener adm_usuario_am',data:  $adm_usuario_am);
+        }
+
 
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
@@ -170,6 +191,9 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
         $this->inputs->adm_usuario_password = $adm_usuario_password;
         $this->inputs->adm_usuario_email = $adm_usuario_email;
         $this->inputs->adm_usuario_telefono = $adm_usuario_telefono;
+        $this->inputs->adm_usuario_nombre = $adm_usuario_nombre;
+        $this->inputs->adm_usuario_ap = $adm_usuario_ap;
+        $this->inputs->adm_usuario_am = $adm_usuario_am;
         return $this->inputs;
     }
 
@@ -188,10 +212,12 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
         return $keys_selects;
     }
 
-    public function usuarios(bool $header = true, bool $ws = false){
+    public function usuarios(bool $header = true, bool $ws = false): array|string
+    {
         $data_view = new stdClass();
         $data_view->names = array('Id','User','Email','Telefono','Grupo','Acciones');
-        $data_view->keys_data = array('adm_usuario_id','adm_usuario_user','adm_usuario_email','adm_usuario_telefono','adm_grupo_descripcion');
+        $data_view->keys_data = array('adm_usuario_id','adm_usuario_user','adm_usuario_email',
+            'adm_usuario_telefono','adm_grupo_descripcion');
         $data_view->key_actions = 'acciones';
         $data_view->namespace_model = 'gamboamartin\\administrador\\models';
         $data_view->name_model_children = 'adm_usuario';

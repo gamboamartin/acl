@@ -73,7 +73,7 @@ class controlador_adm_usuario extends _ctl_base {
     protected function campos_view(): array
     {
         $keys = new stdClass();
-        $keys->inputs = array('user');
+        $keys->inputs = array('user','nombre','ap','am');
         $keys->passwords = array('password');
         $keys->telefonos = array('telefono');
         $keys->emails = array('email');
@@ -89,6 +89,47 @@ class controlador_adm_usuario extends _ctl_base {
         }
 
         return $campos_view;
+    }
+
+    protected function key_selects_txt(array $keys_selects): array
+    {
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'user', keys_selects:$keys_selects, place_holder: 'User');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'password', keys_selects:$keys_selects, place_holder: 'Password');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'email', keys_selects:$keys_selects, place_holder: 'Email');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'telefono', keys_selects:$keys_selects, place_holder: 'Telefono');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 12,key: 'nombre', keys_selects:$keys_selects, place_holder: 'Nombre');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'ap', keys_selects:$keys_selects, place_holder: 'Apellido Paterno');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(
+            cols: 6,key: 'am', keys_selects:$keys_selects, place_holder: 'Apellido Materno', required: false);
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        return $keys_selects;
     }
 
     public function modifica(

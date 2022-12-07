@@ -43,7 +43,7 @@ class adm_usuario_html extends html_controler {
 
     protected function init_alta(array $keys_selects, PDO $link): array|stdClass
     {
-        $selects = $this->selects_alta(link: $link);
+        $selects = $this->selects_alta(keys_selects: $keys_selects, link: $link);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar selects',data:  $selects);
         }
@@ -52,6 +52,52 @@ class adm_usuario_html extends html_controler {
         $alta_inputs->selects = $selects;
 
         return $alta_inputs;
+    }
+
+    public function input_am(int $cols, stdClass $row_upd, bool $value_vacio, bool $disabled = false,
+                             string $place_holder = 'Apellido Materno'): array|string
+    {
+
+        $valida = (new directivas(html: $this->html_base))->valida_cols(cols: $cols);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
+        }
+
+        $html =$this->directivas->input_text(disabled: $disabled, name: 'ap', place_holder: $place_holder,
+            required: false, row_upd: $row_upd, value_vacio: $value_vacio);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar input', data: $html);
+        }
+
+        $div = $this->directivas->html->div_group(cols: $cols,html:  $html);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al integrar div', data: $div);
+        }
+
+        return $div;
+    }
+
+    public function input_ap(int $cols, stdClass $row_upd, bool $value_vacio, bool $disabled = false,
+                                 string $place_holder = 'Apellido Paterno'): array|string
+    {
+
+        $valida = (new directivas(html: $this->html_base))->valida_cols(cols: $cols);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
+        }
+
+        $html =$this->directivas->input_text_required(disabled: $disabled,name: 'ap',place_holder: $place_holder,
+            row_upd: $row_upd, value_vacio: $value_vacio);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar input', data: $html);
+        }
+
+        $div = $this->directivas->html->div_group(cols: $cols,html:  $html);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al integrar div', data: $div);
+        }
+
+        return $div;
     }
 
     public function input_email(int $cols, stdClass $row_upd, bool $value_vacio, bool $disabled = false,
@@ -64,6 +110,29 @@ class adm_usuario_html extends html_controler {
         }
 
         $html =$this->directivas->email_required(disabled: $disabled,name: 'email',place_holder: $place_holder,
+            row_upd: $row_upd, value_vacio: $value_vacio);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar input', data: $html);
+        }
+
+        $div = $this->directivas->html->div_group(cols: $cols,html:  $html);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al integrar div', data: $div);
+        }
+
+        return $div;
+    }
+
+    public function input_nombre(int $cols, stdClass $row_upd, bool $value_vacio, bool $disabled = false,
+                               string $place_holder = 'Nombre'): array|string
+    {
+
+        $valida = (new directivas(html: $this->html_base))->valida_cols(cols: $cols);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al validar cols', data: $valida);
+        }
+
+        $html =$this->directivas->input_text_required(disabled: $disabled,name: 'nombre',place_holder: $place_holder,
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);

@@ -131,8 +131,6 @@ class controlador_adm_menu extends _ctl_parent_sin_codigo {
 
         return $contenido_table;
 
-
-
     }
 
 }

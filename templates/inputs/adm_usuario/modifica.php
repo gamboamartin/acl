@@ -6,6 +6,9 @@
 <?php echo $controlador->inputs->password; ?>
 <?php echo $controlador->inputs->email; ?>
 <?php echo $controlador->inputs->telefono; ?>
+<?php echo $controlador->inputs->nombre; ?>
+<?php echo $controlador->inputs->ap; ?>
+<?php echo $controlador->inputs->am; ?>
 
 
 <?php echo $controlador->inputs->adm_grupo_id; ?>
