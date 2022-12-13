@@ -8,6 +8,7 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use base\controller\init;
 use gamboamartin\administrador\models\adm_accion;
 use gamboamartin\errores\errores;
 use gamboamartin\system\_ctl_base;
@@ -191,7 +192,7 @@ class controlador_adm_accion extends _ctl_base {
     public function es_lista(bool $header = true, bool $ws = false): array|stdClass
     {
 
-        $ejecuta = (new _ctl_permiso())->es_lista(controler: $this, header: $header,ws:  $ws);
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
@@ -203,15 +204,12 @@ class controlador_adm_accion extends _ctl_base {
     public function es_status(bool $header = true, bool $ws = false): array|stdClass
     {
 
-        $upd = $this->row_upd(key: 'es_status');
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
 
-        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
-        $this->header_out(result: $upd, header: $header,ws:  $ws);
-
-        return $upd;
+        return $ejecuta;
 
 
     }
@@ -219,15 +217,12 @@ class controlador_adm_accion extends _ctl_base {
     public function es_view(bool $header = true, bool $ws = false): array|stdClass
     {
 
-        $upd = $this->row_upd(key: 'es_view');
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
 
-        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
-        $this->header_out(result: $upd, header: $header,ws:  $ws);
-
-        return $upd;
+        return $ejecuta;
 
 
     }
@@ -261,12 +256,12 @@ class controlador_adm_accion extends _ctl_base {
     protected function key_selects_txt(array $keys_selects): array
     {
 
-        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 12,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion');
+        $keys_selects = (new init())->key_select_txt(cols: 12,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
 
-        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
+        $keys_selects = (new init())->key_select_txt(cols: 6,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
@@ -374,15 +369,12 @@ class controlador_adm_accion extends _ctl_base {
     public function muestra_icono_btn(bool $header = true, bool $ws = false): array|stdClass
     {
 
-        $upd = $this->row_upd(key: 'muestra_icono_btn');
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
 
-        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
-        $this->header_out(result: $upd, header: $header,ws:  $ws);
-
-        return $upd;
+        return $ejecuta;
 
 
     }
@@ -390,15 +382,12 @@ class controlador_adm_accion extends _ctl_base {
     public function muestra_titulo_btn(bool $header = true, bool $ws = false): array|stdClass
     {
 
-        $upd = $this->row_upd(key: 'muestra_titulo_btn');
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
 
-        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
-        $this->header_out(result: $upd, header: $header,ws:  $ws);
-
-        return $upd;
+        return $ejecuta;
 
 
     }

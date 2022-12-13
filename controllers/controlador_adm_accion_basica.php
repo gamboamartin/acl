@@ -8,6 +8,7 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use base\controller\init;
 use gamboamartin\administrador\models\adm_accion_basica;
 use gamboamartin\errores\errores;
 use gamboamartin\system\_ctl_parent_sin_codigo;
@@ -68,7 +69,7 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
 
 
 
-        $campos_view = (new \base\controller\init())->model_init_campos_template(
+        $campos_view = (new init())->model_init_campos_template(
             campos_view: array(),keys:  $keys, link: $this->link);
 
         if(errores::$error){
@@ -81,7 +82,7 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
     public function es_lista(bool $header = true, bool $ws = false): array|stdClass
     {
 
-        $ejecuta = (new _ctl_permiso())->es_lista(controler: $this, header: $header,ws:  $ws);
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
@@ -94,30 +95,24 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
     public function es_status(bool $header = true, bool $ws = false): array|stdClass
     {
 
-        $upd = $this->row_upd(key: 'es_status');
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
 
-        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
-        $this->header_out(result: $upd, header: $header,ws:  $ws);
-
-        return $upd;
+        return $ejecuta;
 
 
     }
 
     public function es_view(bool $header = true, bool $ws = false): array|stdClass
     {
-        $upd = $this->row_upd(key: 'es_view');
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+            return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
 
-        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
-        $this->header_out(result: $upd, header: $header,ws:  $ws);
-
-        return $upd;
+        return $ejecuta;
 
 
     }
@@ -125,22 +120,47 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
     protected function key_selects_txt(array $keys_selects): array
     {
 
-        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 12,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion Base');
+        $keys_selects = (new init())->key_select_txt(cols: 12,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion Base');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
 
-        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'css', keys_selects:$keys_selects, place_holder: 'CSS');
+        $keys_selects = (new init())->key_select_txt(cols: 6,key: 'css', keys_selects:$keys_selects, place_holder: 'CSS');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
-        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
+        $keys_selects = (new init())->key_select_txt(cols: 6,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
         return $keys_selects;
     }
 
+    public function muestra_icono_btn(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
+        }
+
+        return $ejecuta;
+
+
+    }
+
+    public function muestra_titulo_btn(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
+        }
+
+        return $ejecuta;
+
+
+    }
 
 
 }

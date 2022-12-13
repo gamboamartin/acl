@@ -1,6 +1,7 @@
 <?php
 namespace gamboamartin\acl\controllers;
 
+use base\controller\controler;
 use gamboamartin\errores\errores;
 use gamboamartin\system\_ctl_base;
 use gamboamartin\system\system;
@@ -31,10 +32,11 @@ class _ctl_permiso{
         return $contenido_table;
     }
 
-    public function es_lista(system $controler, bool $header, bool $ws): array|stdClass
-    {
 
-        $upd = $controler->row_upd(key: 'es_lista');
+
+    public function row_upd(system $controler, bool $header, string $key, bool $ws): array|stdClass
+    {
+        $upd = $controler->row_upd(key: $key);
         if(errores::$error){
             return $controler->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
         }
@@ -43,8 +45,6 @@ class _ctl_permiso{
         $controler->header_out(result: $upd, header: $header,ws:  $ws);
 
         return $upd;
-
-
     }
 
 }
