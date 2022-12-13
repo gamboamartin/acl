@@ -375,5 +375,37 @@ class controlador_adm_accion extends _ctl_base {
         return $r_modifica_bd;
 
     }
+    public function muestra_icono_btn(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $upd = $this->row_upd(key: 'muestra_icono_btn');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+        }
+
+        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
+        $this->header_out(result: $upd, header: $header,ws:  $ws);
+
+        return $upd;
+
+
+    }
+
+    public function muestra_titulo_btn(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $upd = $this->row_upd(key: 'muestra_titulo_btn');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
+        }
+
+        $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$this->registro_id;
+        $this->header_out(result: $upd, header: $header,ws:  $ws);
+
+        return $upd;
+
+
+    }
+
 
 }
