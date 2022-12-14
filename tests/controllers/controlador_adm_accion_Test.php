@@ -81,6 +81,7 @@ class controlador_adm_accion_Test extends test {
         $_POST = array();
         $_POST['descripcion'] = 'a';
         $_POST['adm_seccion_id'] = 1;
+        $_POST['muestra_icono_btn'] = 'inactivo';
         $resultado = $controler->alta_bd(header: false);
 
         $this->assertIsObject($resultado);
