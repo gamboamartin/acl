@@ -23,7 +23,7 @@ use stdClass;
 use Throwable;
 
 
-class controlador_adm_accion extends _ctl_base {
+class controlador_adm_accion extends _accion_base {
 
     public string $link_adm_accion_grupo_alta_bd = '';
     public array $childrens = array();
@@ -100,36 +100,7 @@ class controlador_adm_accion extends _ctl_base {
         return $r_alta;
     }
 
-    /**
-     * Da de alta una accion
-     * @param bool $header
-     * @param bool $ws
-     * @return array|stdClass
-     * @version 0.99.4
-     */
-    public function alta_bd(bool $header, bool $ws = false): array|stdClass
-    {
-        $this->link->beginTransaction();
-        if(isset($_POST['adm_menu_id'])){
-            unset($_POST['adm_menu_id']);
-        }
 
-        $result = $this->alta_bd_base();
-        if(errores::$error){
-            $this->link->rollBack();
-            return $this->retorno_error(mensaje: 'Error al insertar registro',data:  $result, header: $header,ws: $ws);
-        }
-
-        $this->link->commit();
-
-        $result = $this->out_alta_bd(header: $header,data_retorno:  $result->data_retorno, result: $result->r_alta_bd, ws: $ws);
-        if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al retornar', data: $result, header: $header,ws:  $ws);
-        }
-
-        return $result;
-
-    }
 
     public function acciones_id_por_grupo(bool $header = true, bool $ws = false){
 
