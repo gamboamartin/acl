@@ -174,7 +174,7 @@ class controlador_adm_accion extends _ctl_base {
     protected function campos_view(): array
     {
         $keys = new stdClass();
-        $keys->inputs = array('css','codigo','descripcion','titulo');
+        $keys->inputs = array('css','codigo','descripcion','titulo','icono');
         $keys->selects = array();
 
         $init_data = array();
@@ -256,12 +256,18 @@ class controlador_adm_accion extends _ctl_base {
     protected function key_selects_txt(array $keys_selects): array
     {
 
-        $keys_selects = (new init())->key_select_txt(cols: 12,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion');
+        $keys_selects = (new init())->key_select_txt(cols: 6,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
 
         $keys_selects = (new init())->key_select_txt(cols: 6,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new init())->key_select_txt(cols: 6,key: 'icono', keys_selects:$keys_selects,
+            place_holder: 'Icono',required: false);
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }

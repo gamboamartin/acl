@@ -5,6 +5,7 @@
 
 <?php echo $controlador->inputs->titulo; ?>
 <?php echo $controlador->inputs->css; ?>
+<?php echo $controlador->inputs->icono; ?>
 
 
 <?php echo $controlador->inputs->adm_menu_id; ?>
