@@ -61,10 +61,32 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
 
     }
 
+    public function alta(bool $header, bool $ws = false): array|string
+    {
+
+
+        $r_alta = parent::alta(header: false);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al inicializar alta',data:  $r_alta, header: $header,ws:  $ws);
+        }
+
+        $keys_selects['descripcion'] = new stdClass();
+        $keys_selects['descripcion']->cols = 6;
+
+        $inputs = $this->inputs(keys_selects: $keys_selects);
+        if(errores::$error){
+            return $this->retorno_error(
+                mensaje: 'Error al obtener inputs',data:  $inputs, header: $header,ws:  $ws);
+        }
+
+
+        return $r_alta;
+    }
+
     protected function campos_view(array $inputs = array()): array
     {
         $keys = new stdClass();
-        $keys->inputs = array('css','descripcion','titulo');
+        $keys->inputs = array('css','descripcion','titulo','icono');
         $keys->selects = array();
 
 
@@ -120,7 +142,7 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
     protected function key_selects_txt(array $keys_selects): array
     {
 
-        $keys_selects = (new init())->key_select_txt(cols: 12,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion Base');
+        $keys_selects = (new init())->key_select_txt(cols: 6,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Accion Base');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
@@ -130,6 +152,10 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
         $keys_selects = (new init())->key_select_txt(cols: 6,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+        $keys_selects = (new init())->key_select_txt(cols: 6,key: 'icono', keys_selects:$keys_selects, place_holder: 'Icono',required: false);
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
