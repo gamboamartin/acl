@@ -37,6 +37,7 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
         $datatables->columns['adm_accion_basica_descripcion']['titulo'] = 'Accion';
         $datatables->columns['adm_accion_basica_css']['titulo'] = 'CSS';
         $datatables->columns['adm_accion_basica_titulo']['titulo'] = 'Titulo';
+        $datatables->columns['adm_accion_basica_icono']['titulo'] = 'Icono';
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_accion_basica.id';
