@@ -103,11 +103,13 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
 
     public function es_lista(bool $header = true, bool $ws = false): array|stdClass
     {
-
+        $this->link->beginTransaction();
         $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
+            $this->link->rollBack();
             return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
+        $this->link->commit();
 
         return $ejecuta;
 
@@ -116,11 +118,13 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
 
     public function es_status(bool $header = true, bool $ws = false): array|stdClass
     {
-
+        $this->link->beginTransaction();
         $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
+            $this->link->rollBack();
             return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
+        $this->link->commit();
 
         return $ejecuta;
 
@@ -129,11 +133,14 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
 
     public function es_view(bool $header = true, bool $ws = false): array|stdClass
     {
+        $this->link->beginTransaction();
         $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
+            $this->link->rollBack();
             return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
 
+        $this->link->commit();
         return $ejecuta;
 
 
@@ -164,12 +171,13 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
 
     public function muestra_icono_btn(bool $header = true, bool $ws = false): array|stdClass
     {
-
+        $this->link->beginTransaction();
         $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
+            $this->link->rollBack();
             return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
-
+        $this->link->commit();
         return $ejecuta;
 
 
@@ -177,11 +185,13 @@ class controlador_adm_accion_basica extends _ctl_parent_sin_codigo {
 
     public function muestra_titulo_btn(bool $header = true, bool $ws = false): array|stdClass
     {
-
+        $this->link->beginTransaction();
         $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
         if(errores::$error){
+            $this->link->rollBack();
             return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
         }
+        $this->link->commit();
 
         return $ejecuta;
 

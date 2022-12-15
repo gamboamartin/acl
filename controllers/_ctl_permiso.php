@@ -36,10 +36,21 @@ class _ctl_permiso{
 
     public function row_upd(system $controler, bool $header, string $key, bool $ws): array|stdClass
     {
+        $en_transaccion = false;
+        if($controler->link->inTransaction()){
+            $en_transaccion = true;
+        }
+
+        if(!$en_transaccion){
+            $controler->link->beginTransaction();
+        }
+
         $upd = $controler->row_upd(key: $key);
         if(errores::$error){
+            $controler->link->rollBack();
             return $controler->retorno_error(mensaje: 'Error al obtener row upd',data:  $upd, header: $header,ws:  $ws);
         }
+        $controler->link->commit();
 
         $_SESSION[$upd->salida][]['mensaje'] = $upd->mensaje.' del id '.$controler->registro_id;
         $controler->header_out(result: $upd, header: $header,ws:  $ws);
