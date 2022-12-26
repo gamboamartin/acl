@@ -369,5 +369,18 @@ class controlador_adm_accion extends _accion_base {
 
     }
 
+    public function visible(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $ejecuta = (new _ctl_permiso())->row_upd(controler: $this, header: $header, key: __FUNCTION__,ws:  $ws);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener ejecutar',data:  $ejecuta, header: $header,ws:  $ws);
+        }
+
+        return $ejecuta;
+
+
+    }
+
 
 }
