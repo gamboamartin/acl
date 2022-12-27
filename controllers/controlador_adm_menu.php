@@ -8,9 +8,9 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use base\controller\init;
 use gamboamartin\administrador\models\adm_menu;
 use gamboamartin\errores\errores;
-use gamboamartin\system\_ctl_parent;
 use gamboamartin\system\_ctl_parent_sin_codigo;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
@@ -37,11 +37,13 @@ class controlador_adm_menu extends _ctl_parent_sin_codigo {
         $datatables->columns = array();
         $datatables->columns['adm_menu_id']['titulo'] = 'Id';
         $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
+        $datatables->columns['adm_menu_titulo']['titulo'] = 'Titulo';
         $datatables->columns['adm_menu_n_secciones']['titulo'] = 'Secciones';
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_menu.id';
         $datatables->filtro[] = 'adm_menu.descripcion';
+        $datatables->filtro[] = 'adm_menu.titulo';
 
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
             paths_conf: $paths_conf);
@@ -70,6 +72,24 @@ class controlador_adm_menu extends _ctl_parent_sin_codigo {
 
     private function acciones_permitidas_por_registro(int $registro_id){
 
+    }
+
+    protected function campos_view(array $inputs = array()): array
+    {
+        $keys = new stdClass();
+        $keys->inputs = array('codigo','descripcion','titulo');
+        $keys->selects = array();
+
+
+
+        $campos_view = (new init())->model_init_campos_template(
+            campos_view: array(),keys:  $keys, link: $this->link);
+
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al inicializar campo view',data:  $campos_view);
+        }
+
+        return $campos_view;
     }
 
     protected function inputs_children(stdClass $registro): array|stdClass{
@@ -104,6 +124,11 @@ class controlador_adm_menu extends _ctl_parent_sin_codigo {
         }
 
         $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Menu');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 12,key: 'titulo', keys_selects:$keys_selects, place_holder: 'Titulo');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }

@@ -41,7 +41,7 @@
       "ext-fileinfo": "*",
         "tomsgu/pdf-merger": "^0.3.0",
         "spatie/dropbox-api": "^1.19",
-        "gamboa.martin/administrador": "^5.0.0",
+        "gamboa.martin/administrador": "^6.0.0",
         "gamboa.martin/base_modelos": "^1.0.0",
         "gamboa.martin/calculo": "^1.0.0",
         "gamboa.martin/errores": "^1.0.0",
@@ -50,11 +50,11 @@
         "gamboa.martin/plugins": "^1.0.0",
         "gamboa.martin/test": "^1.0.0",
         "gamboa.martin/configuraciones": "^1.0.0",
-        "gamboa.martin/template": "^2.0.0",
-        "gamboa.martin/template_1": "^2.0.0",
-        "gamboa.martin/system": "^2.0.0",
+        "gamboa.martin/template": "^3.0.0",
+        "gamboa.martin/template_1": "^3.0.0",
+        "gamboa.martin/system": "^3.0.0",
         "gamboa.martin/js_base": "^1.0.0",
-        "gamboa.martin/services": "^2.0.0"
+        "gamboa.martin/services": "^3.0.0"
 
     },
     "require-dev": {
