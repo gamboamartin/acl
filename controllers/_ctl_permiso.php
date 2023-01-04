@@ -1,7 +1,6 @@
 <?php
 namespace gamboamartin\acl\controllers;
 
-use base\controller\controler;
 use gamboamartin\errores\errores;
 use gamboamartin\system\_ctl_base;
 use gamboamartin\system\system;
