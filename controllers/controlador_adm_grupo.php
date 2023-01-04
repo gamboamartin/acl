@@ -32,7 +32,8 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
     public string $link_adm_accion_grupo_alta_bd = '';
     public array $adm_usuarios = array();
 
-    public function __construct(PDO $link, html $html = new html(), stdClass $paths_conf = new stdClass()){
+    public function __construct(PDO $link, html $html = new html(), array $datatables_custom_cols = array(),
+                                stdClass $paths_conf = new stdClass()){
         $modelo = new adm_grupo(link: $link);
 
         $html_ = new adm_grupo_html(html: $html);
@@ -50,8 +51,8 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
         $datatables->filtro[] = 'adm_grupo.descripcion';
 
 
-        parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
-            paths_conf: $paths_conf);
+        parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link,
+            datatables_custom_cols: $datatables_custom_cols, datatables: $datatables, paths_conf: $paths_conf);
 
         $this->titulo_lista = 'Grupos';
 
