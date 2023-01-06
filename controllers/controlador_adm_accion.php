@@ -11,7 +11,6 @@ namespace gamboamartin\acl\controllers;
 use base\controller\init;
 use gamboamartin\administrador\models\adm_accion;
 use gamboamartin\errores\errores;
-use gamboamartin\system\_ctl_base;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
 use html\adm_grupo_html;
@@ -321,7 +320,7 @@ class controlador_adm_accion extends _accion_base {
             return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
         }
 
-        $base = $this->base_upd(keys_selects: $keys_selects, not_actions: array(__FUNCTION__), params: array(),params_ajustados: array());
+        $base = $this->base_upd(keys_selects: $keys_selects, params: array(),params_ajustados: array());
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al integrar base',data:  $base, header: $header,ws:  $ws);
         }
