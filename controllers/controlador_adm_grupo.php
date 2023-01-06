@@ -213,7 +213,7 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
         return $keys_selects;
     }
 
-    public function usuarios(bool $header = true, bool $ws = false): array|string
+    public function usuarios(bool $header = true, bool $ws = false, array $not_actions = array()): array|string
     {
         $data_view = new stdClass();
         $data_view->names = array('Id','User','Email','Telefono','Grupo','Acciones');
@@ -223,7 +223,8 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
         $data_view->namespace_model = 'gamboamartin\\administrador\\models';
         $data_view->name_model_children = 'adm_usuario';
 
-        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__,
+            not_actions: $not_actions);
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);
