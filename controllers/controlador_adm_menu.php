@@ -68,6 +68,8 @@ class controlador_adm_menu extends _ctl_parent_sin_codigo {
         }
         $this->link_adm_seccion_alta_bd = $link_adm_seccion_alta_bd;
 
+        $this->path_vendor_views = 'gamboa.martin/acl';
+
     }
 
     private function acciones_permitidas_por_registro(int $registro_id){
