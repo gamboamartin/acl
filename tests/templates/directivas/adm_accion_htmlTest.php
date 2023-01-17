@@ -45,9 +45,10 @@ class adm_accion_htmlTest extends test {
         $row_upd = new stdClass();
         $resultado = $html->input_titulo($cols, $row_upd, $value_vacio);
 
+
         $this->assertIsString($resultado);
         $this->assertNotTrue(errores::$error);
-        $this->assertStringContainsStringIgnoringCase("<div class='control-group col-sm-1'><label class='control-label' for='titulo'>Titulo</label><div class='controls'><input type='text' name='titulo' value='' class='form-control'  required id='titulo' placeholder='Titulo' /></div></div>", $resultado);
+        $this->assertStringContainsStringIgnoringCase("<div class='control-group col-sm-1'><label class='control-label' for='titulo'>Titulo</label><div class='controls'><input type='text' name='titulo' value='' class='form-control' required id='titulo' placeholder='Titulo' title='Titulo' /></div></div>", $resultado);
 
         errores::$error = false;
     }

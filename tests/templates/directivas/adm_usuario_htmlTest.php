@@ -55,7 +55,7 @@ class adm_usuario_htmlTest extends test {
         $resultado = $html->input_user($cols, $row_upd, $value_vacio);
         $this->assertIsString($resultado);
         $this->assertNotTrue(errores::$error);
-        $this->assertEquals("<div class='control-group col-sm-1'><label class='control-label' for='user'>User</label><div class='controls'><input type='text' name='user' value='' class='form-control'  required id='user' placeholder='User' /></div></div>", $resultado);
+        $this->assertEquals("<div class='control-group col-sm-1'><label class='control-label' for='user'>User</label><div class='controls'><input type='text' name='user' value='' class='form-control' required id='user' placeholder='User' title='User' /></div></div>", $resultado);
 
 
         errores::$error = false;
