@@ -5,6 +5,7 @@
 
 
 <?php echo $controlador->inputs->adm_menu_id; ?>
+<?php echo $controlador->inputs->adm_namespace_id; ?>
 
 
 <?php include (new views())->ruta_templates.'botons/submit/modifica_bd.php';?>

@@ -14,6 +14,7 @@ use gamboamartin\system\_ctl_base;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
 use html\adm_menu_html;
+use html\adm_namespace_html;
 use html\adm_seccion_html;
 use links\secciones\link_adm_seccion;
 use PDO;
@@ -92,8 +93,14 @@ class controlador_adm_seccion extends _ctl_base {
                 mensaje: 'Error al inicializar alta',data:  $r_alta, header: $header,ws:  $ws);
         }
 
-        $keys_selects = $this->key_select(cols:12, con_registros: true,filtro:  array(), key: 'adm_menu_id',
+        $keys_selects = $this->key_select(cols:6, con_registros: true,filtro:  array(), key: 'adm_menu_id',
             keys_selects: array(), id_selected: -1, label: 'Menu');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
+        }
+
+        $keys_selects = $this->key_select(cols:6, con_registros: true,filtro:  array(), key: 'adm_namespace_id',
+            keys_selects: $keys_selects, id_selected: -1, label: 'Namespace');
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
         }
@@ -119,6 +126,7 @@ class controlador_adm_seccion extends _ctl_base {
 
         $init_data = array();
         $init_data['adm_menu'] = "gamboamartin\\administrador";
+        $init_data['adm_namespace'] = "gamboamartin\\administrador";
         $campos_view = $this->campos_view_base(init_data: $init_data,keys:  $keys);
 
         if(errores::$error){
@@ -142,9 +150,7 @@ class controlador_adm_seccion extends _ctl_base {
 
         }
 
-
         return $salida;
-
 
     }
 
@@ -156,6 +162,14 @@ class controlador_adm_seccion extends _ctl_base {
         if(errores::$error){
             return $this->errores->error(
                 mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id);
+        }
+
+        $select_adm_namespace_id = (new adm_namespace_html(html: $this->html_base))->select_adm_namespace_id(
+            cols:6,con_registros: true,id_selected:  $registro->adm_menu_id,link:  $this->link, disabled: true);
+
+        if(errores::$error){
+            return $this->errores->error(
+                mensaje: 'Error al obtener select_adm_namespace_id',data:  $select_adm_namespace_id);
         }
 
 
@@ -186,6 +200,7 @@ class controlador_adm_seccion extends _ctl_base {
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
         $this->inputs->select->adm_menu_id = $select_adm_menu_id;
+        $this->inputs->select->adm_namespace_id = $select_adm_namespace_id;
         $this->inputs->select->adm_seccion_id = $select_adm_seccion_id;
         $this->inputs->adm_accion_descripcion = $adm_accion_descripcion;
         $this->inputs->adm_accion_titulo = $adm_accion_titulo;
@@ -219,8 +234,14 @@ class controlador_adm_seccion extends _ctl_base {
         }
 
 
-        $keys_selects = $this->key_select(cols:12, con_registros: true,filtro:  array(), key: 'adm_menu_id',
+        $keys_selects = $this->key_select(cols:6, con_registros: true,filtro:  array(), key: 'adm_menu_id',
             keys_selects: array(), id_selected: $this->registro['adm_menu_id'], label: 'Menu');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
+        }
+
+        $keys_selects = $this->key_select(cols:6, con_registros: true,filtro:  array(), key: 'adm_namespace_id',
+            keys_selects: array(), id_selected: $this->registro['adm_namespace_id'], label: 'Namespace');
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects, header: $header,ws:  $ws);
         }
