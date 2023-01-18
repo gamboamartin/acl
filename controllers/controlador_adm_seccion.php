@@ -142,6 +142,7 @@ class controlador_adm_seccion extends _ctl_base {
 
         $keys['adm_menu'] = array('id','descripcion','codigo','codigo_bis');
         $keys['adm_seccion'] = array('id','descripcion','codigo','codigo_bis');
+        $keys['adm_namespace'] = array('id','descripcion','codigo','codigo_bis');
 
 
         $salida = $this->get_out(header: $header,keys: $keys, ws: $ws);

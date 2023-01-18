@@ -23,7 +23,7 @@ class _ctl_permiso{
         $data_view->name_model_children = 'adm_accion_grupo';
 
 
-        $contenido_table = $controler->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
+        $contenido_table = $controler->contenido_children(data_view: $data_view, next_accion: __FUNCTION__, not_actions: $controler->not_actions);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al obtener tbody',data:  $contenido_table);
         }
