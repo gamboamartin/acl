@@ -43,6 +43,17 @@ class controlador_adm_seccion_Test extends test {
             exit;
         }
 
+        $seccion_ins = array();
+        $seccion_ins['id'] = 2;
+        $seccion_ins['adm_menu_id'] = 1;
+        $seccion_ins['descripcion'] = 'adm_menu';
+        $r_alta = (new adm_seccion(link: $this->link))->alta_registro($seccion_ins);
+        if(errores::$error){
+            $error = (new errores())->error('Error al insertar', $r_alta);
+            print_r($error);
+            exit;
+        }
+
         $controler = new controlador_adm_seccion(link: $this->link, paths_conf: $this->paths_conf);
         //$controler = new liberator($controler);
 
