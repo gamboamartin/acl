@@ -36,6 +36,7 @@ class controlador_adm_seccion extends _ctl_base {
         $datatables->columns['adm_seccion_id']['titulo'] = 'Id';
         $datatables->columns['adm_seccion_descripcion']['titulo'] = 'Seccion';
         $datatables->columns['adm_menu_descripcion']['titulo'] = 'Menu';
+        $datatables->columns['adm_namespace_descripcion']['titulo'] = 'Namespace';
         $datatables->columns['adm_seccion_n_acciones']['titulo'] = 'N Acciones';
 
 
@@ -70,7 +71,7 @@ class controlador_adm_seccion extends _ctl_base {
         $data_view->name_model_children = 'adm_accion';
 
 
-        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__, not_actions: $this->not_actions);
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);
@@ -230,7 +231,7 @@ class controlador_adm_seccion extends _ctl_base {
         $keys_selects['codigo'] = new stdClass();
         $keys_selects['codigo']->disabled = true;
 
-        $base = $this->base_upd(keys_selects: $keys_selects, not_actions: array(__FUNCTION__), params: array(),params_ajustados: array());
+        $base = $this->base_upd(keys_selects: $keys_selects, params: array(),params_ajustados: array());
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al integrar base',data:  $base, header: $header,ws:  $ws);
         }
