@@ -14,6 +14,7 @@ use gamboamartin\errores\errores;
 use gamboamartin\system\_ctl_parent_sin_codigo;
 use gamboamartin\template_1\html;
 use html\adm_menu_html;
+use html\adm_namespace_html;
 use html\adm_seccion_html;
 use links\secciones\link_adm_menu;
 use PDO;
@@ -101,6 +102,12 @@ class controlador_adm_menu extends _ctl_parent_sin_codigo {
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al obtener select_adm_menu_id',data:  $select_adm_menu_id);
         }
+        $select_adm_namespace_id = (new adm_namespace_html(html: $this->html_base))->select_adm_namespace_id(
+            cols:12,con_registros: true,id_selected:  $registro->adm_menu_id,link:  $this->link);
+
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al obtener select_adm_namespace_id',data:  $select_adm_namespace_id);
+        }
 
         $adm_seccion_descripcion = (new adm_seccion_html(html: $this->html_base))->input_descripcion(
             cols:12,row_upd:  new stdClass(), value_vacio: true, place_holder: 'Seccion');
@@ -113,6 +120,7 @@ class controlador_adm_menu extends _ctl_parent_sin_codigo {
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
         $this->inputs->select->adm_menu_id = $select_adm_menu_id;
+        $this->inputs->select->adm_namespace_id = $select_adm_namespace_id;
         $this->inputs->adm_seccion_descripcion = $adm_seccion_descripcion;
 
         return $this->inputs;
@@ -149,7 +157,7 @@ class controlador_adm_menu extends _ctl_parent_sin_codigo {
         $data_view->name_model_children = 'adm_seccion';
 
 
-        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__);
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__, not_actions: $this->not_actions);
         if(errores::$error){
             return $this->retorno_error(
                 mensaje: 'Error al obtener tbody',data:  $contenido_table, header: $header,ws:  $ws);

@@ -11,6 +11,7 @@
                         <?php include (new views())->ruta_templates."mensajes.php"; ?>
 
                         <?php echo $controlador->inputs->select->adm_menu_id; ?>
+                        <?php echo $controlador->inputs->select->adm_namespace_id; ?>
                         <?php echo $controlador->inputs->adm_seccion_descripcion; ?>
 
                         <?php echo $controlador->inputs->hidden_row_id; ?>
