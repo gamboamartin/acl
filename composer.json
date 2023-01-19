@@ -17,7 +17,8 @@
           "models\\": "orm",
           "tests\\": "tests/",
           "links\\": "links/",
-          "html\\": "templates/directivas/"
+          "html\\": "templates/directivas/",
+          "gamboamartin\\acl\\java\\": "js"
 
         }
     },
@@ -51,9 +52,9 @@
         "gamboa.martin/test": "^2.0.0",
         "gamboa.martin/configuraciones": "^1.0.0",
         "gamboa.martin/template": "^6.0.0",
-        "gamboa.martin/template_1": "^7.0.0",
+        "gamboa.martin/template_1": "^8.0.0",
         "gamboa.martin/system": "^7.0.0",
-        "gamboa.martin/js_base": "^1.0.0",
+        "gamboa.martin/js_base": "^2.0.0",
         "gamboa.martin/services": "^6.0.0"
 
     },
