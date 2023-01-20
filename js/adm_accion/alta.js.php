@@ -5,7 +5,7 @@ use gamboamartin\errores\errores;
 use gamboamartin\js_base\base;
 
 $js = new base();
-$sl_exe_change_ajax = $js->sl_exe_change_ajax(event: 'adm_asigna_secciones', key_parent_id: 'adm_menu_id');
+$sl_exe_change_ajax = $js->sl_exe_change_ajax(event: 'get_adm_seccion', key_parent_id: 'adm_menu_id');
 if(errores::$error){
     $error = (new errores())->error(mensaje: 'Error al integrar selector',data:  $sl_exe_change_ajax);
     print_r($error);
@@ -13,3 +13,4 @@ if(errores::$error){
 }
 
 echo $sl_exe_change_ajax; ?>
+
