@@ -1,6 +1,1 @@
 $('#adm_usuario').DataTable();
-
-
-
-
-

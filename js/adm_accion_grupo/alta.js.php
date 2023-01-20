@@ -24,8 +24,3 @@ echo $get_adm_seccion;
 echo $get_adm_accion;
 
 ?>
-
-
-
-
-
