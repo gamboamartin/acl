@@ -37,12 +37,14 @@ class controlador_adm_namespace extends _ctl_parent_sin_codigo {
         $datatables = new stdClass();
         $datatables->columns = array();
         $datatables->columns['adm_namespace_id']['titulo'] = 'Id';
-        $datatables->columns['adm_namespace_descripcion']['titulo'] = 'Menu';
+        $datatables->columns['adm_namespace_descripcion']['titulo'] = 'Namespace';
+        $datatables->columns['adm_namespace_name']['titulo'] = 'Name';
         $datatables->columns['adm_namespace_n_secciones']['titulo'] = 'Secciones';
 
         $datatables->filtro = array();
         $datatables->filtro[] = 'adm_namespace.id';
         $datatables->filtro[] = 'adm_namespace.descripcion';
+        $datatables->filtro[] = 'adm_namespace.name';
 
 
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
@@ -75,7 +77,7 @@ class controlador_adm_namespace extends _ctl_parent_sin_codigo {
     protected function campos_view(array $inputs = array()): array
     {
         $keys = new stdClass();
-        $keys->inputs = array('codigo','descripcion');
+        $keys->inputs = array('codigo','descripcion','name');
         $keys->selects = array();
 
 
@@ -98,14 +100,14 @@ class controlador_adm_namespace extends _ctl_parent_sin_codigo {
             return $this->errores->error(mensaje: 'Error al obtener select_adm_namespace_id',data:  $select_adm_namespace_id);
         }
         $select_adm_menu_id = (new adm_menu_html(html: $this->html_base))->select_adm_menu_id(
-            cols:12,con_registros: true,id_selected:  -1,link:  $this->link);
+            cols:6,con_registros: true,id_selected:  -1,link:  $this->link);
 
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al obtener select_adm_namespace_id',data:  $select_adm_namespace_id);
         }
 
         $adm_seccion_descripcion = (new adm_seccion_html(html: $this->html_base))->input_descripcion(
-            cols:12,row_upd:  new stdClass(), value_vacio: true, place_holder: 'Seccion');
+            cols:6,row_upd:  new stdClass(), value_vacio: true, place_holder: 'Seccion');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al obtener adm_seccion_descripcion',
                 data:  $adm_seccion_descripcion);
@@ -129,6 +131,11 @@ class controlador_adm_namespace extends _ctl_parent_sin_codigo {
         }
 
         $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Namespace');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 12,key: 'name', keys_selects:$keys_selects, place_holder: 'Name');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }

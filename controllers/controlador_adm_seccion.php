@@ -21,7 +21,7 @@ use PDO;
 use stdClass;
 
 
-class controlador_adm_seccion extends _ctl_base { 
+class controlador_adm_seccion extends _ctl_base {
 
     public string $link_adm_accion_alta_bd = '';
 

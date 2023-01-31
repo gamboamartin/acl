@@ -2,6 +2,7 @@
 <?php use config\views; ?>
 <?php echo $controlador->inputs->codigo; ?>
 <?php echo $controlador->inputs->descripcion; ?>
+<?php echo $controlador->inputs->name; ?>
 
 <?php include (new views())->ruta_templates.'botons/submit/modifica_bd.php';?>
 
