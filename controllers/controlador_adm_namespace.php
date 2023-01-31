@@ -74,6 +74,11 @@ class controlador_adm_namespace extends _ctl_parent_sin_codigo {
 
     }
 
+    /**
+     * Integra los campos de una vista al front
+     * @param array $inputs
+     * @return array
+     */
     protected function campos_view(array $inputs = array()): array
     {
         $keys = new stdClass();
