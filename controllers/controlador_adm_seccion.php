@@ -25,8 +25,8 @@ class controlador_adm_seccion extends _ctl_base {
 
     public string $link_adm_accion_alta_bd = '';
 
-    public function __construct(PDO $link, html $html = new html(),
-                                stdClass $paths_conf = new stdClass()){
+    public function __construct(PDO $link, html $html = new html(), array $datatables_custom_cols = array(),
+                                array $datatables_custom_cols_omite = array(), stdClass $paths_conf = new stdClass()){
         $modelo = new adm_seccion(link: $link);
 
         $html_ = new adm_seccion_html(html: $html);
@@ -42,7 +42,9 @@ class controlador_adm_seccion extends _ctl_base {
 
 
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link,
-            datatables: $datatables, paths_conf: $paths_conf);
+            datatables_custom_cols: $datatables_custom_cols,
+            datatables_custom_cols_omite: $datatables_custom_cols_omite, datatables: $datatables,
+            paths_conf: $paths_conf);
 
 
 
