@@ -47,6 +47,7 @@ class controlador_adm_seccion_Test extends test {
         $seccion_ins['id'] = 2;
         $seccion_ins['adm_menu_id'] = 1;
         $seccion_ins['descripcion'] = 'adm_menu';
+        $seccion_ins['adm_namespace_id'] = '1';
         $r_alta = (new adm_seccion(link: $this->link))->alta_registro($seccion_ins);
         if(errores::$error){
             $error = (new errores())->error('Error al insertar', $r_alta);
@@ -60,6 +61,7 @@ class controlador_adm_seccion_Test extends test {
         $_POST = array();
         $_POST['descripcion'] = 'a';
         $_POST['adm_menu_id'] = 1;
+        $_POST['adm_namespace_id'] = 1;
         $resultado = $controler->alta_bd(header: false);
         $this->assertIsObject($resultado);
         $this->assertNotTrue(errores::$error);
