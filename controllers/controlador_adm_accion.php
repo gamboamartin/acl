@@ -10,6 +10,8 @@ namespace gamboamartin\acl\controllers;
 
 use base\controller\init;
 use gamboamartin\administrador\models\adm_accion;
+use gamboamartin\administrador\models\adm_menu;
+use gamboamartin\administrador\models\adm_seccion;
 use gamboamartin\errores\errores;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
@@ -65,6 +67,8 @@ class controlador_adm_accion extends _accion_base {
         $this->link_adm_accion_grupo_alta_bd = $link_adm_accion_grupo_alta_bd;
 
         $this->lista_get_data = true;
+
+        $this->parents_verifica[] = new adm_seccion(link: $this->link);
 
     }
 
