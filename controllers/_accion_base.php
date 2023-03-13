@@ -18,13 +18,13 @@ class _accion_base extends _ctl_base{
             $this->link->rollBack();
             return $this->retorno_error(mensaje: 'Error al insertar registro',data:  $result, header: $header,ws: $ws);
         }
-
         $this->link->commit();
 
         $result = $this->out_alta_bd(header: $header,data_retorno:  $result->data_retorno, result: $result->r_alta_bd, ws: $ws);
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al retornar', data: $result, header: $header,ws:  $ws);
         }
+
 
         return $result;
     }
