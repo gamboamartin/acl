@@ -8,9 +8,12 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use gamboamartin\administrador\models\adm_accion;
+use gamboamartin\administrador\models\adm_accion_grupo;
 use gamboamartin\administrador\models\adm_grupo;
 use gamboamartin\errores\errores;
 use gamboamartin\system\_ctl_parent_sin_codigo;
+use gamboamartin\system\actions;
 use gamboamartin\template_1\html;
 use html\adm_accion_html;
 use html\adm_grupo_html;
@@ -20,6 +23,7 @@ use html\adm_usuario_html;
 use links\secciones\link_adm_grupo;
 use PDO;
 use stdClass;
+use Throwable;
 
 
 class controlador_adm_grupo extends _ctl_parent_sin_codigo {
@@ -29,6 +33,7 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
     public array $adm_acciones_grupo = array();
     public string $link_adm_usuario_alta_bd = '';
     public string $link_adm_accion_grupo_alta_bd = '';
+    public string $link_asigna_permiso_seccion_bd = '';
     public array $adm_usuarios = array();
 
     public function __construct(PDO $link, html $html = new html(), array $datatables_custom_cols = array(),
@@ -82,6 +87,10 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
         }
         $this->link_adm_accion_grupo_alta_bd = $link_adm_accion_grupo_alta_bd;
 
+
+
+
+
     }
 
     public function asigna_permiso(bool $header = true, bool $ws = false): array|string{
@@ -94,6 +103,107 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
 
 
         return $contenido;
+    }
+
+    public function asigna_permiso_seccion(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $link_asigna_permiso_seccion_bd = $this->obj_link->link_con_id(accion: 'asigna_permiso_seccion_bd',
+            link:  $this->link,registro_id:  $this->registro_id, seccion: $this->seccion);
+
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener link',data:  $link_asigna_permiso_seccion_bd, header: $header,ws:  $ws);
+        }
+        $this->link_asigna_permiso_seccion_bd = $link_asigna_permiso_seccion_bd;
+
+        $registro = $this->modelo->registro(registro_id: $this->registro_id, retorno_obj: true);
+        if(errores::$error){
+            return  $this->retorno_error(mensaje: 'Error al obtener registro',data:  $registro, header: $header, ws: $ws);
+        }
+
+        $inputs = $this->inputs_children(registro: $registro);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener inputs',data:  $inputs, header: $header,ws:  $ws);
+        }
+
+        $inputs_returns = $this->input_retornos();
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener inputs_returns',data:  $inputs_returns, header: $header,ws:  $ws);
+        }
+
+
+        return $inputs;
+
+    }
+
+    public function asigna_permiso_seccion_bd(bool $header = true, bool $ws = false): array|stdClass
+    {
+
+        $siguiente_view = (new actions())->init_alta_bd();
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener siguiente view', data: $siguiente_view,
+                header:  $header, ws: $ws);
+        }
+        $seccion_retorno = $this->tabla;
+        if(isset($_POST['seccion_retorno'])){
+            $seccion_retorno = $_POST['seccion_retorno'];
+            unset($_POST['seccion_retorno']);
+        }
+
+        $id_retorno = -1;
+        if(isset($_POST['id_retorno'])){
+            $id_retorno = $_POST['id_retorno'];
+            unset($_POST['id_retorno']);
+        }
+
+        $acciones = (new adm_accion(link: $this->link))->acciones_by_seccion_id(adm_seccion_id: $_POST['adm_seccion_id']);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener acciones',data:  $acciones, header: $header,ws:  $ws);
+        }
+
+        $ins = array();
+        foreach ($acciones as $accion){
+            $adm_accion_grupo_ins['adm_accion_id'] = $accion['adm_accion_id'];
+            $adm_accion_grupo_ins['adm_grupo_id'] = $_POST['adm_grupo_id'];
+            $adm_accion_grupo_ins['status'] = 'activo';
+
+            $filtro['adm_accion.id'] = $accion['adm_accion_id'];
+            $filtro['adm_grupo.id'] = $_POST['adm_grupo_id'];
+
+            $existe = (new adm_accion_grupo(link: $this->link))->existe(filtro: $filtro);
+            if(errores::$error){
+                return $this->retorno_error(mensaje: 'Error al validar si existe',data:  $existe, header: $header,ws:  $ws);
+            }
+
+            if(!$existe){
+                $r_adm_accion_grupo = (new adm_accion_grupo(link: $this->link))->alta_registro(registro: $adm_accion_grupo_ins);
+                if(errores::$error){
+                    return $this->retorno_error(mensaje: 'Error al insertar permiso',data:  $r_adm_accion_grupo, header: $header,ws:  $ws);
+                }
+                $ins[] = $r_adm_accion_grupo;
+            }
+        }
+        if($header){
+
+            $this->retorno_base(registro_id:$id_retorno, result: $ins, siguiente_view: $siguiente_view,
+                ws:  $ws,seccion_retorno: $seccion_retorno);
+        }
+        if($ws){
+            header('Content-Type: application/json');
+            try {
+                echo json_encode($ins, JSON_THROW_ON_ERROR);
+            }
+            catch (Throwable $e){
+                $error = (new errores())->error(mensaje: 'Error al maquetar JSON' , data: $e);
+                print_r($error);
+            }
+            exit;
+        }
+        
+
+
+        return $acciones;
+
     }
 
     protected function inputs_children(stdClass $registro): stdClass|array
