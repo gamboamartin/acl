@@ -199,7 +199,7 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
             }
             exit;
         }
-        
+
 
 
         return $acciones;
