@@ -123,6 +123,10 @@ class controlador_adm_seccion extends _ctl_base {
         return $r_alta;
     }
 
+    /**
+     * Obtiene los campos de la vista en ejecucion
+     * @return array
+     */
     protected function campos_view(): array
     {
         $keys = new stdClass();
