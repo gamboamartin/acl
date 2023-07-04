@@ -2,7 +2,7 @@
 <?php use config\views; ?>
 
 <?php echo $controlador->inputs->descripcion; ?>
-
+<?php echo $controlador->inputs->etiqueta_label; ?>
 <?php echo $controlador->inputs->adm_menu_id; ?>
 <?php echo $controlador->inputs->adm_namespace_id; ?>
 

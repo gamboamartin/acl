@@ -108,7 +108,10 @@ class controlador_adm_seccion extends _ctl_base {
         }
 
         $keys_selects['descripcion'] = new stdClass();
-        $keys_selects['descripcion']->cols = 12;
+        $keys_selects['descripcion']->cols = 6;
+
+        $keys_selects['etiqueta_label'] = new stdClass();
+        $keys_selects['etiqueta_label']->cols = 6;
 
         $inputs = $this->inputs(keys_selects: $keys_selects);
         if(errores::$error){
@@ -123,7 +126,7 @@ class controlador_adm_seccion extends _ctl_base {
     protected function campos_view(): array
     {
         $keys = new stdClass();
-        $keys->inputs = array('codigo','descripcion');
+        $keys->inputs = array('codigo','descripcion','etiqueta_label');
         $keys->selects = array();
 
         $init_data = array();
@@ -224,6 +227,12 @@ class controlador_adm_seccion extends _ctl_base {
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
 
+        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'etiqueta_label', keys_selects:$keys_selects, place_holder: 'Etiqueta');
+        if(errores::$error){
+            return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
+        }
+
+
         return $keys_selects;
     }
 
@@ -255,6 +264,9 @@ class controlador_adm_seccion extends _ctl_base {
 
         $keys_selects['codigo'] = new stdClass();
         $keys_selects['codigo']->disabled = true;
+
+        $keys_selects['etiqueta_label'] = new stdClass();
+        $keys_selects['etiqueta_label']->disabled = false;
 
         $base = $this->base_upd(keys_selects: $keys_selects, params: array(),params_ajustados: array());
         if(errores::$error){
