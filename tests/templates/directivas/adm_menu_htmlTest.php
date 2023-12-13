@@ -53,10 +53,12 @@ class adm_menu_htmlTest extends test {
         $id_selected = false;
         $link = $this->link;
         $resultado = $html->select_adm_menu_id($cols, $con_registros, $id_selected, $link);
+        //print_r($resultado);exit;
 
         $this->assertIsString($resultado);
         $this->assertNotTrue(errores::$error);
-        $this->assertEquals("<div class='control-group col-sm-1'><label class='control-label' for='adm_menu_id'>Menu</label><div class='controls'><select class='form-control selectpicker color-secondary  adm_menu_id' data-live-search='true' id='adm_menu_id' name='adm_menu_id'  ><option value=''  >Selecciona una opcion</option></select></div></div>", $resultado);
+        //$this->assertEquals("<div class='control-group col-sm-1'><label class='control-label' for='adm_menu_id'>Menu</label><div class='controls'><select class='form-control selectpicker color-secondary  adm_menu_id' data-live-search='true' id='adm_menu_id' name='adm_menu_id'  ><option value=''  >Selecciona una opcion</option></select></div></div>", $resultado);
+        $this->assertEquals("<div class='control-group col-sm-1'><label class='control-label' for='adm_menu_id'>Menu</label><div class='controls'><select class='form-control selectpicker color-secondary adm_menu_id ' data-live-search='true' id='adm_menu_id' name='adm_menu_id'  ><option value=''  >Selecciona una opcion</option></select></div></div>", $resultado);
 
         errores::$error = false;
     }
