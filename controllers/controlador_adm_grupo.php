@@ -9,6 +9,7 @@
 namespace gamboamartin\acl\controllers;
 
 use base\controller\init;
+use config\generales;
 use gamboamartin\administrador\models\adm_accion;
 use gamboamartin\administrador\models\adm_accion_grupo;
 use gamboamartin\administrador\models\adm_grupo;
@@ -36,6 +37,8 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
     public string $link_adm_accion_grupo_alta_bd = '';
     public string $link_asigna_permiso_seccion_bd = '';
     public array $adm_usuarios = array();
+
+    public string $ruta_vendor_acl = '';
 
     public function __construct(PDO $link, html $html = new html(), array $datatables_custom_cols = array(),
                                 array $datatables_custom_cols_omite = array(), stdClass $paths_conf = new stdClass()){
@@ -88,6 +91,9 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
         }
         $this->link_adm_accion_grupo_alta_bd = $link_adm_accion_grupo_alta_bd;
 
+        if((new generales())->sistema !== 'acl'){
+            $this->ruta_vendor_acl = 'vendor/gamboa.martin/acl/';
+        }
 
 
 
