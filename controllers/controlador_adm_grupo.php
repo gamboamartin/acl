@@ -8,6 +8,7 @@
  */
 namespace gamboamartin\acl\controllers;
 
+use base\controller\init;
 use gamboamartin\administrador\models\adm_accion;
 use gamboamartin\administrador\models\adm_accion_grupo;
 use gamboamartin\administrador\models\adm_grupo;
@@ -310,17 +311,34 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
 
     protected function key_selects_txt(array $keys_selects): array
     {
-        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'codigo', keys_selects:$keys_selects, place_holder: 'Cod');
+        $keys_selects = (new init())->key_select_txt(cols: 6,key: 'codigo', keys_selects:$keys_selects, place_holder: 'Cod');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
 
-        $keys_selects = (new \base\controller\init())->key_select_txt(cols: 6,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Grupo');
+        $keys_selects = (new init())->key_select_txt(cols: 6,key: 'descripcion', keys_selects:$keys_selects, place_holder: 'Grupo');
         if(errores::$error){
             return $this->errores->error(mensaje: 'Error al maquetar key_selects',data:  $keys_selects);
         }
+
 
         return $keys_selects;
+    }
+
+    final public function root(bool $header = true, bool $ws = false): array|stdClass
+    {
+        $upd = $this->modelo->status(campo: 'root', registro_id: $this->registro_id);
+        if (errores::$error) {
+            return $this->retorno_error(mensaje: 'Error al cambiar status', data: $upd, header: $header, ws: $ws);
+        }
+        $_SESSION['exito'][]['mensaje'] = 'Se ajusto el estatus de root manera el registro con el id ' .
+            $this->registro_id;
+
+        $this->header_out(result: $upd, header: $header, ws: $ws);
+
+
+        return $upd;
+
     }
 
     public function usuarios(bool $header = true, bool $ws = false, array $not_actions = array()): array|string
