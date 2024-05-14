@@ -53,7 +53,7 @@
         "gamboa.martin/configuraciones": "^1.0.0",
         "gamboa.martin/template": "^21.0.0",
         "gamboa.martin/template_1": "^24.0.0",
-        "gamboa.martin/system": "^22.0.0",
+        "gamboa.martin/system": "^23.0.0",
         "gamboa.martin/js_base": "^5.0.0",
         "gamboa.martin/services": "^17.0.0",
       "phpunit/phpunit": "^10.0.0"
