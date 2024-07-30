@@ -347,6 +347,22 @@ class controlador_adm_grupo extends _ctl_parent_sin_codigo {
 
     }
 
+    final public function solo_mi_info(bool $header = true, bool $ws = false): array|stdClass
+    {
+        $upd = $this->modelo->status(campo: __FUNCTION__, registro_id: $this->registro_id);
+        if (errores::$error) {
+            return $this->retorno_error(mensaje: 'Error al cambiar status', data: $upd, header: $header, ws: $ws);
+        }
+        $_SESSION['exito'][]['mensaje'] = 'Se ajusto el estatus solo_mi_info manera el registro con el id ' .
+            $this->registro_id;
+
+        $this->header_out(result: $upd, header: $header, ws: $ws);
+
+
+        return $upd;
+
+    }
+
     public function usuarios(bool $header = true, bool $ws = false, array $not_actions = array()): array|string
     {
         $data_view = new stdClass();

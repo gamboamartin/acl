@@ -13,6 +13,7 @@
     "autoload": {
         "psr-4": {
           "gamboamartin\\acl\\controllers\\": "controllers",
+          "gamboamartin\\acl\\instalacion\\": "instalacion",
           "config\\": "config/",
           "models\\": "orm",
           "tests\\": "tests/",

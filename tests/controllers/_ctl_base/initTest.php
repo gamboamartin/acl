@@ -4,6 +4,8 @@ namespace tests\controllers;
 use controllers\controlador_cat_sat_tipo_persona;
 use gamboamartin\acl\controllers\_ctl_base\init;
 use gamboamartin\acl\controllers\controlador_adm_menu;
+use gamboamartin\acl\instalacion\instalacion;
+use gamboamartin\administrador\models\adm_menu;
 use gamboamartin\errores\errores;
 
 use gamboamartin\test\liberator;
@@ -35,6 +37,21 @@ class initTest extends test {
         $_SESSION['grupo_id'] = 2;
         $_SESSION['usuario_id'] = 2;
         $_GET['session_id'] = '1';
+
+        $del = (new adm_menu(link: $this->link))->elimina_todo();
+        if(errores::$error){
+            $error = (new errores())->error('Error al eliminar', $del);
+            print_r($error);
+            exit;
+        }
+
+        $instala = (new \gamboamartin\administrador\instalacion\instalacion())->instala(link: $this->link);
+        if(errores::$error){
+            $error = (new errores())->error('Error al instalar adm', $instala);
+            print_r($error);
+            exit;
+        }
+
 
 
         $controler = new controlador_adm_menu(link: $this->link, paths_conf: $this->paths_conf);
