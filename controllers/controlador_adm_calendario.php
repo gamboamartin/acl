@@ -80,7 +80,7 @@ class controlador_adm_calendario extends _accion_base
     public function alta_bd(bool $header, bool $ws = false): array|stdClass
     {
         if (!isset($_SESSION['calendario']['code'])) {
-            $link_redirect = (new generales())->url_base . 'google_calendar_redirect.php';
+            $link_redirect = (new generales())->url_base . 'vendor/gamboa.martin/acl/google_calendar_redirect.php';
             $link_alta = str_replace('./', (new generales())->url_base, $this->link_alta_bd);
 
             $google_oauth_url = (new google_calendar_api())->get_oauth_url(google_client_id: google::GOOGLE_CLIENT_ID,
@@ -88,7 +88,7 @@ class controlador_adm_calendario extends _accion_base
 
             $_SESSION['calendario'] = [
                 'link_google_calendar_redirect' => $link_redirect,
-                'link_alta' => $link_alta,
+                'link_proceso' => $link_alta,
                 'datos' => $_POST
             ];
 
@@ -104,6 +104,7 @@ class controlador_adm_calendario extends _accion_base
         $_POST = $_SESSION['calendario']['datos'];
         $_POST['calendario_id'] = $calendario['id'];
         $_POST['zona_horaria'] = $calendario['timeZone'];
+        unset($_SESSION['calendario']);
 
         $alta_bd = parent::alta_bd($header, $ws);
         if (errores::$error) {
