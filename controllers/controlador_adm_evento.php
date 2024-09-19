@@ -56,6 +56,7 @@ class controlador_adm_evento extends _accion_base
             print_r($error);
             die('Error');
         }
+
     }
 
     public function alta(bool $header, bool $ws = false): array|string
@@ -70,15 +71,78 @@ class controlador_adm_evento extends _accion_base
             return $this->errores->error(mensaje: 'Error al inicializar selects', data: $keys_selects);
         }
 
-        $this->row_upd->fecha_inicio = date('Y-m-d');
-        $this->row_upd->fecha_fin = date('Y-m-d');
-
         $inputs = $this->inputs(keys_selects: $keys_selects);
         if (errores::$error) {
             return $this->errores->error(mensaje: 'Error al obtener inputs', data: $inputs);
         }
 
         return $r_alta;
+    }
+
+    public function alta_bd(bool $header, bool $ws = false): array|stdClass
+    {
+        if (!isset($_SESSION['calendario']['code'])) {
+            $link_redirect = (new generales())->url_base . 'vendor/gamboa.martin/acl/google_calendar_redirect.php';
+            $link_alta = str_replace('./', (new generales())->url_base, $this->link_alta_bd);
+
+            $google_oauth_url = (new google_calendar_api())->get_oauth_url(google_client_id: google::GOOGLE_CLIENT_ID,
+                google_redirect_uri: $link_redirect);
+
+            $_SESSION['calendario'] = [
+                'link_google_calendar_redirect' => $link_redirect,
+                'link_proceso' => $link_alta,
+                'datos' => $_POST
+            ];
+
+            header("Location: $google_oauth_url");
+            exit();
+        }
+
+        $calendario = (new adm_calendario(link: $this->link))->registro(registro_id: $_SESSION['calendario']['datos']['adm_calendario_id']);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al obtener calendario', data: $calendario);
+        }
+
+        $evento = $this->crear_evento_google(calendar_id: $calendario['adm_calendario_calendario_id']);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al crear evento en google', data: $evento);
+        }
+
+        $_POST = $_SESSION['calendario']['datos'];
+        $_POST['evento_id'] = $evento['id'];
+        $_POST['zona_horaria'] = $evento['start']['timeZone'];
+        unset($_SESSION['calendario']);
+
+        $alta_bd = parent::alta_bd($header, $ws);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al dar de alta evento', data: $alta_bd);
+        }
+
+        return $alta_bd;
+    }
+
+    public function crear_evento_google(string $calendar_id): array
+    {
+        $token = (new google_calendar_api())->get_access_token(client_id: google::GOOGLE_CLIENT_ID,
+            redirect_uri: $_SESSION['calendario']['link_google_calendar_redirect'], client_secret: google::GOOGLE_CLIENT_SECRET,
+            code: $_SESSION['calendario']['code'], ssl_verify: google::GOOGLE_SSL_VERIFY);
+
+        $timeZone = (new google_calendar_api())->get_calendar_timezone(access_token: $token['access_token'], ssl_verify: google::GOOGLE_SSL_VERIFY);
+
+        $datos = $_SESSION['calendario']['datos'];
+
+        $start_datetime['dateTime'] = (new \DateTime($datos['fecha_inicio']))->format(\DateTime::ATOM);
+        $start_datetime['timeZone'] = $timeZone;
+        $end_datetime['dateTime'] = (new \DateTime($datos['fecha_fin']))->format(\DateTime::ATOM);
+        $end_datetime['timeZone'] = $timeZone;
+        $location = '';
+
+        $calendario = (new google_calendar_api())->crear_evento_calendario(access_token: $token['access_token'],
+            calendar_id: $calendar_id, summary: $datos['titulo'], description: $datos['descripcion'], start_datetime: $start_datetime,
+            end_datetime: $end_datetime, location: $location,
+            timeZone: $timeZone, ssl_verify: google::GOOGLE_SSL_VERIFY);
+
+        return $calendario;
     }
 
     protected function campos_view(): array
@@ -230,4 +294,135 @@ class controlador_adm_evento extends _accion_base
         return $r_modifica;
     }
 
+    public function modifica_bd(bool $header, bool $ws): array|stdClass
+    {
+        if (!isset($_SESSION['calendario']['code'])) {
+            $link_redirect = (new generales())->url_base . 'vendor/gamboa.martin/acl/google_calendar_redirect.php';
+            $link_modifica = str_replace('./', (new generales())->url_base, $this->link_modifica_bd);
+
+            $google_oauth_url = (new google_calendar_api())->get_oauth_url(google_client_id: google::GOOGLE_CLIENT_ID,
+                google_redirect_uri: $link_redirect);
+
+            $_SESSION['calendario'] = [
+                'link_google_calendar_redirect' => $link_redirect,
+                'link_proceso' => $link_modifica,
+                'datos' => $_POST
+            ];
+            $_SESSION['HTTP_REFERER'] = $_SERVER['HTTP_REFERER'];
+
+            header("Location: $google_oauth_url");
+            exit();
+        }
+
+        $calendario = (new adm_calendario(link: $this->link))->registro(registro_id: $_SESSION['calendario']['datos']['adm_calendario_id']);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al obtener calendario', data: $calendario);
+        }
+
+        $datos_calendario = $this->init_modifica();
+        if (errores::$error) {
+            return $this->retorno_error(
+                mensaje: 'Error al generar salida de template', data: $datos_calendario, header: $header, ws: $ws);
+        }
+
+        $evento = $this->actualizar_evento_google(calendar_id: $calendario['adm_calendario_calendario_id'], event_id: $this->registro['adm_evento_evento_id']);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al actualizar evento en google', data: $evento);
+        }
+
+        $_POST = $_SESSION['calendario']['datos'];
+        $_POST['zona_horaria'] = $evento['start']['timeZone'];
+        $_SERVER['HTTP_REFERER'] = $_SESSION['HTTP_REFERER'];
+        unset($_SESSION['calendario']);
+        unset($_SESSION['HTTP_REFERER']);
+
+        $modifica_bd = parent::modifica_bd($header, $ws);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al modificar calendario', data: $modifica_bd);
+        }
+
+        return $modifica_bd;
+    }
+
+    public function actualizar_evento_google(string $calendar_id, string $event_id): array
+    {
+        $token = (new google_calendar_api())->get_access_token(client_id: google::GOOGLE_CLIENT_ID,
+            redirect_uri: $_SESSION['calendario']['link_google_calendar_redirect'], client_secret: google::GOOGLE_CLIENT_SECRET,
+            code: $_SESSION['calendario']['code'], ssl_verify: google::GOOGLE_SSL_VERIFY);
+
+        $timeZone = (new google_calendar_api())->get_calendar_timezone(access_token: $token['access_token'], ssl_verify: google::GOOGLE_SSL_VERIFY);
+
+        $datos = $_SESSION['calendario']['datos'];
+
+        $start_datetime['dateTime'] = (new \DateTime($datos['fecha_inicio']))->format(\DateTime::ATOM);
+        $start_datetime['timeZone'] = $timeZone;
+        $end_datetime['dateTime'] = (new \DateTime($datos['fecha_fin']))->format(\DateTime::ATOM);
+        $end_datetime['timeZone'] = $timeZone;
+        $location = '';
+
+        $calendario = (new google_calendar_api())->actualizar_evento_calendario(access_token: $token['access_token'],
+            calendar_id: $calendar_id, event_id: $event_id, summary: $datos['titulo'], description: $datos['descripcion'], start_datetime: $start_datetime,
+            end_datetime: $end_datetime, location: $location,
+            timeZone: $timeZone, ssl_verify: google::GOOGLE_SSL_VERIFY);
+
+        return $calendario;
+    }
+
+    public function elimina_bd(bool $header, bool $ws): array|stdClass
+    {
+        if (!isset($_SESSION['calendario']['code'])) {
+            $link_redirect = (new generales())->url_base . 'vendor/gamboa.martin/acl/google_calendar_redirect.php';
+            $link_elimina = str_replace('./', (new generales())->url_base, $this->link_elimina_bd);
+
+            $google_oauth_url = (new google_calendar_api())->get_oauth_url(google_client_id: google::GOOGLE_CLIENT_ID,
+                google_redirect_uri: $link_redirect);
+
+            $_SESSION['calendario'] = [
+                'link_google_calendar_redirect' => $link_redirect,
+                'link_proceso' => $link_elimina,
+                'datos' => $_POST
+            ];
+
+            header("Location: $google_oauth_url");
+            exit();
+        }
+
+        $datos_calendario = $this->init_modifica();
+        if (errores::$error) {
+            return $this->retorno_error(
+                mensaje: 'Error al generar salida de template', data: $datos_calendario, header: $header, ws: $ws);
+        }
+
+        $calendario = (new adm_calendario(link: $this->link))->registro(registro_id: $this->registro['adm_evento_adm_calendario_id']);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al obtener calendario', data: $calendario);
+        }
+
+        $calendario = $this->elimina_evento_google(calendar_id: $calendario['adm_calendario_calendario_id'], event_id: $this->registro['adm_evento_evento_id']);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al eliminar evento en google', data: $calendario);
+        }
+
+        $_POST = $_SESSION['calendario']['datos'];
+        unset($_SESSION['calendario']);
+
+        $elimina_bd = parent::elimina_bd($header, $ws);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al eliminar evento', data: $elimina_bd);
+        }
+
+        return $elimina_bd;
+    }
+
+    public function elimina_evento_google(string $calendar_id, string $event_id): bool
+    {
+        $token = (new google_calendar_api())->get_access_token(client_id: google::GOOGLE_CLIENT_ID,
+            redirect_uri: $_SESSION['calendario']['link_google_calendar_redirect'], client_secret: google::GOOGLE_CLIENT_SECRET,
+            code: $_SESSION['calendario']['code'], ssl_verify: google::GOOGLE_SSL_VERIFY);
+
+        $calendario = (new google_calendar_api())->eliminar_evento_calendario(access_token: $token['access_token'],
+            calendar_id: $calendar_id, event_id: $event_id, ssl_verify: google::GOOGLE_SSL_VERIFY);
+
+        return $calendario;
+    }
 }
