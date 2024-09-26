@@ -26,6 +26,9 @@ use stdClass;
 
 class controlador_adm_evento extends _accion_base
 {
+    public string $hora_inicio;
+    public string $hora_fin;
+
     public function __construct(PDO $link, html $html = new html(), stdClass $paths_conf = new stdClass())
     {
 
@@ -131,9 +134,14 @@ class controlador_adm_evento extends _accion_base
 
         $datos = $_SESSION['calendario']['datos'];
 
-        $start_datetime['dateTime'] = (new \DateTime($datos['fecha_inicio']))->format(\DateTime::ATOM);
+        $fecha_inicio = $datos['fecha_inicio'] . ' ' . $datos['hora_inicio'];
+        $fecha_fin = $datos['fecha_fin'] . ' ' . $datos['hora_fin'];
+        $_SESSION['calendario']['datos']['fecha_inicio'] = $datos['fecha_inicio'] . ' ' . $datos['hora_inicio'];
+        $_SESSION['calendario']['datos']['fecha_fin'] = $datos['fecha_fin'] . ' ' . $datos['hora_fin'];
+
+        $start_datetime['dateTime'] = (new \DateTime($fecha_inicio))->format(\DateTime::ATOM);
         $start_datetime['timeZone'] = $timeZone;
-        $end_datetime['dateTime'] = (new \DateTime($datos['fecha_fin']))->format(\DateTime::ATOM);
+        $end_datetime['dateTime'] = (new \DateTime($fecha_fin))->format(\DateTime::ATOM);
         $end_datetime['timeZone'] = $timeZone;
         $location = '';
 
@@ -284,6 +292,9 @@ class controlador_adm_evento extends _accion_base
         $this->row_upd->fecha_inicio = (new \DateTime($this->registro['adm_evento_fecha_inicio']))->format('Y-m-d');
         $this->row_upd->fecha_fin = (new \DateTime($this->registro['adm_evento_fecha_fin']))->format('Y-m-d');
 
+        $this->hora_inicio = (new \DateTime($this->registro['adm_evento_fecha_inicio']))->format('H:i');
+        $this->hora_fin = (new \DateTime($this->registro['adm_evento_fecha_fin']))->format('H:i');
+
         $keys_selects['adm_calendario_id']->id_selected = $this->registro['adm_calendario_id'];
 
         $base = $this->base_upd(keys_selects: $keys_selects, params: array(), params_ajustados: array());
@@ -354,16 +365,21 @@ class controlador_adm_evento extends _accion_base
 
         $datos = $_SESSION['calendario']['datos'];
 
-        $start_datetime['dateTime'] = (new \DateTime($datos['fecha_inicio']))->format(\DateTime::ATOM);
+        $fecha_inicio = $datos['fecha_inicio'] . ' ' . $datos['hora_inicio'];
+        $fecha_fin = $datos['fecha_fin'] . ' ' . $datos['hora_fin'];
+        $_SESSION['calendario']['datos']['fecha_inicio'] = $datos['fecha_inicio'] . ' ' . $datos['hora_inicio'];
+        $_SESSION['calendario']['datos']['fecha_fin'] = $datos['fecha_fin'] . ' ' . $datos['hora_fin'];
+
+        $start_datetime['dateTime'] = (new \DateTime($fecha_inicio))->format(\DateTime::ATOM);
         $start_datetime['timeZone'] = $timeZone;
-        $end_datetime['dateTime'] = (new \DateTime($datos['fecha_fin']))->format(\DateTime::ATOM);
+        $end_datetime['dateTime'] = (new \DateTime($fecha_fin))->format(\DateTime::ATOM);
         $end_datetime['timeZone'] = $timeZone;
         $location = '';
 
         $calendario = (new google_calendar_api())->actualizar_evento_calendario(access_token: $token['access_token'],
-            calendar_id: $calendar_id, event_id: $event_id, summary: $datos['titulo'], description: $datos['descripcion'], start_datetime: $start_datetime,
-            end_datetime: $end_datetime, location: $location,
-            timeZone: $timeZone, ssl_verify: google::GOOGLE_SSL_VERIFY);
+            calendar_id: $calendar_id, event_id: $event_id, summary: $datos['titulo'], description: $datos['descripcion'],
+            location: $location,start_datetime: $start_datetime, end_datetime: $end_datetime,timeZone: $timeZone,
+            ssl_verify: google::GOOGLE_SSL_VERIFY);
 
         return $calendario;
     }
