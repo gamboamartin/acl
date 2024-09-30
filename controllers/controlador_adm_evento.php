@@ -162,6 +162,7 @@ class controlador_adm_evento extends _accion_base
 
         $init_data = array();
         $init_data['adm_calendario'] = "gamboamartin\\administrador";
+        $init_data['adm_tipo_evento'] = "gamboamartin\\administrador";
         $campos_view = $this->campos_view_base(init_data: $init_data, keys: $keys);
         if (errores::$error) {
             return $this->errores->error(mensaje: 'Error al inicializar campo view', data: $campos_view);
@@ -205,6 +206,12 @@ class controlador_adm_evento extends _accion_base
     {
         $keys_selects = $this->init_selects(keys_selects: array(), key: "adm_calendario_id", label: "Calendario",
             cols: 12, columns_ds: array('adm_calendario_descripcion'));
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al integrar selector', data: $keys_selects);
+        }
+
+        $keys_selects = $this->init_selects(keys_selects: $keys_selects, key: "adm_tipo_evento_id", label: "Tipo Evento",
+            cols: 12, columns_ds: array('adm_tipo_evento_descripcion'));
         if (errores::$error) {
             return $this->errores->error(mensaje: 'Error al integrar selector', data: $keys_selects);
         }
@@ -296,6 +303,7 @@ class controlador_adm_evento extends _accion_base
         $this->hora_fin = (new \DateTime($this->registro['adm_evento_fecha_fin']))->format('H:i');
 
         $keys_selects['adm_calendario_id']->id_selected = $this->registro['adm_calendario_id'];
+        $keys_selects['adm_tipo_evento_id']->id_selected = $this->registro['adm_tipo_evento_id'];
 
         $base = $this->base_upd(keys_selects: $keys_selects, params: array(), params_ajustados: array());
         if (errores::$error) {
