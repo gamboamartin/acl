@@ -24,8 +24,8 @@ class controlador_adm_reporte extends _ctl_parent_sin_codigo {
     public array $secciones = array();
     public stdClass|array $adm_reporte = array();
 
-    public string $trs = '';
-    public string $ths = '';
+    public string $html_trs = '';
+    public string $html_ths = '';
 
     public function __construct(PDO $link, html $html = new html(), stdClass $paths_conf = new stdClass()){
         $modelo = new adm_reporte(link: $link);
